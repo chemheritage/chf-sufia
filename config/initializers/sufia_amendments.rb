@@ -108,6 +108,7 @@ Sufia.config do |config|
     'Records (Documents)',
     'Scientific apparatus and instruments',
     'Slides',
+    'Stereographs',
   ]
 
   config.physical_container_fields = {
