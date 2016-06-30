@@ -100,6 +100,7 @@ Sufia.config do |config|
     'Illustrations',
     'Manuscripts',
     'Minutes (Records)',
+    'Molecular models',
     'Negatives',
     'Oral histories',
     'Paintings',
