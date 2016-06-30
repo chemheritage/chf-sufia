@@ -94,6 +94,7 @@ Sufia.config do |config|
     'Catalogs',
     'Chemistry sets',
     'Drawings',
+    'Electronics',
     'Engravings',
     'Etchings',
     'Handbooks and manuals',
