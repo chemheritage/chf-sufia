@@ -113,6 +113,7 @@ Sufia.config do |config|
     'Photographs',
     'Plastics',
     'Portraits',
+    'Postage stamps',
     'Press releases',
     'Prints',
     'Rare books',
