@@ -94,6 +94,7 @@ Sufia.config do |config|
     'Business correspondence',
     'Catalogs',
     'Chemistry sets',
+    'Diagrams',
     'Drawings',
     'Encyclopedias and dictionaries',
     'Electronics',
