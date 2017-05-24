@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :welcome, only: 'index'
-  root 'sufia/homepage#index'
+  root 'frontpage#index'
   curation_concerns_collections
   curation_concerns_basic_routes
   curation_concerns_embargo_management
