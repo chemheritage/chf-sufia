@@ -1,1 +1,10 @@
+<%# Sufia uses the homepage layout across many static pages.
+    We need to distinguish between general static pages and our frontpage.
+    So locally, this isn't actually a homepage layout; it is used for other static pages.
+    Our frontpage uses the sufia layout directly. %>
+<%# include the search bar on all static pages %>
+<% content_for(:navbar) do %>
+  <%= render '/controls' %>
+<% end %>
+
 <%= render template: 'layouts/sufia' %>
