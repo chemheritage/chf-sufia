@@ -1,6 +1,7 @@
 $brand-inverse: rgb(31,37,52);
 $brand-secondary: rgb(2, 165, 226); /* bright blue */
 $transparent-background: rgba(0,0,0,0.25);
+$btn-default-bg: $brand-secondary;
 
 @mixin all-white-links {
   a,
