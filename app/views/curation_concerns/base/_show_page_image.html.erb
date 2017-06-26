@@ -46,30 +46,10 @@
             <%# less space for admin, just use icon %>
             <i class='fa fa-download'></i> <% if ! current_ability.current_user.staff? %> Download <% end %>
           </button>
-          <ul class="dropdown-menu">
-            <% if @presenter.has_rights_statement? %>
-              <li><%= render 'rights_statement', presenter: @presenter, theme: 'inline' %></li>
-              <li class="divider"></li>
-            <% end %>
-            <li>
-              <%= link_to main_app.download_path(member.representative_id),
-                          target: "_new",
-                          id: "file_download",
-                          data: {
-                            label: member.id,
-                            # These action/labels are what sufia/hyrax uses, although
-                            # a bit weird. https://github.com/samvera/hyrax/blob/1e504c200fd9c39120f514ac33cd42cd843de9fa/app/assets/javascripts/hyrax/ga_events.js
-                            analytics_event: "Files",
-                            analytics_label: "Downloaded",
-                            analytics_value: member.representative_id
-                          } do %>
-                  Original Image
-              <% end %>
-            </li>
-            <li class="divider"></li>
-            <li><a>More download options coming</a></li>
-          </ul>
+
+          <%= render "chf_download_menu", member: member, parent: @presenter %>
         </div>
+
       <% end %>
 
       <% if (member.model_name.singular.to_sym == :file_set) && current_ability.current_user.staff? %>

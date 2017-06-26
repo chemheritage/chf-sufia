@@ -105,13 +105,6 @@ ChfImageViewer.prototype.removeLoading =  function(viewer) {
   $('.viewer-image').removeClass('viewer-image-loading');
 };
 
-ChfImageViewer.prototype.id2TileSource = function(id) {
-  return {
-    type: 'image',
-    url: '/downloads/' + id + "?file=jpeg"
-  };
-}
-
 ChfImageViewer.prototype.selectThumb = function(thumbElement) {
   this.selectedThumb = thumbElement;
 
@@ -119,19 +112,27 @@ ChfImageViewer.prototype.selectThumb = function(thumbElement) {
   $('.viewer-thumbs .viewer-thumb-selected').removeClass('viewer-thumb-selected')
   thumbElement.classList.add('viewer-thumb-selected');
 
-  var id    = thumbElement.getAttribute('data-member-id');
-  var index = thumbElement.getAttribute('data-index');
-  var shouldShowInfo = thumbElement.getAttribute('data-member-should-show-info') == "true";
-  var title = thumbElement.getAttribute('data-title');
-  var linkUrl   = thumbElement.getAttribute('data-member-show-url');
+  var id                    = thumbElement.getAttribute('data-member-id');
+  var index                 = thumbElement.getAttribute('data-index');
+  var shouldShowInfo        = thumbElement.getAttribute('data-member-should-show-info') == "true";
+  var title                 = thumbElement.getAttribute('data-title');
+  var linkUrl               = thumbElement.getAttribute('data-member-show-url');
+  var downloadOriginalUrl   = thumbElement.getAttribute('data-member-dl-original-url');
+  var downloadJpegUrl       = thumbElement.getAttribute('data-member-dl-jpeg-url');
+  var tileSource            = thumbElement.getAttribute('data-tile-source');
 
   $('.viewer-image').addClass('viewer-image-loading');
 
-  this.viewer.open(this.id2TileSource(id));
+  this.viewer.open(tileSource);
 
   document.querySelector('*[data-hook="viewer-navbar-title-label"]').textContent = title;
   document.querySelector('*[data-hook="viewer-navbar-info-link"]').href = linkUrl;
   document.getElementsByClassName('viewer-pagination-numerator').item(0).textContent = index;
+
+  var originalLink = document.querySelector('#chf-image-viewer *[data-content-hook=dl-original-link]');
+  if (originalLink) { originalLink.setAttribute('href', downloadOriginalUrl); }
+  var jpegLink = document.querySelector('#chf-image-viewer *[data-content-hook=dl-jpeg-link]');
+  if (jpegLink) { jpegLink.setAttribute('href', downloadJpegUrl); }
 
   if (shouldShowInfo) {
     // spacer shows up when info doesn't.

@@ -83,7 +83,7 @@ RSpec.describe GenericWork do
     end
 
     it 'uses custom indexer' do
-      expect(GenericWork.indexer).to eq GenericWorkIndexer
+      expect(GenericWork.indexer).to eq CHF::GenericWorkIndexer
     end
   end
 

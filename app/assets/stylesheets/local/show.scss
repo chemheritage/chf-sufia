@@ -63,20 +63,6 @@
     }
   }
 
-  .rights-statement.inline {
-    // turn br into space
-    .rights-statement-label br {
-      content: " ";
-      &:after {
-        content:" ";
-      }
-    }
-    .rights-statement-logo {
-      width: 1em;
-      vertical-align: middle;
-    }
-  }
-
   .rights-statement.large {
     margin-top: 15px;
 
@@ -193,5 +179,19 @@
         }
       }
     }
+  }
+}
+
+.rights-statement.inline {
+  // turn br into space
+  .rights-statement-label br {
+    content: " ";
+    &:after {
+      content:" ";
+    }
+  }
+  .rights-statement-logo {
+    width: 1em;
+    vertical-align: middle;
   }
 }

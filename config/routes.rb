@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   concern :range_searchable, BlacklightRangeLimit::Routes::RangeSearchable.new
   Hydra::BatchEdit.add_routes(self)
   mount Qa::Engine => '/authorities'
+  mount Riiif::Engine => '/image-service', as: 'riiif'
 
   # Administrative URLs
   namespace :admin do

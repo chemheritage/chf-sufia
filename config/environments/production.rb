@@ -1,4 +1,7 @@
 Rails.application.configure do
+  # configure a remote riiif box to point users to
+  #config.riiif_server = 'https://images.digital.chemheritage.org'
+
   # Settings specified here will take precedence over those in config/application.rb.
   config.action_mailer.default_url_options = { :host => 'digital.chemheritage.org' }
   config.action_mailer.delivery_method = :sendmail

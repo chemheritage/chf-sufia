@@ -6,7 +6,7 @@ class GenericWork < ActiveFedora::Base
   include GenericMetadata
 
   self.human_readable_type = 'Work'
-  self.indexer = ::GenericWorkIndexer
+  self.indexer = CHF::GenericWorkIndexer
 
   # Change this to restrict which works can be added as a child.
   # self.valid_child_concerns = []
