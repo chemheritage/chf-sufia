@@ -3,6 +3,7 @@ set :stage, :staging
 set :rails_env, 'production'
 server 'staging.digital.chemheritage.org', user: 'hydep', roles: [:web, :app, :db, :jobs]
 server '184.73.72.239', user: 'hydep', roles: [:solr]
+server '34.207.123.110', user: 'hydep', roles: [:web, :app] # riiif box
 
 
 # server-based syntax
