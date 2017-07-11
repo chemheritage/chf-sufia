@@ -2,14 +2,14 @@
     outside the image viewer, but extracted for clarity.
 
     Needs locals:
-      * `count`
+      * `work`
 
     Many of the content areas in here are actually filled in by the viewer JS
 %>
 
 <div class="viewer-navbar btn-group" role="group" aria-label="actions">
     <div id="viewer-pagination" class="viewer-pagination viewer-navbar-btn">
-      <span class="viewer-pagination-numerator"></span> / <%= count %>
+      <span class="viewer-pagination-numerator"></span> / <%= work.member_presenters.count %>
     </div>
 
     <div id="viewer-spacer" class="viewer-spacer"></div>
@@ -19,13 +19,13 @@
       <span data-hook="viewer-navbar-title-label"></span>
     </a>
 
-    <div class="viewer-navbar-btn btn-group dropup viewer-download" role="group">
+    <div id="viewer-download" class="viewer-navbar-btn btn-group dropup viewer-download" role="group">
       <button id="btnGroupDrop1" type="button" class="btn btn-lg btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="0">
         <i class="fa fa-download"></i> <span class="viewer-navbar-label">Download</span>
       </button>
-      <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-        <li><a href="#">Sorry, not yet implemented</a></li>
-      </ul>
+
+      <%= render 'chf_download_menu', parent: work %>
+
     </div>
 
     <button class="viewer-navbar-btn btn btn-lg btn-primary viewer-fullscreen viewer-thin-btn" id="viewer-fullscreen" data-trigger="viewer-fullscreen" tabindex="0" title="Fullscreen">

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe GenericWorkIndexer::DateValues do
+RSpec.describe CHF::GenericWorkIndexer::DateValues do
   let(:work) { FactoryGirl.build(:work, dates_of_work: dates_of_work ) }
-  let(:generator) { GenericWorkIndexer::DateValues.new(work) }
+  let(:generator) { CHF::GenericWorkIndexer::DateValues.new(work) }
   # individual cases have to define `date_values` with `let`
   let(:index_values) { generator.expanded_years }
 

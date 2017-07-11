@@ -33,7 +33,7 @@
                 <button href="#" id="viewer-right" class="viewer-image-next" data-trigger="viewer-next" tabindex="0"><i class="fa fa-chevron-right" title="Next"></i></button>
               </div>
 
-              <%= render "chf_image_viewer_navbar", count: work.viewable_member_presenters.count %>
+              <%= render "chf_image_viewer_navbar", work: work %>
             </div>
 
             <%= content_tag "div", id:"viewer-thumbs", class: "viewer-thumbs", data: { total_count: work.viewable_member_presenters.count } do %>
@@ -50,8 +50,11 @@
                       member_should_show_info: member_presenter.model_name.to_s != "FileSet",
                       member_id: member_presenter.representative_id,
                       member_show_url: contextual_path(member_presenter, work),
+                      member_dl_original_url: main_app.download_path(member_presenter.representative_id),
+                      member_dl_jpeg_url: riiif_image_url(member_presenter.riiif_file_id, format: "jpg", size: "full"),
+                      tile_source: riiif_info_url(member_presenter.riiif_file_id),
                       src: member_presenter.first(blacklight_config.view_config(document_index_view_type).thumbnail_field)
-                    }
+                    } if member_presenter.riiif_file_id # don't show it in the viewer if there's no image
                 -%>
               <%- end -%>
             <% end %>

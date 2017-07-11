@@ -198,7 +198,6 @@ namespace :chf do
   end
 
   namespace :user do
-
     desc 'Create a user without a password; they can request one from the UI'
     task :create, [:email] => :environment do |t, args|
       u = User.create!(email: args[:email])
@@ -212,7 +211,51 @@ namespace :chf do
         u = User.create!(email: args[:email], password: args[:pass])
         puts "Test user created"
       end
+    end
+  end
 
+  namespace :riiif do
+    desc "Delete all files in both riiif caches"
+    task :clear_caches do
+      # We're not doing an :environment rake dep for speed so need to load
+      # our CHF::Env.
+      require Rails.root.join("app", "models", "chf", "env").to_s
+      Pathname.new(CHF::Env.lookup(:riiif_originals_cache)).children.each { |p| p.rmtree }
+      Pathname.new(CHF::Env.lookup(:riiif_derivatives_cache)).children.each { |p| p.rmtree }
+    end
+
+    # eg INTERNAL_RIIIF_URL=http://localhost:3000 rake chf:riiif:preload_originals
+    # Note this will not work on non-public images if we implement riiif auth.
+    desc "ping riiif server to fetch all originals from fedora"
+    task :preload_originals => :environment do
+      total = FileSet.count
+
+      $stderr.puts "Ping'ing riiif server at `#{CHF::Env.lookup(:public_riiif_url)}` for all #{total} FileSet original files"
+
+      progress = ProgressBar.create(total: total, format: "%t %a: |%B| %p%% %e")
+
+      riiif_base = CHF::Env.lookup(:internal_riiif_url)
+      errors = 0
+
+      # There's probably a faster way to do this, maybe from Solr instead of fedora?
+      # Or getting original_file_id without the extra fetch? Not sure. This is slow.
+      FileSet.find_each do |fs|
+        if original_file_id = fs.original_file.try(:id)
+          preloader = CHF::Utils::RiiifOriginalPreloader.new(original_file_id, riiif_base: riiif_base)
+          response = preloader.ping_to_preload
+
+          if response.status != 200
+            errors += 1
+            progress.log "Unexpected #{response.status} response (#{errors} total) at #{riiif_base} #{preloader.ping_path}"
+          end
+
+          progress.increment
+        end
+      end
+      progress.finish
+      if errors > 0
+        $stderr.puts "#{errors} total error responses out of #{total} info requests"
+      end
     end
   end
 end

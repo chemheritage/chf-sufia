@@ -1,0 +1,49 @@
+<%#
+
+Just the <ul> menu that is composed in a div to make a bootstrap4 dropdown.
+it is used in show_page_image and image_viewer.
+
+locals:
+      * parent -- presenter for the containing work. required.
+      * member -- presenter for the 'member', could be file_set or work. Normally
+        required, but can be left out for creating a blank template for JS filling,
+        as in viewer.
+%>
+<% member ||= nil %>
+
+
+  <ul class="dropdown-menu">
+    <% if parent.has_rights_statement? %>
+      <li><%= render 'rights_statement', presenter: parent, theme: 'inline' %></li>
+      <li class="divider"></li>
+    <% end %>
+    <li class="dropdown-header">Download this image</li>
+    <li>
+      <%= link_to("Original Image", ( member ? main_app.download_path(member.representative_id) : "#" ),
+                  target: "_new",
+                  id: "file_download",
+                  data: {
+                    content_hook: "dl-original-link",
+                    label: (member.id if member),
+                    # These action/labels are what sufia/hyrax uses, although
+                    # a bit weird. https://github.com/samvera/hyrax/blob/1e504c200fd9c39120f514ac33cd42cd843de9fa/app/assets/javascripts/hyrax/ga_events.js
+                    analytics_event: "Files",
+                    analytics_label: "Downloaded",
+                    analytics_value: (member.representative_id if member)
+                  }) %>
+    </li>
+    <li>
+      <%= link_to("Full-size JPEG",
+                  (member ? riiif_image_url(member.riiif_file_id, format: "jpg", size: "full") : "#"),
+                  target: "_new",
+                  data: {
+                    content_hook: "dl-jpeg-link",
+                    # These action/labels are based on what sufia/hyrax uses, although
+                    # a bit weird.
+                    analytics_event: "Files",
+                    analytics_label: "Downloaded-jpg",
+                    analytics_value: (member.representative_id if member)
+                  }) %>
+    </li>
+  </ul>
+

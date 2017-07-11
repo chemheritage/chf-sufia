@@ -63,20 +63,6 @@
     }
   }
 
-  .rights-statement.inline {
-    // turn br into space
-    .rights-statement-label br {
-      content: " ";
-      &:after {
-        content:" ";
-      }
-    }
-    .rights-statement-logo {
-      width: 1em;
-      vertical-align: middle;
-    }
-  }
-
   .rights-statement.large {
     margin-top: 15px;
 
@@ -107,7 +93,7 @@
       width: 100%;
       // keep crazy long aspect ratio images from being
       // so long, although there will be some distortion.
-      max-height: 80vw;
+      max-height: 80vh;
     }
 
     .show-page-member-title {
@@ -193,5 +179,19 @@
         }
       }
     }
+  }
+}
+
+.rights-statement.inline {
+  // turn br into space
+  .rights-statement-label br {
+    content: " ";
+    &:after {
+      content:" ";
+    }
+  }
+  .rights-statement-logo {
+    width: 1em;
+    vertical-align: middle;
   }
 }

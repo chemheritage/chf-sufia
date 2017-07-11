@@ -6,7 +6,7 @@ module CurationConcernsHelper
   # do what CC/Sufia did before.
   def show_page_representative_media(presenter)
     if presenter.representative_id.present? && presenter.representative_presenter.present? && presenter.representative_presenter.image?
-      render 'show_page_image', member: presenter.representative_presenter
+      render 'show_page_image', member: presenter.representative_presenter, size: :large
     else
       render 'representative_media', presenter: presenter
     end
