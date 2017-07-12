@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GenericWorkIndexer do
+RSpec.describe CHF::GenericWorkIndexer do
   let (:work) do
     FactoryGirl.create(:generic_work, dates_of_work: []).tap do |w|
       w.physical_container = "b2|f3|v4|p5|g234"

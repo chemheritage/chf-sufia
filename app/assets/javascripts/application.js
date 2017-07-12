@@ -12,6 +12,11 @@
 
 //= require jquery
 //= require jquery_ujs
+
+// Needs to load BEFORE we load anything that loads AMD/almond, which sufia
+// does, or the presence of AMD in a non-AMD aware build tool confuses aspectratio.
+//= require 'lazysizes/plugins/aspectratio/ls.aspectratio.js'
+
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 // Required by Blacklight
@@ -33,4 +38,6 @@
 // this:
 //= require 'blacklight_range_limit'
 
-//= require 'lazysizes.js'
+
+//= require 'lazysizes'
+

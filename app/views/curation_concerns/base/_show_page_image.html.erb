@@ -1,31 +1,29 @@
 <%# CHF custom, an image with overlaid controls and info. Used as an alternative to
-    `representative_media` for show page, as well as for page thumbs on show page %>
+    `representative_media` for show page, as well as for page thumbs on show page
+
+    Locals:
+      * size: :large (used for big hero image) or :medium used for subsequent
+        page images. Default :medium
+      * lazy_after: optional. used when this is used as a collection partial, make images
+          lazy loading after the first N images, where N is the lazy_after value.
+      * extra_classes: optional. extra CSS calsses added to the wrapper <div> tag.
+
+%>
+<%
+   # this was just derived from just looking in the browser at our present
+   # CSS, what's the widest the 'large' and 'medium' images can be at
+   # any responsive CSS?
+   base_width = local_assigns[:size] == :large ? 525 : 208
+%>
 <%= content_tag("div",
       tabindex: "0",
-      data: {
-        trigger: "chf_image_viewer",
-        member_id: member.representative_id
-      },
       class: ["show-page-image"] + Array(local_assigns[:extra_classes])) do
 %>
-    <% if local_assigns[:lazy_after] && member_counter > local_assigns[:lazy_after] - 1 %>
-      <%= image_tag nil,
-                    class: "lazyload show-page-image-image",
-                    alt: "",
-                    data: {
-                      src: main_app.download_path(member.representative_id, file: "jpeg")
-                    }
-      %>
-    <% else %>
-      <%= image_tag main_app.download_path(member.representative_id, file: "jpeg"),
-                    class: "show-page-image-image",
-                    alt: "",
-                    data: {
-                      trigger: "chf_image_viewer",
-                      member_id: member.id
-                    }
-      %>
-    <% end %>
+
+    <%= member_image_tag(member,
+                         size_key: local_assigns[:size],
+                         lazy: (local_assigns[:lazy_after] && member_counter > local_assigns[:lazy_after] - 1))
+    %>
 
     <% if current_ability.current_user.staff? || member.model_name.singular.to_sym != :file_set %>
       <div class="show-page-member-title">
@@ -46,30 +44,10 @@
             <%# less space for admin, just use icon %>
             <i class='fa fa-download'></i> <% if ! current_ability.current_user.staff? %> Download <% end %>
           </button>
-          <ul class="dropdown-menu">
-            <% if @presenter.has_rights_statement? %>
-              <li><%= render 'rights_statement', presenter: @presenter, theme: 'inline' %></li>
-              <li class="divider"></li>
-            <% end %>
-            <li>
-              <%= link_to main_app.download_path(member.representative_id),
-                          target: "_new",
-                          id: "file_download",
-                          data: {
-                            label: member.id,
-                            # These action/labels are what sufia/hyrax uses, although
-                            # a bit weird. https://github.com/samvera/hyrax/blob/1e504c200fd9c39120f514ac33cd42cd843de9fa/app/assets/javascripts/hyrax/ga_events.js
-                            analytics_event: "Files",
-                            analytics_label: "Downloaded",
-                            analytics_value: member.representative_id
-                          } do %>
-                  Original Image
-              <% end %>
-            </li>
-            <li class="divider"></li>
-            <li><a>More download options coming</a></li>
-          </ul>
+
+          <%= render "chf_download_menu", member: member, parent: @presenter %>
         </div>
+
       <% end %>
 
       <% if (member.model_name.singular.to_sym == :file_set) && current_ability.current_user.staff? %>

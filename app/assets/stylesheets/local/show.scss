@@ -63,20 +63,6 @@
     }
   }
 
-  .rights-statement.inline {
-    // turn br into space
-    .rights-statement-label br {
-      content: " ";
-      &:after {
-        content:" ";
-      }
-    }
-    .rights-statement-logo {
-      width: 1em;
-      vertical-align: middle;
-    }
-  }
-
   .rights-statement.large {
     margin-top: 15px;
 
@@ -105,9 +91,11 @@
 
     .show-page-image-image {
       width: 100%;
-      // keep crazy long aspect ratio images from being
-      // so long, although there will be some distortion.
-      max-height: 80vw;
+      // sanity max-height to keep keep crazy long aspect ratio images from
+      // totally ruining page. Very difficult to get this right based on
+      // aspect ratio, cause the dimensions are so responsive. This is just
+      // a rough huge limit, if it's not working out just delete this and give up.
+      max-height: 300vw;
     }
 
     .show-page-member-title {
@@ -168,30 +156,33 @@
         width: 100%;
         &.lazyload, &.lazyloading {
           background: #AAA asset-url('spinner.svg') no-repeat center;
-          height: calc(1.33 * 160px);
         }
         vertical-align: bottom;
-        // keep crazy long aspect ratio images from being
-        // so long, although there will be some distortion.
-        max-height: 30vw;
         min-height: 100px; // just so it's something!
       }
 
       @media (min-width: $screen-sm-min) {
         // 2 wide
         width: calc(50% / 2 - 12px);
-        // before lazy loaded complete, VERY roughy estimate 4/3 aspect ratio ish
-        img.lazyload, img.lazyloading {
-          height: 25vw;
-        }
       }
       @media (min-width: $screen-lg-min) {
         // 3 wide
         width: calc(50% / 3 - 10px);
-        img.lazyload, img.lazyloading {
-          height: 15vw;
-        }
       }
     }
+  }
+}
+
+.rights-statement.inline {
+  // turn br into space
+  .rights-statement-label br {
+    content: " ";
+    &:after {
+      content:" ";
+    }
+  }
+  .rights-statement-logo {
+    width: 1em;
+    vertical-align: middle;
   }
 }

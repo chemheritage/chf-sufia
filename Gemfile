@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 # sufia stuff!
 gem 'sufia', '7.3.0'
 gem 'blacklight_range_limit', ">= 6.1.2"
+gem 'riiif', '~> 1.4'
 # It may seem like this is a dependency upstream, but we need it here.
 # https://project-hydra.slackarchive.io/dev/page-100/ts-1491587437169731
 gem 'rsolr', '~> 1.0'
@@ -27,6 +28,7 @@ gem 'hydra-role-management'
 gem 'highline'
 gem 'rest-client'
 gem 'whenever'
+gem 'addressable', '~> 2.5'
 
 gem 'rails', '~> 4.2.7.1'
 gem 'devise'

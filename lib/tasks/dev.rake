@@ -97,8 +97,8 @@ unless ENV['RAILS_ENV'] == "production"
 
       # You may want to follow up with:
       # rake chf:user:test:create[somebody@chemheritage.org,password] chf:admin:grant[somebody@chemheritage.org]
-      desc "Reset db, solr, and fedora, and proper setup for blank slate"
-      task :all => [:solr, :fedora, :derivatives, :redis, "db:reset"]  do
+      desc "Reset db, solr, fedora, some caches, and proper setup for blank slate"
+      task :all => [:solr, :fedora, :derivatives, :redis, "db:reset", "chf:riiif:clear_caches"]  do
         Rake::Task['curation_concerns:workflow:load'].invoke
         Rake::Task['sufia:default_admin_set:create'].invoke
       end
