@@ -52,7 +52,7 @@ module MemberHelper
     if CHF::Env.lookup(:use_image_server_downloads)
       list_elements << dropdown_menuitem(
                         link_to("Full-size JPEG",
-                          (member ? iiif_image_url(member.riiif_file_id, format: "jpg", size: "full") : "#"),
+                          (member ? iiif_image_url(member.representative_file_id, format: "jpg", size: "full") : "#"),
                           target: "_new",
                           data: {
                             content_hook: "dl-jpeg-link",

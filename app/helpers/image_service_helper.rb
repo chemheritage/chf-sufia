@@ -47,9 +47,9 @@ module ImageServiceHelper
   # any responsiveness page layout. Sends somewhat more bytes when needed at some responsive
   # sizes, but way simpler to implement; keep from asking riiiif for even more varying resizes;
   # prob good enough.
-  def riiif_image_srcset_pixel_density(riiif_file_id, base_width, format: 'jpg', quality: 'default')
+  def riiif_image_srcset_pixel_density(file_id, base_width, format: 'jpg', quality: 'default')
     [1, BigDecimal.new('1.5'), 2, 3, 4].collect do |multiplier|
-      iiif_image_url(riiif_file_id, format: "jpg", size: "#{base_width * multiplier},") + " #{multiplier}x"
+      iiif_image_url(file_id, format: "jpg", size: "#{base_width * multiplier},") + " #{multiplier}x"
     end.join(", ")
   end
 
@@ -76,15 +76,15 @@ module ImageServiceHelper
       }
     }
 
-    src_args = if member.riiif_file_id.nil?
+    src_args = if member.representative_file_id.nil?
       # if there's no image, show the default thumbnail (it gets indexed)
       {
         src:  member.thumbnail_path
       }
     elsif use_image_server
       {
-        src: iiif_image_url(member.riiif_file_id, format: "jpg", size: "#{base_width},"),
-        srcset: riiif_image_srcset_pixel_density(member.riiif_file_id, base_width)
+        src: iiif_image_url(member.representative_file_id, format: "jpg", size: "#{base_width},"),
+        srcset: riiif_image_srcset_pixel_density(member.representative_file_id, base_width)
       }
     else
       {
