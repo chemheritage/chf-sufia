@@ -81,7 +81,7 @@ module CurationConcerns
     end
 
     def riiif_file_id
-      solr_document[ActiveFedora.index_field_mapper.solr_name('representative_original_file_id')]
+      Array.wrap(solr_document[ActiveFedora.index_field_mapper.solr_name('representative_original_file_id')]).first
     end
 
     def representative_height
