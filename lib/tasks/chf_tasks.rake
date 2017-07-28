@@ -215,7 +215,7 @@ namespace :chf do
   end
 
   namespace :riiif do
-    desc 'Delete all files in both riiif caches. `RAILS_ENV=production bundle execrake chf:riiif:clear_caches`'
+    desc 'Delete all files in both riiif caches. `RAILS_ENV=production bundle exec rake chf:riiif:clear_caches`'
     task :clear_caches do
       # We're not doing an :environment rake dep for speed so need to load
       # our CHF::Env.
@@ -225,7 +225,7 @@ namespace :chf do
     end
 
     # Note this will not work on non-public images
-    desc 'ping riiif server to fetch all originals of publicly-visible images from fedora. `RAILS_ENV=production INTERNAL_RIIIF_URL=http://localhost bundle execrake chf:riiif:preload_originals`'
+    desc 'ping riiif server to fetch all originals of publicly-visible images from fedora. `RAILS_ENV=production INTERNAL_RIIIF_URL=http://localhost bundle exec rake chf:riiif:preload_originals`'
     task :preload_originals => :environment do
       total = FileSet.count
 

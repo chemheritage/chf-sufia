@@ -10,7 +10,7 @@ module CHF
     #
     # NOTE: This does no auth, so will not work on non-public images
     class RiiifOriginalPreloader
-      include RiiifHelper
+      include ImageServiceHelper
 
       attr_reader :file_id, :riiif_base
       def initialize(file_id, riiif_base: CHF::Env.lookup(:internal_riiif_url))
@@ -28,7 +28,12 @@ module CHF
       end
 
       def ping_path
-        Riiif::Engine.routes.url_helpers.info_path(file_id, locale: nil)
+        case CHF::Env.lookup(:image_server)
+        when 'riiif'
+          Riiif::Engine.routes.url_helpers.info_path(file_id, locale: nil)
+        when 'cantaloupe'
+          "/iiif/2/#{CGI.escape(file_id)}/info.json"
+        end
       end
     end
   end
