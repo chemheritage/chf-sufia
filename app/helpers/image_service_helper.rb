@@ -1,11 +1,17 @@
-module RiiifHelper
+module ImageServiceHelper
 
   # Returns the IIIF info.json document, suitable as an OpenSeadragon tile source/
   #
   # Returns relative url unless we've defind a riiif server in config/environments/*.rb
-  def riiif_info_url (riiif_file_id)
-    path = riiif.info_path(riiif_file_id, locale: nil)
-    create_riiif_url(path)
+  def iiif_info_url(image_file_id)
+    service = CHF::Env.lookup(:image_server)
+    case service
+    when 'riiif'
+      path = riiif.info_path(image_file_id, locale: nil)
+    when 'cantaloupe'
+      path = cantaloupe_info_path(image_file_id)
+    end
+    create_iiif_url(path)
   end
 
   # Request an image URL from the riiif server. Format, size, and quality
@@ -16,9 +22,25 @@ module RiiifHelper
   # Defaults copied from riiif defaults. https://github.com/curationexperts/riiif/blob/67ff0c49af198ba6afcf66d3db9d3d36a8694023/lib/riiif/routes.rb#L21
   #
   # Returns relative url unless we've defind a riiif server in config/environments/*.rb
-  def riiif_image_url(riiif_file_id, format: 'jpg', size: "full", quality: 'default')
-    path = riiif.image_path(riiif_file_id, locale: nil, size: size, format: format, quality: quality)
-    create_riiif_url(path)
+  def iiif_image_url(image_file_id, format: 'jpg', size: "full", quality: 'default')
+    service = CHF::Env.lookup(:image_server)
+    case service
+    when 'riiif'
+      path = riiif.image_path(image_file_id, locale: nil, size: size, format: format, quality: quality)
+    when 'cantaloupe'
+      path = cantaloupe_image_path(image_file_id, size: size, format: format, quality: quality)
+    end
+    create_iiif_url(path)
+  end
+
+  def cantaloupe_info_path(file_id)
+    "iiif/2/#{CGI.escape(file_id)}/info.json"
+  end
+
+  def cantaloupe_image_path(file_id, size:, format:, quality:)
+    region = 'full'
+    rotation = '0'
+    "iiif/2/#{CGI.escape(file_id)}/#{region}/#{size}/#{rotation}/#{quality}.#{format}"
   end
 
   # On show page, we just use pixel density source set, passing in the LARGEST width needed for
@@ -27,7 +49,7 @@ module RiiifHelper
   # prob good enough.
   def riiif_image_srcset_pixel_density(riiif_file_id, base_width, format: 'jpg', quality: 'default')
     [1, BigDecimal.new('1.5'), 2, 3, 4].collect do |multiplier|
-      riiif_image_url(riiif_file_id, format: "jpg", size: "#{base_width * multiplier},") + " #{multiplier}x"
+      iiif_image_url(riiif_file_id, format: "jpg", size: "#{base_width * multiplier},") + " #{multiplier}x"
     end.join(", ")
   end
 
@@ -61,7 +83,7 @@ module RiiifHelper
       }
     elsif use_image_server
       {
-        src: riiif_image_url(member.riiif_file_id, format: "jpg", size: "#{base_width},"),
+        src: iiif_image_url(member.riiif_file_id, format: "jpg", size: "#{base_width},"),
         srcset: riiif_image_srcset_pixel_density(member.riiif_file_id, base_width)
       }
     else
@@ -82,7 +104,7 @@ module RiiifHelper
 
   private
 
-  def create_riiif_url(path)
+  def create_iiif_url(path)
     if CHF::Env.lookup(:public_riiif_url)
       url = Addressable::URI.parse(CHF::Env.lookup(:public_riiif_url))
       raise "public_riiif_url requires a valid URL with host, eg `http://host` or `//host`" if url.host.nil?

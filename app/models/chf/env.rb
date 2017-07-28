@@ -138,6 +138,7 @@ module CHF
     define_key :riiif_identify_command
     define_key :app_role
     define_key :service_level
+    define_key :image_server
 
     define_key :use_image_server_on_show_page,
       system_env_transform: BOOLEAN_TRANSFORM,
