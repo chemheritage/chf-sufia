@@ -1,11 +1,11 @@
-module RiiifHelper
+module ImageServiceHelper
 
   # Returns the IIIF info.json document, suitable as an OpenSeadragon tile source/
   #
   # Returns relative url unless we've defind a riiif server in config/environments/*.rb
-  def riiif_info_url (riiif_file_id)
-    path = riiif.info_path(riiif_file_id, locale: nil)
-    create_riiif_url(path)
+  def iiif_info_url(image_file_id)
+    path = "#{CGI.escape(image_file_id)}/info.json"
+    create_iiif_url(path)
   end
 
   # Request an image URL from the riiif server. Format, size, and quality
@@ -16,18 +16,24 @@ module RiiifHelper
   # Defaults copied from riiif defaults. https://github.com/curationexperts/riiif/blob/67ff0c49af198ba6afcf66d3db9d3d36a8694023/lib/riiif/routes.rb#L21
   #
   # Returns relative url unless we've defind a riiif server in config/environments/*.rb
-  def riiif_image_url(riiif_file_id, format: 'jpg', size: "full", quality: 'default')
-    path = riiif.image_path(riiif_file_id, locale: nil, size: size, format: format, quality: quality)
-    create_riiif_url(path)
+  def iiif_image_url(image_file_id, format: 'jpg', size: "full", quality: 'default')
+    path = iiif_image_path(image_file_id, size: size, format: format, quality: quality)
+    create_iiif_url(path)
+  end
+
+  def iiif_image_path(file_id, size:, format:, quality:)
+    region = 'full'
+    rotation = '0'
+    "#{CGI.escape(file_id)}/#{region}/#{size}/#{rotation}/#{quality}.#{format}"
   end
 
   # On show page, we just use pixel density source set, passing in the LARGEST width needed for
   # any responsiveness page layout. Sends somewhat more bytes when needed at some responsive
   # sizes, but way simpler to implement; keep from asking riiiif for even more varying resizes;
   # prob good enough.
-  def riiif_image_srcset_pixel_density(riiif_file_id, base_width, format: 'jpg', quality: 'default')
+  def riiif_image_srcset_pixel_density(file_id, base_width, format: 'jpg', quality: 'default')
     [1, BigDecimal.new('1.5'), 2, 3, 4].collect do |multiplier|
-      riiif_image_url(riiif_file_id, format: "jpg", size: "#{base_width * multiplier},") + " #{multiplier}x"
+      iiif_image_url(file_id, format: "jpg", size: "#{base_width * multiplier},") + " #{multiplier}x"
     end.join(", ")
   end
 
@@ -54,15 +60,15 @@ module RiiifHelper
       }
     }
 
-    src_args = if member.riiif_file_id.nil?
+    src_args = if member.representative_file_id.nil?
       # if there's no image, show the default thumbnail (it gets indexed)
       {
         src:  member.thumbnail_path
       }
     elsif use_image_server
       {
-        src: riiif_image_url(member.riiif_file_id, format: "jpg", size: "#{base_width},"),
-        srcset: riiif_image_srcset_pixel_density(member.riiif_file_id, base_width)
+        src: iiif_image_url(member.representative_file_id, format: "jpg", size: "#{base_width},"),
+        srcset: riiif_image_srcset_pixel_density(member.representative_file_id, base_width)
       }
     else
       {
@@ -82,13 +88,19 @@ module RiiifHelper
 
   private
 
-  def create_riiif_url(path)
-    if CHF::Env.lookup(:public_riiif_url)
-      url = Addressable::URI.parse(CHF::Env.lookup(:public_riiif_url))
-      raise "public_riiif_url requires a valid URL with host, eg `http://host` or `//host`" if url.host.nil?
-      return Addressable::URI.join(url, path).to_s
-    else
-      return path
+  attr_accessor :public_host
+
+  def public_host
+    @public_host ||= begin
+      url = Addressable::URI.parse(CHF::Env.lookup(:iiif_public_url))
+      raise "iiif_public_url requires a valid URL with host and path, eg `http://example.com/image-service` or `//12.345.67.89/iiif/2`" if url.host.nil?
+      url = url.to_s
+      url << '/' if url[-1] != '/' # Make sure url ends with a slash
+      url
     end
+  end
+
+  def create_iiif_url(path)
+    return Addressable::URI.join(public_host, path).to_s
   end
 end

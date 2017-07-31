@@ -6,17 +6,17 @@ RSpec.describe CHF::FileSetPresenter do
   let(:ability) { double "Ability" }
   let(:presenter) { described_class.new(solr_document, ability) }
 
-  describe '#riiif_file_id' do
+  describe '#representative_file_id' do
     it "equals file set's original_file id" do
-      expect(presenter.riiif_file_id).to be_a String
-      expect(presenter.riiif_file_id).to eq file_set.original_file.id
+      expect(presenter.representative_file_id).to be_a String
+      expect(presenter.representative_file_id).to eq file_set.original_file.id
     end
 
     context "when it doesn't find the value in solr" do
       let(:solr_document) { SolrDocument.new(file_set.to_solr.tap { |solr_doc| solr_doc.delete('original_file_id_tesim') } ) }
       it "takes it from fedora" do
         expect(Rails.logger).to receive(:error)
-        expect(presenter.riiif_file_id).to eq file_set.original_file.id
+        expect(presenter.representative_file_id).to eq file_set.original_file.id
       end
     end
   end

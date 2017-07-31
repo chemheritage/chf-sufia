@@ -53,15 +53,15 @@
                       member_show_url: contextual_path(member_presenter, work),
                       member_dl_original_url: main_app.download_path(member_presenter.representative_id),
                       member_dl_jpeg_url: (if CHF::Env.lookup(:use_image_server_downloads)
-                                            riiif_image_url(member_presenter.riiif_file_id, format: "jpg", size: "full")
+                                            iiif_image_url(member_presenter.representative_file_id, format: "jpg", size: "full")
                                           end),
                       tile_source: (if CHF::Env.lookup(:use_image_server_on_viewer)
-                                      riiif_info_url(member_presenter.riiif_file_id)
+                                      iiif_info_url(member_presenter.representative_file_id)
                                     else
                                       {"type" => "image", "url" => main_app.download_path(member_presenter.representative_id, file: "jpeg")}.to_json
                                     end),
                       src: member_presenter.first(blacklight_config.view_config(document_index_view_type).thumbnail_field)
-                    } if member_presenter.riiif_file_id # don't show it in the viewer if there's no image
+                    } if member_presenter.representative_file_id # don't show it in the viewer if there's no image
                 -%>
               <%- end -%>
             <% end %>
