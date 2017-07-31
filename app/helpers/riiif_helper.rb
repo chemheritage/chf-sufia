@@ -31,6 +31,12 @@ module RiiifHelper
     end.join(", ")
   end
 
+  def imgix_url(file_set_id)
+    host = CHF::Env.lookup(:imgix_host)
+    raise ArgumentError.new("Need CHF::Env.lookup(:imgix_host)") unless host.present?
+    "//#{host}/#{CGI.escape file_set_id}"
+  end
+
   # create an image tag for a 'member' (could be fileset or child work) thumb,
   # for use on show page. Calculates proper image tag based on lazy or not,
   # use of riiif for images or not, and desired size. Includes proper

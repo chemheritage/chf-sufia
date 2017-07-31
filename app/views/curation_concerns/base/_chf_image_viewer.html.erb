@@ -56,7 +56,14 @@
                                             riiif_image_url(member_presenter.riiif_file_id, format: "jpg", size: "full")
                                           end),
                       tile_source: (if CHF::Env.lookup(:use_image_server_on_viewer)
-                                      riiif_info_url(member_presenter.riiif_file_id)
+                                      # TODO this needs to be config switch between riiif/IIIF and imgix
+                                      #riiif_info_url(member_presenter.riiif_file_id)
+                                      {
+                                         "type" => "imgix",
+                                         "baseUrl" => imgix_url(member_presenter.id),
+                                         "height" => member_presenter.representative_height,
+                                         "width" => member_presenter.representative_width
+                                      }.to_json
                                     else
                                       {"type" => "image", "url" => main_app.download_path(member_presenter.representative_id, file: "jpeg")}.to_json
                                     end),

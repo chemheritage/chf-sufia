@@ -134,6 +134,7 @@ module CHF
 
     define_key :public_riiif_url
     define_key :internal_riiif_url
+    define_key :imgix_host
     define_key :riiif_convert_command
     define_key :riiif_identify_command
     define_key :app_role
