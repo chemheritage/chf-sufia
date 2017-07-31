@@ -225,15 +225,15 @@ namespace :chf do
     end
 
     # Note this will not work on non-public images
-    desc 'ping iiif server to fetch all originals of publicly-visible images from fedora. `RAILS_ENV=production INTERNAL_RIIIF_URL=http://localhost bundle exec rake chf:iiif:preload_originals`'
+    desc 'ping iiif server to fetch all originals of publicly-visible images from fedora. `RAILS_ENV=production IIIF_INTERNAL_URL=http://[IP]:8182/iiif/2 bundle exec rake chf:iiif:preload_originals`'
     task :preload_originals => :environment do
       total = FileSet.count
 
-      $stderr.puts "Ping'ing iiif server at `#{CHF::Env.lookup(:internal_riiif_url)}` for all #{total} FileSet original files"
+      $stderr.puts "Ping'ing iiif server at `#{CHF::Env.lookup(:iiif_internal_url)}` for all #{total} FileSet original files"
 
       progress = ProgressBar.create(total: total, format: "%t %a: |%B| %p%% %e")
 
-      iiif_base = CHF::Env.lookup(:internal_riiif_url)
+      iiif_base = CHF::Env.lookup(:iiif_internal_url)
       errors = 0
 
       # There's probably a faster way to do this, maybe from Solr instead of fedora?

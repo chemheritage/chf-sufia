@@ -3,7 +3,7 @@ module CHF
     # Ping the riiif server with a HEAD info request for a given file id, to trigger
     # caching of original asset on riiif server.
     #
-    # You need config :internal_riiif_url set, for instance maybe INTERNAL_RIIIF_URL=http://localhost:3000
+    # You need config :iiif_internal_url set, for instance maybe IIIF_INTERNAL_URL=http://localhost:3000
     # if you really want to ping your dev server.
     #
     #     CHF::Utils::RiiifOriginalPreloader.new(file_id).ping_to_preload
@@ -13,11 +13,11 @@ module CHF
       include ImageServiceHelper
 
       attr_reader :file_id, :riiif_base
-      def initialize(file_id, riiif_base: CHF::Env.lookup(:internal_riiif_url))
+      def initialize(file_id, riiif_base: CHF::Env.lookup(:iiif_internal_url))
         @file_id = file_id
         @riiif_base = riiif_base
         unless riiif_base.present?
-          raise ArgumentError, "Need an :internal_riiif_url config. Can set in env with INTERNAL_RIIIF_URL=http://localhost:3000 or INTERNAL_RIIIF_URL=https://$internal_riiif_ip"
+          raise ArgumentError, "Need an :iiif_internal_url config. Can set in env with IIIF_INTERNAL_URL=http://localhost:3000 or IIIF_INTERNAL_URL=https://$internal_riiif_ip"
         end
       end
 

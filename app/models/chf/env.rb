@@ -133,7 +133,7 @@ module CHF
     ######
 
     define_key :iiif_public_url, default: '//localhost:3000/image-service'
-    define_key :internal_riiif_url
+    define_key :iiif_internal_url
     define_key :riiif_convert_command
     define_key :riiif_identify_command
     define_key :app_role
