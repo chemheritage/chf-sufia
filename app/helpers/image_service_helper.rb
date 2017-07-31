@@ -4,13 +4,7 @@ module ImageServiceHelper
   #
   # Returns relative url unless we've defind a riiif server in config/environments/*.rb
   def iiif_info_url(image_file_id)
-    service = CHF::Env.lookup(:image_server)
-    case service
-    when 'riiif'
-      path = riiif.info_path(image_file_id, locale: nil)
-    when 'cantaloupe'
-      path = cantaloupe_info_path(image_file_id)
-    end
+    path = "#{CGI.escape(image_file_id)}/info.json"
     create_iiif_url(path)
   end
 
@@ -23,24 +17,14 @@ module ImageServiceHelper
   #
   # Returns relative url unless we've defind a riiif server in config/environments/*.rb
   def iiif_image_url(image_file_id, format: 'jpg', size: "full", quality: 'default')
-    service = CHF::Env.lookup(:image_server)
-    case service
-    when 'riiif'
-      path = riiif.image_path(image_file_id, locale: nil, size: size, format: format, quality: quality)
-    when 'cantaloupe'
-      path = cantaloupe_image_path(image_file_id, size: size, format: format, quality: quality)
-    end
+    path = iiif_image_path(image_file_id, size: size, format: format, quality: quality)
     create_iiif_url(path)
   end
 
-  def cantaloupe_info_path(file_id)
-    "iiif/2/#{CGI.escape(file_id)}/info.json"
-  end
-
-  def cantaloupe_image_path(file_id, size:, format:, quality:)
+  def iiif_image_path(file_id, size:, format:, quality:)
     region = 'full'
     rotation = '0'
-    "iiif/2/#{CGI.escape(file_id)}/#{region}/#{size}/#{rotation}/#{quality}.#{format}"
+    "#{CGI.escape(file_id)}/#{region}/#{size}/#{rotation}/#{quality}.#{format}"
   end
 
   # On show page, we just use pixel density source set, passing in the LARGEST width needed for
@@ -104,13 +88,19 @@ module ImageServiceHelper
 
   private
 
-  def create_iiif_url(path)
-    if CHF::Env.lookup(:public_riiif_url)
-      url = Addressable::URI.parse(CHF::Env.lookup(:public_riiif_url))
-      raise "public_riiif_url requires a valid URL with host, eg `http://host` or `//host`" if url.host.nil?
-      return Addressable::URI.join(url, path).to_s
-    else
-      return path
+  attr_accessor :public_host
+
+  def public_host
+    @public_host ||= begin
+      url = Addressable::URI.parse(CHF::Env.lookup(:iiif_public_url))
+      raise "iiif_public_url requires a valid URL with host and path, eg `http://example.com/image-service` or `//12.345.67.89/iiif/2`" if url.host.nil?
+      url = url.to_s
+      url << '/' if url[-1] != '/' # Make sure url ends with a slash
+      url
     end
+  end
+
+  def create_iiif_url(path)
+    return Addressable::URI.join(public_host, path).to_s
   end
 end
