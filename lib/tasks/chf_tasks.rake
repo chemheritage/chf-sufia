@@ -214,8 +214,8 @@ namespace :chf do
     end
   end
 
-  namespace :riiif do
-    desc 'Delete all files in both riiif caches. `RAILS_ENV=production bundle exec rake chf:riiif:clear_caches`'
+  namespace :iiif do
+    desc 'Delete all files in both iiif caches. `RAILS_ENV=production bundle exec rake chf:iiif:clear_caches`'
     task :clear_caches do
       # We're not doing an :environment rake dep for speed so need to load
       # our CHF::Env.
@@ -225,27 +225,27 @@ namespace :chf do
     end
 
     # Note this will not work on non-public images
-    desc 'ping riiif server to fetch all originals of publicly-visible images from fedora. `RAILS_ENV=production INTERNAL_RIIIF_URL=http://localhost bundle exec rake chf:riiif:preload_originals`'
+    desc 'ping iiif server to fetch all originals of publicly-visible images from fedora. `RAILS_ENV=production INTERNAL_RIIIF_URL=http://localhost bundle exec rake chf:iiif:preload_originals`'
     task :preload_originals => :environment do
       total = FileSet.count
 
-      $stderr.puts "Ping'ing riiif server at `#{CHF::Env.lookup(:internal_riiif_url)}` for all #{total} FileSet original files"
+      $stderr.puts "Ping'ing iiif server at `#{CHF::Env.lookup(:internal_riiif_url)}` for all #{total} FileSet original files"
 
       progress = ProgressBar.create(total: total, format: "%t %a: |%B| %p%% %e")
 
-      riiif_base = CHF::Env.lookup(:internal_riiif_url)
+      iiif_base = CHF::Env.lookup(:internal_riiif_url)
       errors = 0
 
       # There's probably a faster way to do this, maybe from Solr instead of fedora?
       # Or getting original_file_id without the extra fetch? Not sure. This is slow.
       FileSet.find_each do |fs|
         if original_file_id = fs.original_file.try(:id)
-          preloader = CHF::Utils::RiiifOriginalPreloader.new(original_file_id, riiif_base: riiif_base)
+          preloader = CHF::Utils::RiiifOriginalPreloader.new(original_file_id, riiif_base: iiif_base)
           response = preloader.ping_to_preload
 
           if response.status != 200
             errors += 1
-            progress.log "Unexpected #{response.status} response (#{errors} total) at #{riiif_base} #{preloader.ping_path}"
+            progress.log "Unexpected #{response.status} response (#{errors} total) at #{iiif_base} #{preloader.ping_path}"
           end
 
           progress.increment
