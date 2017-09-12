@@ -41,6 +41,32 @@ module CHF
           doc[ActiveFedora.index_field_mapper.solr_name('representative_file_set_id')] = representative.id if representative.original_file
           doc[ActiveFedora.index_field_mapper.solr_name('representative_checksum')] = representative.original_file.checksum.value if representative.original_file
         end
+
+        # Need to index parents, so we can have parent in index to show on search
+        # results page. It does require an extra fetch from fedora, which will
+        # slow down indexing. Requires some fancy code to do so, courtesy of
+        # @tpendragon.
+        # Will index as a JSON array of hashes with key "id" and "title"
+        parent_info = []
+        parent_uris = ActiveFedora::LdpResourceService.new(
+          ActiveFedora::InboundRelationConnection.new(ActiveFedora.fedora.connection)).
+          build(ActiveFedora::Base, object.id).graph.query([nil, Hydra::PCDM::Vocab::PCDMTerms.hasMember]).subjects
+
+        parents = parent_uris.
+          collect do |uri|
+            begin
+              ActiveFedora::Base.find(ActiveFedora::Base.uri_to_id(uri))
+            rescue ActiveFedora::ObjectNotFoundError
+            end
+          end.compact
+        if parents.present?
+          doc["parent_work_info_ss"] = parents.collect do |w|
+            {
+              "title" => w.title.first,
+              "id" => w.id
+            } if w.kind_of? Hydra::Works::WorkBehavior
+          end.to_json
+        end
       end
     end
 
