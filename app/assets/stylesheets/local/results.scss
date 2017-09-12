@@ -212,7 +212,7 @@ ol.catalog {
     margin-bottom: 4px;
   }
 
-  .chf-results-list-item-additional-titles {
+  .chf-results-list-item-additional-titles, .chf-results-list-item-part-of {
     ul {
       @extend .list-unstyled;
       font-size: $font-size-h4;

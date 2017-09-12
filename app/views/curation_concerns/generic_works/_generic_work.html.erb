@@ -45,6 +45,16 @@
         </div>
       <% end %>
 
+      <% if doc_presenter.parent_work_info.present? %>
+        <div class="chf-results-list-item-part-of">
+          <ul>
+            <% doc_presenter.parent_work_info.each do |info| %>
+              <li>From <%= link_to(info["title"], curation_concerns_generic_work_path(info["id"])) %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
       <% if doc_presenter.has_values_for?(Solrizer.solr_name('date_of_work', :stored_searchable)) %>
         <div class="chf-results-list-item-date">
           <%= doc_presenter.field_value(Solrizer.solr_name("date_of_work", :stored_searchable), join_type: :list) %>

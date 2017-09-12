@@ -57,6 +57,15 @@ module Chf
       end
     end
 
+    # deserialize our json to get a list of ids and titles, usually
+    # zero or one but who knows.
+    def parent_work_info
+      @parent_work_info ||= begin
+        json = solr_document["parent_work_info_ss"]
+        json.present? ? JSON.parse(json) : []
+      end
+    end
+
     # "representative_" methods are copied from GenericWorkShowPresenter, so
     # we can use this presenter the same way for displaying representative images.
     # Possible improvement: DRY this code between here and there.
