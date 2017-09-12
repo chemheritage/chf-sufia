@@ -44,29 +44,41 @@ module CHF
 
         # Need to index parents, so we can have parent in index to show on search
         # results page. It does require an extra fetch from fedora, which will
-        # slow down indexing. Requires some fancy code to do so, courtesy of
-        # @tpendragon.
+        # slow down indexing.
         # Will index as a JSON array of hashes with key "id" and "title"
+        # Need to make sure we're NOT using the caching connection AF is giving us, it's giving
+        #
+        # Requires some AWFULLY fancy code to do this, courtesy of
+        # @tpendragon, realize need to add `uncached` too (and that it's thread-safe)
+        # courtesy of @jcoyne.
         parent_info = []
-        parent_uris = ActiveFedora::LdpResourceService.new(
-          ActiveFedora::InboundRelationConnection.new(ActiveFedora.fedora.connection)).
-          build(ActiveFedora::Base, object.id).graph.query([nil, Hydra::PCDM::Vocab::PCDMTerms.hasMember]).subjects
+        parent_uris = ActiveFedora.fedora.connection.uncached  do
+          ActiveFedora::LdpResourceService.new(
+            ActiveFedora::InboundRelationConnection.new(ActiveFedora.fedora.connection)).
+            build(ActiveFedora::Base, object.id).graph.query([nil, Hydra::PCDM::Vocab::PCDMTerms.hasMember]).subjects
 
-        parents = parent_uris.
-          collect do |uri|
+        end
+
+        parent_ids = parent_uris.collect { |uri| ActiveFedora::Base.uri_to_id(uri) }
+        # not sure why, but sometimes but not always our own id seems to be included
+        parent_ids.delete_if { |pid| pid == object.id }
+
+        parents = parent_ids.
+          collect do |id|
             begin
-              ActiveFedora::Base.find(ActiveFedora::Base.uri_to_id(uri))
+              ActiveFedora::Base.find(id)
             rescue ActiveFedora::ObjectNotFoundError
             end
           end.compact
-        if parents.present?
-          doc["parent_work_info_ss"] = parents.collect do |w|
+
+        doc["parent_work_info_ss"] = parents.collect do |w|
+          if w.title.try(:first).present? && w.id.present?
             {
               "title" => w.title.first,
               "id" => w.id
             } if w.kind_of? Hydra::Works::WorkBehavior
-          end.to_json
-        end
+          end
+        end.compact.to_json
       end
     end
 
