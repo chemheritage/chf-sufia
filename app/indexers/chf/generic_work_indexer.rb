@@ -52,11 +52,19 @@ module CHF
         # @tpendragon, realize need to add `uncached` too (and that it's thread-safe)
         # courtesy of @jcoyne.
         parent_info = []
-        parent_uris = ActiveFedora.fedora.connection.uncached  do
-          ActiveFedora::LdpResourceService.new(
-            ActiveFedora::InboundRelationConnection.new(ActiveFedora.fedora.connection)).
-            build(ActiveFedora::Base, object.id).graph.query([nil, Hydra::PCDM::Vocab::PCDMTerms.hasMember]).subjects
+        begin
+          s_time = Time.now
+          parent_uris = ActiveFedora.fedora.connection.uncached  do
+            ActiveFedora::LdpResourceService.new(
+              ActiveFedora::InboundRelationConnection.new(ActiveFedora.fedora.connection)).
+              build(ActiveFedora::Base, object.id).graph.query([nil, Hydra::PCDM::Vocab::PCDMTerms.hasMember]).subjects
 
+          end
+        rescue Faraday::TimeoutError => e
+          msg = "Timed out tying to fetch inbound relationships, in #{Time.now - s_time}s For object.id #{object.id}: #{e}"
+          $stderr.puts msg
+          Rails.logger.fatal msg
+          raise e
         end
 
         parent_ids = parent_uris.collect { |uri| ActiveFedora::Base.uri_to_id(uri) }
