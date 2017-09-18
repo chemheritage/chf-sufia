@@ -272,19 +272,23 @@ namespace :chf do
       backtrace = args.to_a.include?("backtrace")
 
 
-      condition = if ENV['WORK_IDS'].present?
-        work_ids = ENV['WORK_IDS'].split(",")
-        file_set_ids = GenericWork.where(id: work_ids).collect(&:file_set_ids).flatten
-        { id: file_set_ids }
+      condition = if ENV['WORK_IDS'].blank? && ENV['FILE_SET_IDS'].blank?
+        []
       else
-        {}
+        { id: [] }.tap do |h|
+          if ENV['WORK_IDS'].present?
+            h[:id].concat GenericWork.where(id: ENV['WORK_IDS'].split(",")).collect(&:file_set_ids).flatten
+          end
+          if ENV['FILE_SET_IDS'].present?
+            h[:id].concat ENV['FILE_SET_IDS'].split(",")
+          end
+        end
       end
-
 
       errors = []
       total = FileSet.where(condition).count
       progress = ProgressBar.create(total: total, format: "%t %a: |%B| %p%% %e", :smoothing => 0.5)
-
+      $stderr.puts "Creating dzi for #{total} filesets"
       # Get this from Solr instead would be faster, but it's a pain
       FileSet.find_each(condition) do |fs|
         begin

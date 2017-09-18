@@ -44,9 +44,6 @@ module CHF
     class_attribute :jpeg_quality
     self.jpeg_quality = "85"
 
-    class_attribute :suppress_vips_stderr
-    self.suppress_vips_stderr = true
-
     class_attribute :cache_control
     self.cache_control = "max-age=31536000" # one year in seconds.
 
@@ -123,13 +120,7 @@ module CHF
     def create_dzi!
       dzi_benchmark = Benchmark.measure do
         # http://libvips.blogspot.com/2013/03/making-deepzoom-zoomify-and-google-maps.html
-        args = [vips_command, "dzsave", local_original_file_path, local_dzi_base_path, "--suffix", ".jpg[Q=#{jpeg_quality}]"]
-
-        if suppress_vips_stderr
-          args << { :err => "/dev/null" }
-        end
-
-        system(*args) or raise StandardError.new("vips dzsave failed")
+        TTY::Command.new(printer: :null).run(vips_command, "dzsave", local_original_file_path, local_dzi_base_path, "--suffix", ".jpg[Q=#{jpeg_quality}]")
       end
       Rails.logger.debug("#{self.class.name}: create_dzi: #{dzi_benchmark}")
     end
