@@ -46,7 +46,6 @@
   }
 
   .navbar-nav {
-    font-size: 18px;
     font-weight: 300;
   }
 
@@ -61,6 +60,12 @@
       font-size: 18px;
       line-height: $small-logo-height + 8px + 8px;
       text-align: center;
+    }
+  }
+
+  @media (min-width: $grid-float-breakpoint-max + 1) {
+    .navbar-collapse {
+        max-width: 55%;
     }
   }
 

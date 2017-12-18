@@ -26,6 +26,8 @@
       <h1 class="masthead-title small-masthead-only">Digital Collections</h1>
     </div>
 
+
+
     <div class="collapse navbar-collapse pull-right" id="top-navbar-collapse" role="navigation">
       <div class="masthead-right">
         <h1 class="masthead-title large-masthead-only">Digital Collections</h1>
@@ -35,6 +37,10 @@
           <li><%= link_to "FAQ", main_app.faq_path %></li>
           <li><%= link_to t(:'sufia.controls.contact'), sufia.contact_path %></li>
         </ul><!-- /.nav -->
+
+        <div class="nav navbar-nav navbar-right">
+          <%= render partial: 'catalog/search_form' %>
+        </div>
       </div>
     </div>
   </div>

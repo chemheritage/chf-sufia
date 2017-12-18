@@ -1,14 +1,27 @@
 .nav-search-form {
   position: relative;
+  margin-bottom: 16px;
+  max-width: 470px;
+  @media (max-width: $grid-float-breakpoint-max) {
+    padding: $nav-link-padding;
+    max-width: 100%;
+  }
 }
 
 .nav-search-text {
   margin-bottom: 0;
+  //max-width: 470px;
+}
+
+#search-field-header {
+  //overriding sufia that was using hard-coded 4px instead of boostrap variable :(
+  // border-top-left-radius: 9px;
+  // border-bottom-left-radius: 9px;
 }
 
 .search-options {
   // will slide open with JS
-  //display: none;
+  display: none;
   position: absolute;
   width: 100%;
 

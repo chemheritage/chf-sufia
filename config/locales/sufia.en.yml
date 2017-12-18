@@ -19,7 +19,11 @@ en:
           new:
             header: Add New Work
     search:
+      button:
+        html: '<span class="glyphicon glyphicon-search"></span><span class="sr-only">Search</span>'
       form:
+        q:
+          placeholder: Search
         option:
           all:
             label_long: All
