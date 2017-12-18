@@ -1,22 +1,22 @@
 .nav-search-form {
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 0;
+  padding-bottom: 16px - $padding-large-vertical;
   max-width: 470px;
   @media (max-width: $grid-float-breakpoint-max) {
     padding: $nav-link-padding;
     max-width: 100%;
   }
-}
 
-.nav-search-text {
-  margin-bottom: 0;
-  //max-width: 470px;
-}
-
-#search-field-header {
-  //overriding sufia that was using hard-coded 4px instead of boostrap variable :(
-  // border-top-left-radius: 9px;
-  // border-bottom-left-radius: 9px;
+  // hacky way to give this bigger radius than most of our inputs
+  #search-field-header {
+    border-top-left-radius: $btn-border-radius-large;
+    border-bottom-left-radius: $btn-border-radius-large;
+  }
+  .input-group button {
+    border-top-right-radius: $btn-border-radius-large;
+    border-bottom-right-radius: $btn-border-radius-large;
+  }
 }
 
 .search-options {
@@ -27,27 +27,23 @@
 
   background: white;
   border: 1px solid $input-border;
-  border-top: none;
-  border-radius: 0 0 $input-border-radius-small $input-border-radius-small;
+  box-shadow: 0 0 100px black;
+  border-radius: 0 0 $btn-border-radius-large $btn-border-radius-large;
 
   .form-group {
     // make slide out look better using padding instead of margin, plus
     // get everything nicely spaced.
     margin: 0;
     padding: $form-group-margin-bottom;
-    &:first-child {
-      padding-top: $form-group-margin-bottom * 2;
-    }
-    &:last-child {
-      padding-bottom: $form-group-margin-bottom * 2;
-    }
   }
 
-  h3 {
-    @extend .h5;
+  h3, label {
     @extend %special-label;
     display: inline;
     margin: 0 .66em 0 0;
+    input[type="checkbox"] {
+      margin-top: 6px;
+    }
   }
   .search-option-year {
     display: inline;

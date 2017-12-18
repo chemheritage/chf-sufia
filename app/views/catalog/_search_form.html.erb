@@ -6,7 +6,7 @@
   <div class="input-group nav-search-text">
 
     <label class="sr-only" for="search-field-header"><%= t("sufia.search.form.q.label") %></label>
-    <%= text_field_tag :q, '', class: "q form-control", id: "search-field-header", placeholder: t("sufia.search.form.q.placeholder") %>
+    <%= text_field_tag :q, '', class: "q form-control", id: "search-field-header", autocomplete: "off", placeholder: t("sufia.search.form.q.placeholder") %>
 
     <div class="input-group-btn">
       <button type="submit" class="btn btn-emphasis" title="Search" id="search-submit-header">
@@ -46,18 +46,18 @@
 
   <div class="search-options">
     <%# hidden field is required in order to allow users to un-check the box %>
-    <div class="checkbox form-group">
+    <div class="form-group checkbox">
       <%= hidden_field_tag 'filter_public_domain', value=0, options={ id: "filter_public_domain_hidden" } %>
-      <label for="filter_public_domain"><%= check_box_tag 'filter_public_domain', value=1 %> <%= "Search only Public Domain" %></label>
+      <label for="filter_public_domain"><%= check_box_tag 'filter_public_domain', value=1 %> <%= "Only Public Domain" %></label>
     </div>
 
      <div class="form-group">
-      <h3>Date limit</h3>
+      <h3>Date</h3>
       <label class="sr-only" for="search-option-date-from">From</label>
-      <input type="number" name="range[year_facet_isim][begin]" class="form-control search-option-year"  placeholder="from" id="search-option-date-from">
+      <input type="number" name="range[year_facet_isim][begin]" class="form-control search-option-year" autocomplete="off" placeholder="from" id="search-option-date-from">
       &nbsp;&ndash;&nbsp;
       <label class="sr-only" for="search-option-date-to">From</label>
-      <input type="number" name="range[year_facet_isim][end]" class="form-control search-option-year"  placeholder="to" id="search-option-date-from">
+      <input type="number" name="range[year_facet_isim][end]" class="form-control search-option-year"  autocomplete="off" placeholder="to" id="search-option-date-from">
     </div>
   </div>
 <% end %>
