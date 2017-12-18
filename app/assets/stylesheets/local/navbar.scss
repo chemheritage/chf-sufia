@@ -102,9 +102,13 @@
 }
 
 .breadcrumbs-navbar-wrapper {
-  margin-top: 0.5em;
+  margin-top: -1 * $navbar-margin-bottom;
+  margin-bottom: $navbar-margin-bottom;
   ul.breadcrumb {
     margin-bottom: 0;
+    background: none;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
