@@ -38,9 +38,11 @@
           <li><%= link_to t(:'sufia.controls.contact'), sufia.contact_path %></li>
         </ul><!-- /.nav -->
 
-        <div class="nav navbar-nav navbar-right">
-          <%= render partial: 'catalog/search_form' %>
-        </div>
+        <% unless content_for(:suppress_controls) %>
+          <div class="nav navbar-nav navbar-right">
+            <%= render partial: 'catalog/search_form' %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
