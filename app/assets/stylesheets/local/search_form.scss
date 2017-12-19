@@ -48,9 +48,6 @@
 
 // styles for slide-out only when in masthead, not when on home page
 .masthead {
-  .nav-search-form {
-    padding-bottom: 16px - $padding-large-vertical;
-  }
   .search-options {
     display: none;
     position: absolute;
@@ -65,7 +62,7 @@
       // make slide out look better using padding instead of margin, plus
       // get everything nicely spaced.
       margin: 0;
-      padding: $form-group-margin-bottom;
+      padding: ($form-group-margin-bottom / 2) $form-group-margin-bottom;
     }
   }
   .extra-submit-button {
