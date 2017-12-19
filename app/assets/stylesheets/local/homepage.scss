@@ -4,10 +4,6 @@
   padding-right: 0;
   padding-bottom: 0 !important; /* overcome id-based css */
 
-  .featured-collection-callouts {
-    padding-bottom: 30px;
-  }
-
   figure.hero-image {
     position: relative; /* allow absolute positioning of caption */
     padding-left: 0; /* overcome the padding on grid columns */
@@ -43,6 +39,9 @@
 
   .chf-callout-button {
     width: 100%;
+    text-transform: uppercase;
+    border-radius: 0;
+    letter-spacing: 0.04em;
   }
 
   .search-container {
@@ -116,12 +115,14 @@
         left: 0;
         width: 100%;
         height: 56px;
-        background-color: $brand-primary;
+        color: $brand-dark-blue;
+        background-color: $brand-bright-green;
         padding: 10px;
 
         .collection-title {
           text-align: center;
-          font-weight: 700;
+          font-weight: $semi-bold-weight;
+          text-transform: uppercase;
           font-size: 18px;
           padding-top: 5px;
           padding-bottom: 5px;

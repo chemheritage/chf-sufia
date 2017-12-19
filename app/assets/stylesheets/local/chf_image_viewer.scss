@@ -75,9 +75,9 @@ $chf_image_viewer_thumb_width: 54px; // Needs to match ImageServiceHelper::THUMB
   .viewer-header {
     flex-shrink: 0;
     background-color: $brand-inverse;
-    color: $brand-primary;
+    color: $brand-bright-green;
     a {
-      color: $brand-primary;
+      color: $brand-bright-green;
       &:hover {
         color: white;
       }
@@ -88,7 +88,7 @@ $chf_image_viewer_thumb_width: 54px; // Needs to match ImageServiceHelper::THUMB
     padding: 4px 15px;
 
     .chf-logo {
-      width: 50px;
+      width: 40px;
     }
 
     h1 {
@@ -253,8 +253,6 @@ $chf_image_viewer_thumb_width: 54px; // Needs to match ImageServiceHelper::THUMB
           margin-bottom: 0;
         }
         .dropdown-menu {
-          font-size: 14px;
-
           left: auto;
           right: 5px;
 

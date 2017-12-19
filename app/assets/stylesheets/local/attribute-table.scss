@@ -18,7 +18,7 @@ $attribute-cell-padding: 0.66em;
     padding-top: $attribute-cell-padding;
     padding-bottom: $attribute-cell-padding;
   }
-  th { // horizontal label
+  th, tbody > tr > th { // horizontal label
     font-weight: normal;
     width: 33%;
     max-width: 185px;

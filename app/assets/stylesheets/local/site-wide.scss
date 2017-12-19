@@ -1,20 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:extrabold,bold,semibold,regular,light,');
-@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i&amp;subset=latin-ext');
-
-// hover and other unusual states just like btn-primary, but our light blue brand
-// color on standard state.
-.btn-brand-alt-2 {
-  // color, bg, border
-  @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
-  color: $text-color;
-  background-color: $brand-btn-alt-bg;
-  border-color: #ccc;
-}
-
-// a light grey button matching light grey bg
-.btn-brand-alt {
-  // color, bg, border
-  @include button-variant($text-color, $bg-lightly-shaded, $navbar-default-border);
+h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
+  color: $brand-dark-blue;
 }
 
 
@@ -130,11 +115,27 @@ hr.brand {
   .dropdown-header {
     text-transform: uppercase;
     font-weight: 600;
-    letter-spacing: 0.03em;
+    letter-spacing: $small-caps-letter-spacing;
   }
   li small {
     color: $text-muted;
     margin-left: 8px;
     font-weight: 100;
   }
+}
+
+// In new branding, we use the serif as body text, but leave the sans serif as default font for all the controls,
+// just explicitly set it in certain places, restricted to a parent class cause it kind of messes up
+// admin screens.
+.branded-body-font {
+  p:not(.collection-title):not(.sans-serif), dl:not(.sans-serif) dd, table:not(.sans-serif) td, table:not(.sans-serif) th, .serif {
+    @extend %text-font;
+  }
+}
+
+// bootstrap override
+.label {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: $small-caps-letter-spacing;
 }

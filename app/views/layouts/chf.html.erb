@@ -26,12 +26,14 @@
     <%= content_for(:head) %>
   </head>
 
-  <body class="localized-layout">
+  <body class="localized-layout branded-body-font">
     <a href="#skip_to_content" class="sr-only">Skip to Content</a>
     <%= render partial: '/masthead' %>
     <%= content_for(:navbar) %>
     <%# CHF hard-code 'controls' here instead of relying on it being supplied as content_for(:navbar) %>
-    <%= render '/controls' %>
+    <% unless content_for(:suppress_controls) %>
+      <%= render '/controls' %>
+    <% end %>
 
     <%# chf put constraints up here right under the search bar always %>
     <% unless content_for(:suppress_layout_constraints) %>

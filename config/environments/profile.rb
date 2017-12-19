@@ -10,7 +10,7 @@ Rails.application.configure do
 
 
   # Settings specified here will take precedence over those in config/application.rb.
-  config.action_mailer.default_url_options = { :host => 'digital.chemheritage.org' }
+  config.action_mailer.default_url_options = { :host => 'digital.sciencehistory.org' }
   config.action_mailer.delivery_method = :sendmail
 
   # Code is not reloaded between requests.

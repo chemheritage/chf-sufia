@@ -1,49 +1,90 @@
-$dark-navy: #1f2534;
-$bright-blue: #02BAF4;
-$bg-grey: #f1f3f4;
-$lt-blue: #e4f1fe;
+/*****
+ *
+ *  Brand colors and fonts, and site-wide base constants
+ *
+ * /
 
-$bg-lightly-shaded: $bg-grey;
-$brand-btn-alt-bg: $lt-blue;
-$brand-alt-header-font: "Roboto Condensed";
+
+/* rebrand colors */
+$brand-dark-blue: #050939;
+$brand-bright-green: #a6e5d8;
+$brand-red: #d8262e;
+$brand-yellow: #dbe341;
+//$brand-blue: #76c3d4;
+$brand-blue: #4bb0c7; // zack instructed us to use this slightly darker shade
+$brand-light-grey: #bcbcbc; // not actually very light
+$brand-dark-grey: #646469;
+
+$brand-sans-serif: 'adelle-sans';
+$brand-serif: 'abril-text';
+
+$brand-blue-text: #338EA2; // brand blue is too light for text on white, here's a darker version 3595AA.
+$bg-lightly-shaded: #f9f9f9; // does not match brand, no suitable color in brand
+$special-label-muted-color: #888; // not from brand, lighter than normal muted, cause it's bolded a bit and such
+//$brand-highlight-color: #f15c2b; // an orange used on (old) Distillations website, perhaps use as an alterante highlight sitewide
+
+// Why do we need so much spacing for it to look reasonable? Good spacing for 14px and weight 600.
+$small-caps-letter-spacing: 0.04em;
+
+$brand-highlight-color: $brand-red;
+$brand-btn-alt-bg: $brand-bright-green;
+$brand-alt-header-font: $brand-sans-serif, sans-serif;
 $brand-alt-header-weight: 700;
-// should be lighter than normal muted, cause it's bolded a bit and such
-$special-label-muted-color: #888;
-$brand-highlight-color: #f15c2b; // an orange used on Distillations website, perhaps use as an alterante highlight sitewide
+
+// adelle-sans has a 600 semi-bold available. 700 is standard bold. 500 seems to be the same as 400=normal.
+$semi-bold-weight: 600;
 
 // Maximum line length we judge to be readable at standard base font size.
 // Used to constrain some block text areas on large screens.
 $max-readable-width: 565px;
 $long-max-readable-width:  725px; // unclear how readable it really is, but we do it sometimes anyway
 
-// open sans has a convenient medium/semi-bold weight
-$semi-bold-weight: 600;
 
 // via experimentation, on search results page larger than this the
 // results column text is way too wide for reading text.
 $chf-fluid-max-width: 1300px;
 
+$transparent-background: rgba(0,0,0,0.25);
+
+/****
+ *
+ * Bootstrap overrides
+ *
+ */
+
 // Bootstrap 3.x overrides
-$line-height-base: 1.5; // closer to chemheritage.org brand, and more readable than BS default 1.428571429
-$brand-inverse: $dark-navy;
-$brand-primary: $bright-blue;
-$link-hover-color: #205D94;
-$font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-size-h4: 22px;
+$text-color: #222; // little bit darker
+$brand-success: $brand-bright-green;
+$brand-info: $brand-blue;
+$brand-danger: $brand-red;
+$brand-warning: $brand-yellow;
+$brand-inverse: $brand-dark-blue;
+$brand-primary: $brand-blue;
+$link-color: $brand-blue-text;
+$link-hover-color: $brand-dark-blue;
+$font-family-sans-serif: $brand-sans-serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
 $font-size-base: 16px;
-$navbar-inverse-link-color: $brand-primary;
+$navbar-inverse-link-color: $brand-bright-green;
 
 $well-bg: $bg-lightly-shaded;
 $navbar-default-bg: $bg-lightly-shaded;
 $panel-default-heading-bg: $bg-lightly-shaded;
 $panel-footer-bg: $bg-lightly-shaded;
 $breadcrumb-bg: $bg-lightly-shaded;
+$input-group-addon-bg: $bg-lightly-shaded;
 
 // border radius matching some elements on chemheritage.org, larger than bootstrap default
 $btn-border-radius-base:        9px !default;
 $btn-border-radius-large:       9px !default;
 $btn-border-radius-small:       9px !default;
 
-$transparent-background: rgba(0,0,0,0.25);
+/***
+ *
+ *  Mixins and placeholder classes; move to separate file?
+ *
+ */
+
 
 @mixin all-white-links {
   a,
@@ -58,12 +99,24 @@ $transparent-background: rgba(0,0,0,0.25);
 }
 
 %special-label{
+  font-family: $brand-sans-serif;
   font-weight: $semi-bold-weight;
   text-transform: uppercase;
   font-size: $font_size_base - 2px;
   line-height: normal;
-  letter-spacing: 0.03em;
+  letter-spacing: $small-caps-letter-spacing;
   a:not(:focus):not(:hover) {
     color: #888;
   }
 }
+
+%text-font {
+  font-family: $brand-serif;
+  // 16px in abril is really small, 17px looks more like 16px in other fonts.
+  font-size: 17px;
+  // somewhat bigger line-height seems to make abril more readable
+  line-height: 26px;
+  //letter-spacing is weird for body font, but this font is just so darn cramped!
+  letter-spacing: 0.01em;
+}
+

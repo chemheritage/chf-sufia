@@ -1,0 +1,21 @@
+// hover and other unusual states just like btn-primary, but our light blue brand
+// color on standard state.
+.btn-brand-alt-2 {
+  // color, bg, border
+  @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+  color: $text-color;
+  background-color: $brand-btn-alt-bg;
+  border-color: #ccc;
+}
+
+// a light grey button matching light grey bg
+.btn-brand-alt {
+  // color, bg, border
+  @include button-variant($text-color, $bg-lightly-shaded, $navbar-default-border);
+}
+
+
+// An especially bright button style using the brand bright breen
+.btn-emphasis {
+  @include button-variant($brand-dark-blue, $brand-bright-green, mix($brand-bright-green, $brand-dark-blue, 93%)); //
+}

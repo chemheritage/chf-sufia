@@ -1,6 +1,6 @@
 en:
   blacklight:
-    application_name: 'Chemical Heritage Foundation Digital Collections'
+    application_name: 'Science History Institute Digital Collections'
     search:
       filters:
         title: You searched for # remove colon from default
