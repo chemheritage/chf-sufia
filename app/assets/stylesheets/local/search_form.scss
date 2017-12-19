@@ -9,12 +9,12 @@
 
   // hacky way to give this bigger radius than most of our inputs
   #search-field-header {
-    border-top-left-radius: $btn-border-radius-large;
-    border-bottom-left-radius: $btn-border-radius-large;
+    border-top-left-radius: $btn-border-radius-base;
+    border-bottom-left-radius: $btn-border-radius-base;
   }
   .input-group button {
-    border-top-right-radius: $btn-border-radius-large;
-    border-bottom-right-radius: $btn-border-radius-large;
+    border-top-right-radius: $btn-border-radius-base;
+    border-bottom-right-radius: $btn-border-radius-base;
   }
 }
 
@@ -44,19 +44,27 @@
   .extra-submit-button {
     display: none;
   }
+  input {
+    border-radius: $btn-border-radius-base;
+  }
 }
 
 // styles for slide-out only when in masthead, not when on home page
 .masthead {
+  .nav-search-form {
+    padding-bottom: 16px - $padding-large-vertical;
+  }
+
   .search-options {
     display: none;
     position: absolute;
     width: 100%;
 
-    background: white;
-    border: 1px solid $input-border;
+    background: $brand-light-grey;
+    color: $brand-dark-blue;
+    border: 1px solid transparent;
     box-shadow: 0 0 100px black;
-    border-radius: 0 0 $btn-border-radius-large $btn-border-radius-large;
+    border-radius: 0 0 $btn-border-radius-base $btn-border-radius-base;
 
     .form-group {
       // make slide out look better using padding instead of margin, plus
@@ -65,7 +73,7 @@
       padding: ($form-group-margin-bottom / 2) $form-group-margin-bottom;
     }
   }
-  .extra-submit-button {
+  .extra-submit-button.form-group {
     display: block;
   }
 }
