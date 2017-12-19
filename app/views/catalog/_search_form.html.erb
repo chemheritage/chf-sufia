@@ -1,7 +1,11 @@
 <%# copied from https://github.com/samvera/sufia/blob/v7.3.0/app/views/catalog/_search_form.html.erb
-    to override searchbox dropdown visibility %>
+    to:
+      * override searchbox dropdown visibility
+      * make NOT include existing search, always new search
+      * add a drop-down with extra limits
+%>
+
 <%= form_tag search_form_action, method: :get, class: "nav-search-form", id: "search-form-header", role: "search" do %>
-  <%= render_hash_as_hidden_fields(search_state.params_for_search.except(:q, :search_field, :qt, :page, :utf8, :filter_public_domain)) %>
   <%= hidden_field_tag :search_field, 'all_fields' %>
   <div class="input-group nav-search-text">
 
@@ -47,7 +51,6 @@
   <div class="search-options">
     <%# hidden field is required in order to allow users to un-check the box %>
     <div class="form-group checkbox">
-      <%= hidden_field_tag 'filter_public_domain', value=0, options={ id: "filter_public_domain_hidden" } %>
       <label for="filter_public_domain"><%= check_box_tag 'filter_public_domain', value=1 %> <%= "Only Public Domain" %></label>
     </div>
 
