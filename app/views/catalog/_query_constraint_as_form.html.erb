@@ -7,17 +7,20 @@
 
     <label class="sr-only" for="constraintsQueryInput">Query</label>
     <span class="input-group">
-      <%= text_field_tag "q", local_assigns[:params].try { |h| h[:q] }, placeholder: "Add a query", class: "form-control input-sm", id: "constraintsQueryInput" %>
+      <span class="input-group-addon btn-search-icon">
+          <span class="glyphicon glyphicon-search"></span><span class="sr-only">Search</span>
+      </span>
       <label class="sr-only" for="constraintsQueryInput">Query</label>
-      <span class="input-group-btn">
+      <%= text_field_tag "q", local_assigns[:params].try { |h| h[:q] }, placeholder: "Add a query", class: "form-control input-sm", id: "constraintsQueryInput" %>
+      <span class="input-group-btn after">
+        <button class="btn btn-sm btn-primary">
+          Change
+        </button>
         <% if params[:q].present? %>
           <%= link_to(search_state.params_for_search.except(:q, :qt, :page, :utf8),  { class:"btn btn-sm btn-primary", title:"Remove" }) do %>
             <span class="glyphicon glyphicon-remove"></span><span class="sr-only">Remove</span>
           <% end %>
         <% end %>
-        <button type="submit" class="btn btn-sm btn-primary" title="Search">
-          <span class="glyphicon glyphicon-search"></span><span class="sr-only">Search</span>
-        </button>
       </span>
     </span>
 </form>

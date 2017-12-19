@@ -296,13 +296,22 @@
       .input-group {
         margin: 0 0.33em 0 0;
       }
-      input {
+
+      .btn {
+        letter-spacing: $small-caps-letter-spacing;
+        text-transform: uppercase;
+        font-weight: 400;
+      }
+
+      .btn-search-icon {
         border-bottom-left-radius: $btn-border-radius-base;
         border-top-left-radius: $btn-border-radius-base;
       }
-      a:last-child, button:last-child {
-        border-top-right-radius: $btn-border-radius-base;
-        border-bottom-right-radius: $btn-border-radius-base;
+      .input-group-btn.after {
+        a:last-child, button:last-child {
+          border-top-right-radius: $btn-border-radius-base;
+          border-bottom-right-radius: $btn-border-radius-base;
+        }
       }
     }
   }

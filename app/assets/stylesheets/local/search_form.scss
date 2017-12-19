@@ -51,29 +51,29 @@
 
 // styles for slide-out only when in masthead, not when on home page
 .masthead {
-  .nav-search-form {
+  .nav-search-form:not(.force-expanded) {
     padding-bottom: 16px - $padding-large-vertical;
-  }
 
-  .search-options {
-    display: none;
-    position: absolute;
-    width: 100%;
+    .search-options {
+      display: none;
+      position: absolute;
+      width: 100%;
 
-    background: $brand-light-grey;
-    color: $brand-dark-blue;
-    border: 1px solid transparent;
-    box-shadow: 0 0 100px black;
-    border-radius: 0 0 $btn-border-radius-base $btn-border-radius-base;
+      background: $brand-light-grey;
+      color: $brand-dark-blue;
+      border: 1px solid transparent;
+      box-shadow: 0 0 100px black;
+      border-radius: 0 0 $btn-border-radius-base $btn-border-radius-base;
 
-    .form-group {
-      // make slide out look better using padding instead of margin, plus
-      // get everything nicely spaced.
-      margin: 0;
-      padding: ($form-group-margin-bottom / 2) $form-group-margin-bottom;
+      .form-group {
+        // make slide out look better using padding instead of margin, plus
+        // get everything nicely spaced.
+        margin: 0;
+        padding: ($form-group-margin-bottom / 2) $form-group-margin-bottom;
+      }
     }
-  }
-  .extra-submit-button.form-group {
-    display: block;
+    .extra-submit-button.form-group {
+      display: block;
+    }
   }
 }
