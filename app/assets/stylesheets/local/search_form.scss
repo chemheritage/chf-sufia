@@ -23,7 +23,9 @@
 // styles that apply whether in masthead or home page, or just on homepage,
 // some are overridden below in .masthead
 .search-options {
+  color: white;
   h3, label {
+    color: white;
     @extend %special-label;
     display: inline;
     margin: 0 .66em 0 0;
@@ -60,10 +62,14 @@
       width: 100%;
 
       background: $brand-light-grey;
-      color: $brand-dark-blue;
       border: 1px solid transparent;
       box-shadow: 0 0 100px black;
       border-radius: 0 0 $btn-border-radius-base $btn-border-radius-base;
+      color: $brand-dark-blue;
+
+      h3, label {
+        color: $brand-dark-blue;
+      }
 
       .form-group {
         // make slide out look better using padding instead of margin, plus
