@@ -20,10 +20,12 @@
 }
 
 .search-options {
-  // will slide open with JS
-  display: none;
-  position: absolute;
-  width: 100%;
+  // will slide open with JS at non-broken down sizes
+  @media (min-width: $grid-float-breakpoint-max + 1) {
+    display: none;
+    position: absolute;
+    width: 100%;
+  }
 
   background: white;
   border: 1px solid $input-border;

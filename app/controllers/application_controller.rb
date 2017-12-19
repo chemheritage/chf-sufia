@@ -22,6 +22,15 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  module RenderQueryConstraintOverride
+    # Override to turn it into a live search box/form allowing you to change query,
+    # instead of just a label
+    def render_constraints_query(localized_params = params)
+      render "query_constraint_as_form", params: localized_params
+    end
+  end
+  helper RenderQueryConstraintOverride
+
 
   # Cheesy way to override Blaclight helper method with call to super possible
   module SortHelperOverrides
