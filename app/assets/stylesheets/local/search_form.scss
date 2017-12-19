@@ -1,7 +1,6 @@
 .nav-search-form {
   position: relative;
   margin-bottom: 0;
-  padding-bottom: 16px - $padding-large-vertical;
   max-width: 470px;
   @media (max-width: $grid-float-breakpoint-max) {
     padding: $nav-link-padding;
@@ -19,26 +18,11 @@
   }
 }
 
+
+
+// styles that apply whether in masthead or home page, or just on homepage,
+// some are overridden below in .masthead
 .search-options {
-  // will slide open with JS at non-broken down sizes
-  @media (min-width: $grid-float-breakpoint-max + 1) {
-    display: none;
-    position: absolute;
-    width: 100%;
-  }
-
-  background: white;
-  border: 1px solid $input-border;
-  box-shadow: 0 0 100px black;
-  border-radius: 0 0 $btn-border-radius-large $btn-border-radius-large;
-
-  .form-group {
-    // make slide out look better using padding instead of margin, plus
-    // get everything nicely spaced.
-    margin: 0;
-    padding: $form-group-margin-bottom;
-  }
-
   h3, label {
     @extend %special-label;
     display: inline;
@@ -50,5 +34,41 @@
   .search-option-year {
     display: inline;
     width: 9ch;
+  }
+  .form-group {
+    margin: 0;
+    &:first-child {
+      margin-bottom: 1em;
+    }
+  }
+  .extra-submit-button {
+    display: none;
+  }
+}
+
+// styles for slide-out only when in masthead, not when on home page
+.masthead {
+  .nav-search-form {
+    padding-bottom: 16px - $padding-large-vertical;
+  }
+  .search-options {
+    display: none;
+    position: absolute;
+    width: 100%;
+
+    background: white;
+    border: 1px solid $input-border;
+    box-shadow: 0 0 100px black;
+    border-radius: 0 0 $btn-border-radius-large $btn-border-radius-large;
+
+    .form-group {
+      // make slide out look better using padding instead of margin, plus
+      // get everything nicely spaced.
+      margin: 0;
+      padding: $form-group-margin-bottom;
+    }
+  }
+  .extra-submit-button {
+    display: block;
   }
 }

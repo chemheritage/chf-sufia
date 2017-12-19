@@ -48,5 +48,5 @@ ChfSearchSlideout.prototype.removeLeaveHandlers = function() {
 
 
 jQuery(document).ready(function($) {
-  new ChfSearchSlideout($(".nav-search-form"));
+  new ChfSearchSlideout($(".masthead .nav-search-form"));
 });
