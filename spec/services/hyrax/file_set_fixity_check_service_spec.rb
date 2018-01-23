@@ -37,8 +37,8 @@ describe Hyrax::FileSetFixityCheckService do
       expect(ActionMailer::Base.deliveries.count).to eq(1)
       last_email = ActionMailer::Base.deliveries.last
 
-      expect(last_email.to).to eq(["digital-tech@chemheritage.org"])
-      expect(last_email.from).to eq(["digital-tech@chemheritage.org"])
+      expect(last_email.to).to eq(["digital-tech@sciencehistory.org"])
+      expect(last_email.from).to eq(["digital-tech@sciencehistory.org"])
       expect(last_email.subject).to match(/\AFIXITY CHECK FAILURE: #{Regexp.escape(Socket.gethostname)}: sample\.jpg\Z/)
 
       expect(last_email.body.to_s).to include(file_set.id)

@@ -55,7 +55,7 @@ module CHF
       scientific_education: {
         genre: ["Chemistry sets", "Molecular models"],
         subject: ["Science--Study and teaching"],
-        description: "This digital collection features selected chemistry sets, molecular models, and science kits used for both instruction and play, all primarily from the mid-20th century. Some of these objects were previously on display in the Museum at CHF as part of the Science at Play exhibition. Materials in this collection also include lecture notes, such as Louis Pasteur’s on stereochemistry, as well as letters between scientists concerning the state of scientific education."
+        description: "This digital collection features selected chemistry sets, molecular models, and science kits used for both instruction and play, all primarily from the mid-20th century. Some of these objects were previously on display in the Institute's museum as part of the Science at Play exhibition. Materials in this collection also include lecture notes, such as Louis Pasteur’s on stereochemistry, as well as letters between scientists concerning the state of scientific education."
       },
       alchemy: {
         subject: ["Alchemy", "Alchemists"],
@@ -69,7 +69,7 @@ module CHF
       },
       science_on_stamps: {
         subject: ["Science on postage stamps"],
-        description: "This digital collection features selected postage stamps and other philatelic materials depicting various aspects of science: from molecules and chemical reactions to portraits of Nobel Prize laureates. Materials in this collection, dating from 1887 to 2000, include stamps and first day covers, as well as commemorative and postmarked envelopes and postcards. Most of the items were selected from the Witco Stamp Collection in CHF’s archives."
+        description: "This digital collection features selected postage stamps and other philatelic materials depicting various aspects of science: from molecules and chemical reactions to portraits of Nobel Prize laureates. Materials in this collection, dating from 1887 to 2000, include stamps and first day covers, as well as commemorative and postmarked envelopes and postcards. Most of the items were selected from the Witco Stamp Collection in the Institute's archives."
       },
       instruments_and_innovation: {
         title: "Instruments & Innovation",
@@ -78,7 +78,7 @@ module CHF
                   "Laboratories--Equipment and supplies",
                   "Chemical laboratories--Equipment and supplies",
                   "Glassware"],
-        description: "This digital collection features selected scientific instruments, apparatus, and analytical tools from the Museum at CHF as well as photographs, rare-book engravings, and illustrations depicting various types of equipment and machinery found in laboratories, manufacturing plants, and mechanical treatises. Inventions from book wheels to fireballs can be found here, alongside more modern innovations such as Gammacells and Geiger counters."
+        description: "This digital collection features selected scientific instruments, apparatus, and analytical tools from the Institute's museum as well as photographs, rare-book engravings, and illustrations depicting various types of equipment and machinery found in laboratories, manufacturing plants, and mechanical treatises. Inventions from book wheels to fireballs can be found here, alongside more modern innovations such as Gammacells and Geiger counters."
       }
     }
 

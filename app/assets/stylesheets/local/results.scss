@@ -18,18 +18,17 @@
       margin-right: 0.66em;
     }
     .next, .prev {
-      font-weight: $semi-bold-weight;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
+      letter-spacing: $small-caps-letter-spacing;
     }
   }
 
   // full pagination
   .pagination {
     .first, .prev, .next, .next_page, .last {
+      font-family: $brand-sans-serif;
       text-transform: uppercase;
-      font-weight: $semi-bold-weight;
-      letter-spacing: 0.03em;
+      letter-spacing: $small-caps-letter-spacing;
     }
     .active > a, .active > a:hover, .active > a:focus {
       background-color: $bg-lightly-shaded;
@@ -71,13 +70,17 @@
        margin-bottom: 0;
        h3 {
         font-size: $font-size-base;
-        color: $brand-inverse;
-        font-weight: $semi-bold-weight;
+        font-weight: normal;
         line-height: 1.4;
        }
      }
      .panel-heading.collapse-toggle .panel-title:after {
        padding-top: 4px;
+     }
+
+     // override blacklight
+     .panel-heading.collapse-toggle .panel-title:after {
+        color: $brand-dark-grey;
      }
 
     .facet_limit {
@@ -100,8 +103,12 @@
         border-color: #ddd;
       }
     }
+    .facet-values li {
+      line-height: 1.2;
+    }
+
     .facet-values li .selected {
-      color: $brand-highlight-color;
+      color: $brand-dark-blue;
     }
     .facet-values .remove {
       vertical-align: middle;
@@ -114,15 +121,10 @@
     }
     .top-panel-heading {
       margin: 0;
-      background-color: $dark-navy;
-      color: $bg-lightly-shaded;
-      text-transform: uppercase;
+      background-color: $brand-dark-blue;
       h2.facets-heading {
+        color: white;
         margin: 0;
-        font-weight: $semi-bold-weight;
-        font-size: $font-size-base;
-        line-height: 1.4;
-        letter-spacing: 0.03em;
        }
     }
 
@@ -141,8 +143,8 @@
       text-transform: uppercase;
       font-weight: $semi-bold-weight;
       font-size: .8em;
-      letter-spacing: 0.03em;
-      color: $dark-navy;
+      letter-spacing: $small-caps-letter-spacing;
+      color: $brand-dark-blue;
     }
 
     // get 'limit' button all on one line by making inputs more compact
@@ -152,13 +154,25 @@
     }
   }
 
-  @media (max-width: 768px) {
+  .other-searches {
+    .panel-heading {
+      text-transform: uppercase;
+      color: $brand-dark-blue;
+      font-weight: $semi-bold-weight;
+      letter-spacing: $small-caps-letter-spacing;
+    }
+  }
+
+  @media (max-width: $grid-float-breakpoint-max) {
     #facets .top-panel-heading {
       border-radius: 0;
       margin-bottom: 0;
       h2 {
-        line-height: 2.4;
+        line-height: 2;
       }
+    }
+    .facets-toggle {
+      margin-top: 0;
     }
   }
 
@@ -185,7 +199,7 @@
       flex-basis: 208px;
       width: 208px; // Should match ImageServiceHelper::THUMB_BASE_WIDTHS[:standard]
       max-width: 33%; // on smaller screens, more space for text
-      margin-right: $line-height-computed;
+      margin-right: 28px;
       flex-shrink: 0;
       text-align: right;
 
@@ -225,7 +239,7 @@
     .chf-results-list-item-genre {
       @extend %special-label;
       color: $special-label-muted-color;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .chf-results-list-item-additional-titles, .chf-results-list-item-parents {
@@ -233,31 +247,36 @@
         @extend .list-unstyled;
         font-size: $font-size-h4;
         font-family: $brand-alt-header-font;
-        line-height: normal;
-        margin-top: ($line-height-computed / 2);
+        line-height: $headings-line-height;
+        margin-top: 0;
+      }
+      li {
+        margin-top: ($paragraph-spacer / 2);
       }
     }
 
     .chf-results-list-item-date {
       ul {
         @extend .list-unstyled;
-        margin-top: ($line-height-computed / 2);
+        margin-top: $paragraph-spacer;
       }
       li {
-        margin-top: 4px;
+        @extend %text-font-numerals;
       }
     }
 
     .chf-results-list-item-description {
-      margin-top: ($line-height-computed / 2);
+      margin-top: $paragraph-spacer;
     }
 
     .chf-results-list-values {
-      margin-top: ($line-height-computed / 2);
+      margin-top: $paragraph-spacer;
       li {
+        @extend %text-font;
         // hanging indent, serving to add margin to subsequent lines
         padding-left: 0.66em;
         text-indent: -0.66em;
+        margin-bottom: $paragraph-spacer / 8;
       }
     }
 
@@ -275,6 +294,30 @@
     @extend .chf-container-fluid;
     @extend .clearfix;
     text-align: left;
+
+    .chf-constraints-query {
+      display: inline;
+      .input-group {
+        margin: 0 0.33em 0 0;
+      }
+
+      .btn {
+        letter-spacing: $small-caps-letter-spacing;
+        text-transform: uppercase;
+        font-weight: 400;
+      }
+
+      .btn-search-icon {
+        border-bottom-left-radius: $btn-border-radius-base;
+        border-top-left-radius: $btn-border-radius-base;
+      }
+      .input-group-btn.after {
+        a:last-child, button:last-child {
+          border-top-right-radius: $btn-border-radius-base;
+          border-bottom-right-radius: $btn-border-radius-base;
+        }
+      }
+    }
   }
 
   #appliedParams.constraints-container {
@@ -307,21 +350,22 @@
     }
 
     a.remove {
-      @extend .btn-default;
+      @extend .btn-primary;
       width: 48px;
-      background-color: $brand-btn-alt-bg;
     }
 
     .constraints-label {
-      font-size: $font-size-base - 2px;
+      font-size: $font-size-base - 2;
       text-transform: uppercase;
+      letter-spacing: $small-caps-letter-spacing;
       font-weight: $semi-bold-weight;
       margin-right: 0.66em;
-      color: #888;
+      color: $brand-dark-blue;
       vertical-align: middle;
     }
 
     .constraint-value {
+      color: black;
       background-color: $bg-lightly-shaded;
       &:hover, &:focus {
         background-color: $bg-lightly-shaded;
@@ -329,8 +373,10 @@
     }
 
     .catalog_startOverLink {
+      @extend .btn-primary;
       text-transform: uppercase;
-      font-weight: $semi-bold-weight;
+      letter-spacing: $small-caps-letter-spacing;
+      //font-weight: $semi-bold-weight;
     }
   }
 

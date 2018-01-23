@@ -41,7 +41,7 @@ describe 'curation_concerns/base/show.html.erb' do
       w.related_url = ['example.com']
       w.rights = ['http =//rightsstatements.org/vocab/InC/1.0/']
       w.rights_holder = 'Luigi'
-      w.credit_line = ['Courtesy of CHF Collections']
+      w.credit_line = ['Courtesy of Science History Institute']
       w.file_creator = 'Miyamoto'
       w.admin_note = ['Mario Kart']
       w.date_of_work_attributes = [{start: "1990-02-09"}]
@@ -132,7 +132,7 @@ describe 'curation_concerns/base/show.html.erb' do
       expect(rendered).to match /example.com/
       expect(rendered).to match /rightsstatements\.org/
       expect(rendered).to match /Luigi/
-      expect(rendered).to match /Courtesy of CHF Collections/
+      expect(rendered).to match /Courtesy of Science History Institute/
       expect(rendered).to match /1990-02-09/
       expect(rendered).to match /\(side of cartridge\) "Ravioli"/
       expect(rendered).to match /\(On lock\) "EAGLE LOCK CO \/ TERRYVILLE, CONN \/ U.S.A."/

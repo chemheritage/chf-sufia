@@ -3,7 +3,7 @@ set :stage, :production
 set :rails_env, 'production'
 server 'digital.chemheritage.org', user: 'hydep', roles: [:web, :app, :db, :jobs]
 server '52.90.51.141', user: 'hydep', roles: [:solr]
-server '34.202.19.107', user: 'hydep', roles: [:jobs] # dzi bg job box
+server '34.202.19.107', user: 'hydep', roles: [:jobs, :cron] # dzi bg job box
 
 # server-based syntax
 # ======================

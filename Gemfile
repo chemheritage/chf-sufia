@@ -31,6 +31,8 @@ gem 'tty-command'
 
 gem 'html_aware_truncation', '~> 1.0'
 
+gem 'sitemap_generator', '~> 6.0'
+
 # extras
 gem 'hydra-role-management'
 gem 'highline'

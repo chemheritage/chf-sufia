@@ -26,6 +26,10 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  # get route helpers in feature tests, makes sense to me
+  config.include Rails.application.routes.url_helpers, :type => :feature
+
+
   # These two settings work together to allow you to limit a spec run
   # to individual examples or groups you care about by tagging them with
   # `:focus` metadata. When nothing is tagged with `:focus`, all examples

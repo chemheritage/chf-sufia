@@ -17,3 +17,7 @@ end
 every 1.day, :at => '2:00 am', roles: [:app] do
   rake "blacklight:delete_old_searches[7]"
 end
+
+every :tuesday, :at => '4:00 am', roles: [:cron] do
+  rake "sitemap:create"
+end

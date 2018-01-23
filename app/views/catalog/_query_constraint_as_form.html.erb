@@ -1,0 +1,30 @@
+<%#  query constraint as a live search box/form allowing you to change query,
+     instead of just a label, and additional constraint for public-domain-only where
+     appropriate %>
+
+<form class="form-inline chf-constraints-query">
+    <%= render_hash_as_hidden_fields(search_state.params_for_search.except(:q, :qt, :page, :utf8)) %>
+
+    <label class="sr-only" for="constraintsQueryInput">Query</label>
+    <span class="input-group">
+      <span class="input-group-addon btn-search-icon">
+          <span class="glyphicon glyphicon-search"></span><span class="sr-only">Search</span>
+      </span>
+      <label class="sr-only" for="constraintsQueryInput">Query</label>
+      <%= text_field_tag "q", local_assigns[:params].try { |h| h[:q] }, placeholder: "Search within results", class: "form-control input-sm", id: "constraintsQueryInput" %>
+      <span class="input-group-btn after">
+        <button class="btn btn-sm btn-primary">
+          Go
+        </button>
+        <% if params[:q].present? %>
+          <%= link_to(search_state.params_for_search.except(:q, :qt, :page, :utf8),  { class:"btn btn-sm btn-primary remove", title:"Remove" }) do %>
+            <span class="glyphicon glyphicon-remove"></span><span class="sr-only">Remove</span>
+          <% end %>
+        <% end %>
+      </span>
+    </span>
+</form>
+
+<% if local_assigns[:params].try { |h| h[:filter_public_domain] } == "1" %>
+  <%= render_constraint_element(nil, "Only public domain", remove: search_state.params_for_search.except(:filter_public_domain, :page, :utf8)) %>
+<% end %>

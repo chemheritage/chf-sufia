@@ -4,10 +4,6 @@
   padding-right: 0;
   padding-bottom: 0 !important; /* overcome id-based css */
 
-  .featured-collection-callouts {
-    padding-bottom: 30px;
-  }
-
   figure.hero-image {
     position: relative; /* allow absolute positioning of caption */
     padding-left: 0; /* overcome the padding on grid columns */
@@ -31,8 +27,8 @@
 
     .pre-heading {
       @extend %special-label;
-      color: #888;
-      margin-bottom: 5px;
+      color: $special-label-muted-color;
+      margin-bottom: 3px;
       margin-top: $line-height-computed;
     }
 
@@ -43,6 +39,9 @@
 
   .chf-callout-button {
     width: 100%;
+    text-transform: uppercase;
+    border-radius: 0;
+    letter-spacing: 0.04em;
   }
 
   .search-container {
@@ -94,7 +93,7 @@
   $categories-box-margin: 59px;
 
   .categories-list {
-    background-color: $brand-inverse;
+    background-color: $brand-dark-grey;
     padding-top: 34px;
     display: flex;
     flex-direction: row;
@@ -107,8 +106,6 @@
       height: $categories-box-height;
       margin: $categories-box-margin;
 
-      @include all-white-links;
-
       .collection-title-wrapper {
         /* overlay on image */
         position: absolute;
@@ -116,12 +113,14 @@
         left: 0;
         width: 100%;
         height: 56px;
-        background-color: $brand-primary;
+        color: $brand-dark-blue;
+        background-color: $brand-bright-green;
         padding: 10px;
 
         .collection-title {
           text-align: center;
-          font-weight: 700;
+          font-weight: $semi-bold-weight;
+          text-transform: uppercase;
           font-size: 18px;
           padding-top: 5px;
           padding-bottom: 5px;
@@ -141,7 +140,7 @@
   }
   @media (min-width: $screen-sm-min) {
     .featured-collection-container {
-      background-color: $bg-lightly-shaded;
+      background-color: white;
       display: flex;
       align-items: center;
       .featured-collection-callouts {

@@ -110,7 +110,18 @@
         <%= @presenter.attribute_to_html(:rights, render_as: :rights) %>
         <%= @presenter.attribute_to_html(:rights_holder) %>
         <%= @presenter.attribute_to_html(:related_url, render_as: :chf_related_url) %>
-        <%= @presenter.attribute_to_html(:credit_line) %>
+
+        <%# @presenter.attribute_to_html(:credit_line)
+             hard-coded credit line instead of taking from record %>
+        <tr>
+          <th>Credit line</th>
+          <td>
+            <ul class="tabular">
+              <li class="attribute credit_line">Courtesy of Science History Institute</li>
+            </ul>
+          </td>
+        </tr>
+
         <%= @presenter.attribute_to_html(:additional_credit) %>
     </table>
 

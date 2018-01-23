@@ -1,15 +1,15 @@
 en:
   curation_concerns:
-    institution_name:   "CHF"
+    institution_name:   "the Institute"
   sufia:
-    product_name:       "Chemical Heritage Foundation Digital Collections"
-    institution_name:   "CHF"
-    institution_name_full: "The Chemical Heritage Foundation"
+    product_name:       "Science History Institute Digital Collections"
+    institution_name:   "the Institute"
+    institution_name_full: "The Science History Institute"
     background_attribution: ""
-    account_name:       "CHF Digital Collections user ID"
-    product_twitter_handle: "@ChemHeritage"
+    account_name:       "Digital Collections user ID"
+    product_twitter_handle: "@SciHistoryOrg"
     directory:
-      suffix:           "@chemheritage.org"
+      suffix:           "@sciencehistory.org"
     works:
       controllers:
         batch_uploads:
@@ -20,6 +20,8 @@ en:
             header: Add New Work
     search:
       form:
+        q:
+          placeholder: Search
         option:
           all:
             label_long: All

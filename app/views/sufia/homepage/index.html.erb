@@ -1,5 +1,7 @@
-<% provide :page_title, application_name %>
-<% provide :container_class, "container-fluid homepage-content-wrapper" %>
+<% content_for :page_title, application_name %>
+<% content_for :container_class, "container-fluid homepage-content-wrapper branded-body-font" %>
+<% provide :foo, "bar" %>
+<% provide :suppress_controls, true %>
 
 <div class="homepage-wrapper">
 
@@ -11,9 +13,9 @@
     <div class="col-xs-12 col-md-6 home-right-column">
       <div class="row search-container">
         <div class="digital-description col-xs-12 col-sm-6 col-md-12">
-          <div class="pre-heading">Chemical Heritage Foundation</div>
+          <div class="pre-heading">Science History Institute</div>
           <h2 class="brand-alt-h2">Digital Collections</h2>
-          <p>Search <%= number_with_delimiter(public_works_count) %> of our digitized items: artifacts, photographs, advertisements, letters, rare books, and more. You can also learn more about the rest of our <a href="https://www.chemheritage.org/collections">collections.</a></p>
+          <p>Search <%= number_with_delimiter(public_works_count) %> of our digitized items: artifacts, photographs, advertisements, letters, rare books, and more. You can also learn more about the rest of our <a href="https://sciencehistory.org/collections">collections.</a></p>
         </div>
         <div class="search-callouts col-xs-12 col-sm-6 col-md-12">
           <%= render 'catalog/search_form' %>
@@ -35,9 +37,9 @@
         <div class="col-xs-12">
           <h2 class="brand-alt-h2">Featured Collection</h2>
           <p>The <%= link_to "Beckman Historical Collection", collection_path('wh246s128') %> covers the life and career of American scientist and philanthropist Dr. Arnold O. Beckman (1900–2004) and the growth of his companies. When Dr. Beckman invented the first commercially successful pH meter in 1934, he became a key player in both the American scientific instrument industry and the 20th-century scientific instrumentation revolution.</p>
-          <%= link_to "BROWSE COLLECTIONS",
+          <%= link_to "Browse Collections",
             collections_path,
-            class: "btn btn-primary btn-lg chf-callout-button" %>
+            class: "btn btn-emphasis btn-lg chf-callout-button" %>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 FactoryGirl.define do
-  factory :user do
+  # at the moment all users are staff users
+  factory :user, aliases: [:staff_user] do
     sequence(:email) { |n| "user#{n}_#{rand(0..65535).to_s(16)}@example.com" }
     password 'password'
 

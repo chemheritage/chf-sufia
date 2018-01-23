@@ -2,7 +2,7 @@ class ChfRelatedUrlAttributeRenderer < CurationConcerns::Renderers::AttributeRen
   # Regexps for URLs that we dont' want to display. library catalog, we display
   # fromm bib number elsewhere instead and don't really need to enter as related url anymore.
   IGNORE_URLS_RE = Regexp.union(
-    %r{\A\s*https?://othmerlib\.chemheritage\.org/record=}
+    %r{\A\s*https?://othmerlib\.(chemheritage|sciencehistory)\.org/record=}
   )
 
   # override to filter out ones we want to ignore

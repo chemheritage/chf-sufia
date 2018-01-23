@@ -34,8 +34,8 @@
 
   .show-genre {
     @extend %special-label;
-    color: #888;
-    margin-bottom: 5px;
+    color: $special-label-muted-color;
+    margin-bottom: 2px;
   }
 
   .show-permission-badge {
@@ -79,8 +79,9 @@
     display: inline-block;
 
     .chf-collection-search-title {
-      @extend .h4, .brand-alt-h4;
+      font-size: $font-size-h4;
       margin: 0;
+      font-weight: 600;
     }
 
     .input-group {

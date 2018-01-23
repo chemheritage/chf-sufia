@@ -1,18 +1,23 @@
 <footer id="footer" role="contentinfo">
-  <div class="footerrow footerlogo">
-    <%= link_to "https://www.chemheritage.org", title: "Chemical Heritage Foundation Main Site" do %>
-      <%= image_tag "chf_logo_above_name_white.svg", alt: "Chemical Heritage Foundation logo" %>
-    <% end %>
+
+  <div class="footerrow">
+    <h1 class="footer-title"> <%= link_to "Science History Institute", "https://www.sciencehistory.org" %> </h1>
   </div>
 
   <div class="footerrow">
     <div class="footeraddresses">
       <div class="firstaddress">
-        <strong>Library • Museum • Center for Scholars</strong><br>315 Chestnut Street<br>Philadelphia, PA 19106<br>215.925.2222
+        <strong>Headquarters</strong><br>315 Chestnut Street<br>Philadelphia, PA 19106<br>215.925.2222
       </div>
       <div class="secondaddress">
-        <strong>CHF West</strong><br>2120 University Avenue<br>Berkeley, CA 94704<br>415.798.2104
+        <strong>West Coast Office</strong><br>2120 University Avenue<br>Berkeley, CA 94704<br>415.798.2104
       </div>
+      <div class="thirdaddress">
+      <strong>European Office</strong><br>
+      Maison de la Chimie<br>
+      28, Rue Saint-Dominique<br>
+      F-75007 Paris<br>
+      France
     </div>
   </div>
 
@@ -20,10 +25,10 @@
     <div class="footersocialicons">
       <div class="footersocialicon"><a href="https://www.facebook.com/<%= Rails.application.config.facebook_acct %>" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></div>
       <div class="footersocialicon"><a href="https://twitter.com/<%= Rails.application.config.twitter_acct %>" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></div>
-      <div class="footersocialicon"><a href="https://vimeo.com/<%= Rails.application.config.vimeo_acct %>" target="_blank"><i class="fa fa-vimeo" aria-hidden="true"></i></a></div>
-      <div class="footersocialicon"><a href="https://www.youtube.com/c/<%= Rails.application.config.youtube_channel %>" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></div>
-      <div class="footersocialicon"><a href="https://www.linkedin.com/company/<%= Rails.application.config.linked_in_company %>" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></div>
-      <div class="footersocialicon"><a href="https://www.pinterest.com/<%= Rails.application.config.pinterest_acct %>/" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a></div>
+      <div class="footersocialicon"><a href="https://www.sciencehistory.org/vimeo" target="_blank"><i class="fa fa-vimeo" aria-hidden="true"></i></a></div>
+      <div class="footersocialicon"><a href="https://www.sciencehistory.org/youtube" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></div>
+      <div class="footersocialicon"><a href="https://www.sciencehistory.org/linkedin" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></div>
+      <div class="footersocialicon"><a href="https://www.sciencehistory.org/pinterest" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a></div>
       <div class="footersocialicon"><a href="https://www.instagram.com/<%= Rails.application.config.instagram_acct %>" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></div>
     </div>
   </div>

@@ -4,7 +4,10 @@
 <% if CHF::Env.production? %>
 # production robots.txt
 User-agent: *
+Disallow:
 Crawl-delay: 5
+
+Sitemap: https://s3.amazonaws.com/<%= CHF::Env.fetch("sitemap_s3_bucket") %>/sitemap/sitemap.xml.gz
 
 <% else %>
 # non-production robots.txt

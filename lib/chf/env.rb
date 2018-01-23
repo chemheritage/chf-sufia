@@ -214,6 +214,16 @@ module CHF
     }
     define_key :derivative_s3_bucket_region, default: "us-east-1"
 
+    define_key :sitemap_s3_bucket, default: -> {
+      if ! Rails.env.production?
+        "scih-data-staging"
+      end
+      # production just configure it in env please
+    }
+    define_key :sitemap_s3_region, default: "us-east-1"
+
+
+
     # Only matters on a job server, used in resque-pool.yml
     define_key :job_queues, default: -> {
       if Rails.env.development? || Rails.env.test?
