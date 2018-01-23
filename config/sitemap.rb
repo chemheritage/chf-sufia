@@ -1,17 +1,22 @@
 require 'rubygems'
 require 'sitemap_generator'
 
-SitemapGenerator::Sitemap.adapter = SitemapGenerator::AwsSdkAdapter.new(CHF::Env.lookup!("sitemap_s3_bucket"),
-  aws_access_key_id: CHF::Env.lookup!("aws_access_key_id"),
-  aws_secret_access_key: CHF::Env.lookup!("aws_secret_access_key"),
-  aws_region: CHF::Env.lookup!("sitemap_s3_region")
-)
 
-SitemapGenerator::Sitemap.default_host = 'https://digital.sciencehistory.org'
+# here only so tests can change it to not write to s3 under test
+unless $force_default_sitemap_adapter
+  sitemap_adapter = SitemapGenerator::AwsSdkAdapter.new(
+    CHF::Env.lookup!("sitemap_s3_bucket"),
+    aws_access_key_id: CHF::Env.lookup!("aws_access_key_id"),
+    aws_secret_access_key: CHF::Env.lookup!("aws_secret_access_key"),
+    aws_region: CHF::Env.lookup!("sitemap_s3_region")
+  )
+end
 
-SitemapGenerator::Sitemap.sitemaps_path = 'sitemap/'
-
-SitemapGenerator::Sitemap.create do
+SitemapGenerator::Sitemap.create(
+  sitemaps_path: 'sitemap/',
+  default_host: 'https://digital.sciencehistory.org',
+  adapter: sitemap_adapter
+) do
   image_service_class = ImageServiceHelper.image_url_service_class(CHF::Env.lookup(:image_server_for_thumbnails))
 
   add about_path, changefreq: 'monthly'
