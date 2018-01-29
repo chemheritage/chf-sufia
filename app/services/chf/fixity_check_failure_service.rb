@@ -9,8 +9,8 @@ module CHF
 
     def call
       # send an email to digital-tech
-      ActionMailer::Base.mail(from: "digital-tech@chemheritage.org",
-                              to: "digital-tech@chemheritage.org",
+      ActionMailer::Base.mail(from: "digital-tech@sciencehistory.org",
+                              to: "digital-tech@sciencehistory.org",
                               subject: subject,
                               content_type: "text/html",
                               body: message).deliver_later

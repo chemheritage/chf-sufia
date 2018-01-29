@@ -1,10 +1,9 @@
 <%# overrides https://github.com/projecthydra/sufia/blob/v7.3.0/app/views/_logo.html.erb %>
-<a id="logo" class="navbar-brand" href="<%= sufia.root_path %>" data-no-turbolink="true">
-  <% unless CHF::Env.staging? %>
-    <%= image_tag "chf_logo_white.svg", class: "visible-xs", alt: "Chemical Heritage Foundation logo", id: "masthead-logo-image" %>
-    <%= image_tag "chf_logo_name_white.svg", class: "hidden-xs", alt: "Chemical Heritage Foundation logo", id: "masthead-logo-image" %>
+<a id="logo" class="navbar-brand" href="https://www.sciencehistory.org" data-no-turbolink="true">
+  <% unless false && CHF::Env.staging? %> <%# temporarily show logo even on staging %>
+    <%= image_tag "partial-mark-75rotate-80.png", class: "small-masthead-only masthead-logo-small", alt: "Science History Institute" %>
+    <%= image_tag "sci_logo-webheader_2x.png", class: "large-masthead-only masthead-logo-large", alt: "Science History Institute" %>
   <% else %>
     NON-PRODUCTION DEMO
   <% end %>
-  <div id="masthead-application-name" class="hidden-xs">Digital Collections <span class="label label-primary beta">BETA</span></div>
 </a>

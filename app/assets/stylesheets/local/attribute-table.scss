@@ -18,7 +18,7 @@ $attribute-cell-padding: 0.66em;
     padding-top: $attribute-cell-padding;
     padding-bottom: $attribute-cell-padding;
   }
-  th { // horizontal label
+  th, tbody > tr > th { // horizontal label
     font-weight: normal;
     width: 33%;
     max-width: 185px;
@@ -31,12 +31,15 @@ $attribute-cell-padding: 0.66em;
     padding-left: 0;
     margin-bottom: 0;
   }
+  .attribute:not(:last-child) {
+    margin-bottom: $paragraph-spacer / 2;
+  }
 }
 
 .attribute-sub-head {
   @extend .brand-alt-h3;
   @extend .h3;
   margin-top: $line-height-computed * 1.5;
-  margin-bottom: 0;
+  margin-bottom: 1px;
   padding: $table-condensed-cell-padding;
 }

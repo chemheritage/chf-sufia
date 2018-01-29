@@ -1,3 +1,7 @@
+/* It was really hard to get this the way we wanted, including repsonsive small
+   sizes. Tried abandoning bootstrap here, ended up returning to it and modifying it.
+   Sorry for the really messy CSS! */
+
 /* Overrides a bootstrap style */
 .navbar-inverse {
   background-color: $brand-inverse;
@@ -12,6 +16,8 @@
   /* offset left margin of first button */
   margin-left: -15px;
 
+  border-bottom-color: #444;
+
   &.navbar-inverse .navbar-nav > li > a:not(:hover):not(:focus) {
     color: lighten($gray-light, 15%);
   }
@@ -19,31 +25,105 @@
 
 /* masthead navbar has an effective margin of 20 */
 .masthead {
-  min-height: 90px;
-  padding: 20px 5px 20px 20px;
-  text-transform: uppercase;
+  .large-masthead-only {
+    @extend .hidden-xs;
+  }
+  .small-masthead-only {
+    @extend .visible-xs;
+  }
+
+  $large-logo-width: 287px;
+  $large-logo-height: 176px;
+  $small-logo-height: 40px;
+
+  min-height: $large-logo-height + 16px; // 176px high logo, plus one 16px padding
+  padding: 16px 32px 0 32px;
+  background-image: asset-url('scihist_top_nav_sym.png');
+  background-repeat: no-repeat;
+  background-position: right top;
+
+  .masthead-logo-large {
+    width: $large-logo-width;
+  }
 
   .navbar-brand {
     padding: 0;
   }
 
-  #masthead-logo-image {
-    height: 40px;
-    margin: 0;
+  .navbar-nav {
+    font-weight: 300;
   }
-  #masthead-application-name {
-    margin-left: 130px;
-    font-size: 18px;
-    .beta {
-      font-size: 65%;
+
+  .masthead-title, .footer-title {
+    font-family: $brand-serif;
+    font-size: 30px;
+    margin: 0;
+    padding: 0;
+    line-height: normal;
+    &>a {
+      color: white;
+      &:hover, &:active, &:focus {
+        color: $brand-bright-green;
+        text-decoration: none;
+      }
+    }
+    color: white;
+    &.small-masthead-only {
+      font-size: 18px;
+      line-height: $small-logo-height + 8px + 8px;
+      text-align: center;
     }
   }
+
+  @media (min-width: $grid-float-breakpoint-max + 1) {
+    .navbar-collapse {
+        max-width: 55%;
+    }
+  }
+
+  .masthead-right {
+    height: $large-logo-height;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .masthead-logo-small {
+    height: $small-logo-height;
+    margin: 0 0 8px 0; // logo is meant to butt against edge
+  }
+
+  // small navbar
+  @media (max-width: $grid-float-breakpoint-max) {
+    background-image: none;
+    padding: 0;
+    min-height: $small-logo-height + 8px + 8px;
+    .navbar-collapse {
+      float: none !important;
+    }
+    .masthead-right {
+      display: block;
+      height: auto;
+    }
+    .navbar-toggle {
+      margin-top: 12px;
+    }
+  }
+
 }
 
-.breadcrumbs-navbar-wrapper {
-  margin-top: 0.5em;
+.breadcrumbs-navbar-wrapper:not(:empty) {
   ul.breadcrumb {
-    margin-bottom: 0;
+    margin-top: -1 * $navbar-margin-bottom;
+    margin-bottom: $navbar-margin-bottom;
+    background: none;
+    padding-left: 15px;
+    padding-right: 0;
+
+    @media (min-width: $grid-float-breakpoint) {
+      padding-left: 42px; // try to line up with logo
+    }
   }
 }
 

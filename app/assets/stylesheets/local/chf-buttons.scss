@@ -1,0 +1,18 @@
+
+
+// a light grey button matching light grey bg
+.btn-brand-alt {
+  // color, bg, border
+  @include button-variant($text-color, $bg-lightly-shaded, $navbar-default-border);
+}
+
+// dark grey button
+.btn-brand-dark {
+  @include button-variant(#FFFFFF, $brand-dark-grey, transparent);
+}
+
+
+// An especially bright button style using the brand bright breen
+.btn-emphasis {
+  @include button-variant(black, $brand-bright-green, mix($brand-bright-green, $brand-dark-blue, 93%)); //
+}

@@ -32,7 +32,7 @@ end %>
   <!-- Sharingbutton Facebook -->
   <%# window.open is needed so facebook has permission to close window after it's done, for better UI %>
   <%= link_to "javascript:window.open('https://facebook.com/sharer/sharer.php?#{{u: share_url}.to_param}')",
-              class: 'social-media-link facebook btn btn-primary',
+              class: 'social-media-link facebook btn btn-brand-dark',
               target: '_blank',
               rel: 'noopener noreferrer',
               data: {
@@ -47,7 +47,7 @@ end %>
   <!-- Sharingbutton Twitter -->
   <%# intentionally no text for twitter, cause title will show up in twitter card due to tags. user can enter own text %>
   <%= link_to "https://twitter.com/intent/tweet/?#{{url: share_url}.to_param}",
-              class: 'social-media-link twitter btn btn-primary',
+              class: 'social-media-link twitter btn btn-brand-dark',
               target: '_blank',
               rel: 'noopener noreferrer',
               data: {
@@ -62,7 +62,7 @@ end %>
   <!-- Sharingbutton Pinterest -->
   <%# see https://developers.pinterest.com/docs/widgets/save/? %>
   <%= link_to "https://pinterest.com/pin/create/button/?#{{url: share_url, media: share_media, description: title_plus_description}.to_param}",
-              class: 'social-media-link google-plus btn btn-primary',
+              class: 'social-media-link google-plus btn btn-brand-dark',
               target: '_blank',
               rel: 'noopener noreferrer',
               data: {
@@ -77,7 +77,7 @@ end %>
   <!-- Sharingbutton Tumblr -->
   <%# see https://www.tumblr.com/docs/en/share_button %>
   <%= link_to "https://www.tumblr.com/widgets/share/tool?#{{posttype: 'link', canonicalUrl: share_url, shareSource: 'tumblr_share_button'}.to_param}",
-              class: 'social-media-link tumblr btn btn-primary',
+              class: 'social-media-link tumblr btn btn-brand-dark',
               target: '_blank',
               rel: 'noopener noreferrer',
               data: {

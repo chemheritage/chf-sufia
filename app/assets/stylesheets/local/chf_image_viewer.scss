@@ -75,9 +75,9 @@ $chf_image_viewer_thumb_width: 54px; // Needs to match ImageServiceHelper::THUMB
   .viewer-header {
     flex-shrink: 0;
     background-color: $brand-inverse;
-    color: $brand-primary;
+    color: $brand-bright-green;
     a {
-      color: $brand-primary;
+      color: $brand-bright-green;
       &:hover {
         color: white;
       }
@@ -85,10 +85,12 @@ $chf_image_viewer_thumb_width: 54px; // Needs to match ImageServiceHelper::THUMB
 
     display: flex;
     align-items: center;
-    padding: 4px 15px;
+    padding: 4px 15px 4px 0; // icon is meant to butt against edge
 
     .chf-logo {
-      width: 50px;
+      width: 40px;
+      position: relative;
+      top: -4px;
     }
 
     h1 {
@@ -253,8 +255,6 @@ $chf_image_viewer_thumb_width: 54px; // Needs to match ImageServiceHelper::THUMB
           margin-bottom: 0;
         }
         .dropdown-menu {
-          font-size: 14px;
-
           left: auto;
           right: 5px;
 
@@ -292,7 +292,7 @@ $chf_image_viewer_thumb_width: 54px; // Needs to match ImageServiceHelper::THUMB
       padding: 1px;
 
       &.viewer-thumb-selected {
-        border: 2px solid $brand-highlight-color;
+        border: 2px solid $brand-yellow;
       }
 
       &.lazyload, &.lazyloading, &.lazyload {

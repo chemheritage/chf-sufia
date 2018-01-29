@@ -346,6 +346,49 @@ namespace :chf do
     end
   end
 
+  desc "modify fedora properties for rebrand"
+  task :rebrand => :environment do
+    $stderr.puts "Rebranding properties in fedora GenericWork: credit_link, related_urls, rights_holder"
+    progress = ProgressBar.create(total: GenericWork.count, format: "%a %t: |%B| %R/s %c/%u %p%%%e")
+
+    skipped = 0
+
+    GenericWork.find_each do |w|
+      begin
+        w.credit_line = ["Courtesy of Science History Institute"]
+
+        w.related_url = w.related_url.collect do |url|
+          url.gsub( %r{\A(https?://[^.]+\.)?chemheritage.org}, "\\1sciencehistory.org")
+        end
+
+        if w.rights_holder
+          w.rights_holder = w.rights_holder.gsub("Chemical Heritage Foundation", "Science History Institute")
+        end
+
+        w.save!
+      rescue ActiveFedora::RecordInvalid => e
+        skipped += 1
+        progress.log("Skipping record #{w.id}, could not save: #{e.class}: #{e.message}")
+      end
+      progress.increment
+    end
+    progress.finish
+
+    $stderr.puts "Rebranding properties in fedora Collection: related_urls"
+    progress = ProgressBar.create(total: Collection.count, format: "%a %t: |%B| %R/s %c/%u %p%%%e")
+    Collection.find_each do |c|
+      c.related_url = c.related_url.collect do |url|
+        url.gsub( %r{\A(https?://[^.]+\.)?chemheritage.org}, "\\1sciencehistory.org")
+      end
+
+      c.save!
+    end
+
+    if skipped > 0
+      $stderr.puts "\n\nCOULD NOT SAVE ALL RECORDS: skipped #{skipped} records\n\n"
+    end
+  end
+
   namespace :dzi do
     desc "set bucket configuration"
     task :configure_bucket => :environment do

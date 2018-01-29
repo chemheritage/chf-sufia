@@ -191,7 +191,7 @@ module GenericMetadata
     private
 
       def set_default_metadata
-        self.credit_line = ['Courtesy of CHF Collections']
+        self.credit_line = ['Courtesy of Science History Institute']
       end
 
   end

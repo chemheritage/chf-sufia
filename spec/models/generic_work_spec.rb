@@ -91,7 +91,7 @@ RSpec.describe GenericWork do
   describe 'Correctly populates fields' do
 
     it 'pre-populates credit line' do
-      expect(gf.credit_line).to eq ['Courtesy of CHF Collections']
+      expect(gf.credit_line).to eq ['Courtesy of Science History Institute']
     end
 
     it 'has a single creator' do

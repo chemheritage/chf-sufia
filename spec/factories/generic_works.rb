@@ -43,7 +43,7 @@ FactoryGirl.define do
       physical_container 'v8|p2|g100'
       additional_title ["Or, There and Back Again q"]
       admin_note    ["This is an admin note"]
-      credit_line   ["Courtesy of CHF Collections"]
+      credit_line   ["Courtesy of Science History Institute"]
       division      "Library"
       file_creator  "Lu, Cathleen"
 

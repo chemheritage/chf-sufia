@@ -7,6 +7,9 @@
   .show-admin {
     text-align: right;
     margin-bottom: $line-height-computed;
+    .show-actions {
+      padding: 0;
+    }
   }
 
 
@@ -66,8 +69,9 @@
 
   .show-genre {
     @extend %special-label;
-    color: #888;
-    margin-bottom: 5px;
+    letter-spacing: 0.05em;
+    color: $special-label-muted-color;
+    margin-bottom: 2px;
   }
 
   .show-permission-badge {
@@ -79,7 +83,7 @@
   }
 
   .show-title {
-    margin-bottom: $font-size-base;
+    margin-bottom: $paragraph-spacer;
   }
 
   header h1 {
@@ -96,28 +100,32 @@
       font-weight: normal;
       @extend h3;
       margin-bottom: 0;
-      margin-top: $font-size-base;
+      margin-top: 0;
+    }
+    li {
+      margin-top: $paragraph-spacer / 2;
     }
   }
 
   .show-date {
+    @extend %text-font-numerals;
     ul {
       @extend .list-unstyled;
       margin-bottom: 0;
     }
-    margin-top: $font-size-base;
+    margin-top: $paragraph-spacer;
   }
 
   .rights-and-social {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 15px 0;
+    padding: ($paragraph-line-height / 2) 0;
 
 
     .rights-statement.large, .social-media {
       padding: 0;
-      margin-bottom: $line-height-computed / 2;
+      margin-bottom: $paragraph-spacer;
     }
 
     .rights-statement.large {
@@ -135,18 +143,18 @@
     @include clearfix;
 
     .rights-statement-logo {
-      width: 35px;
-      height: 35px;
+      width: 36px;
+      height: 36px;
       float: left;
       margin-right: 0.5em;
       margin-top: 4px;
     }
     .rights-statement-label {
       display: inline-block;
-      font-size: 18px;
-      line-height: 1.2;
+      font-size: 19px;
+      line-height: 22px;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
+      letter-spacing: $small-caps-letter-spacing;
       font-weight: $semi-bold-weight;
     }
   }
@@ -232,7 +240,6 @@
   }
 
   .show-page-image-bar {
-    margin-top: 4px;
     display: flex;
     width: 100%;
 
@@ -242,10 +249,6 @@
       flex-grow: 1;
       flex-shrink: 1;
       min-width: 0;
-
-      &:not(:last-child) {
-        margin-right: 4px;
-      }
 
       .btn {
         width: 100%;
