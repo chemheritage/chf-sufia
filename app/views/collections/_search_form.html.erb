@@ -1,0 +1,17 @@
+<%# override from curation_concerns to NOT preserve search params, so it always
+    starts a new search, similar to our main search form. User can edit
+    existing search in constraints
+    https://github.com/samvera/curation_concerns/blob/v1.7.8/app/views/collections/_search_form.html.erb
+%>
+
+
+<%= form_for presenter, method: :get, class: "well form-search" do |f| %>
+  <label class="sr-only"><%= t('curation_concerns.collections.search_form.label', title: presenter.to_s) %></label>
+  <div class="input-group">
+    <%= text_field_tag :q, "", class: "collection-query form-control", placeholder: t('curation_concerns.collections.search_form.placeholder'), size: '30', type: "search", id: "collection_search" %>
+    <div class="input-group-btn">
+      <button type="submit" class="btn btn-primary collection-submit" id="collection_submit"><i class="glyphicon glyphicon-search"></i> Go</button>
+    </div>
+  </div>
+  <%= hidden_field_tag :sort, params[:sort], id: 'collection_sort' %>
+<% end %>

@@ -9,6 +9,7 @@ The underlying code in stack is a mess, so this override seems perhaps likely to
 %>
 
 <% provide :page_title, construct_page_title(@presenter.title) %>
+<%# we're going to provide constraints ourselves below %>
 <% provide :suppress_layout_constraints, true %>
 
 <div itemscope itemtype="http://schema.org/CollectionPage" class="collection-show">
@@ -66,88 +67,100 @@ The underlying code in stack is a mess, so this override seems perhaps likely to
     <div class="chf-collection-search-form"><%= render 'search_form', presenter: @presenter %></div>
   </div>
 
+  <div class="chf-constraints-wrapper">
+    <%= render 'catalog/constraints' %>
+  </div>
+
   <%# built in sufia collections/sort_and_per_page overrides to some years old Blacklight. We want
-      the normal one we're actually using. %>
-    <%# render 'sort_and_per_page', collection: @presenter %>
+    the normal one we're actually using. %>
+  <%# render 'sort_and_per_page', collection: @presenter %>
 
-    <%# but first some preperatory stuff we don't understand from sufia collections/sort_and_per_page.
-        This may not actually be neccesary, but take from:
-        https://github.com/samvera/sufia/blob/v7.3.0/app/views/collections/_sort_and_per_page.html.erb
-    %>
-    <div class="batch-info">
-      <div>
-        <%= render partial: 'collections/form_for_select_collection', locals: { user_collections: @user_collections }  %>
-      </div>
-
-      <% if params[:action] == "edit" && @response.response['numFound'] > 1 %>
-        <div class="batch-toggle">
-          <% session[:batch_edit_state] = "on" %>
-          <%= button_for_remove_selected_from_collection collection %>
-        </div>
-      <% end %>
+  <%# but first some preperatory stuff we don't understand from sufia collections/sort_and_per_page.
+      This may not actually be neccesary, but take from:
+      https://github.com/samvera/sufia/blob/v7.3.0/app/views/collections/_sort_and_per_page.html.erb
+  %>
+  <div class="batch-info">
+    <div>
+      <%= render partial: 'collections/form_for_select_collection', locals: { user_collections: @user_collections }  %>
     </div>
 
+    <% if params[:action] == "edit" && @response.response['numFound'] > 1 %>
+      <div class="batch-toggle">
+        <% session[:batch_edit_state] = "on" %>
+        <%= button_for_remove_selected_from_collection collection %>
+      </div>
+    <% end %>
+  </div>
+
+
+  <% if @member_docs.present? %>
+    <div id="sidebar" class="col-md-3 col-sm-4">
+      <%= render 'facets' %>
+    </div>
+  <% end %>
+
+
+  <div id="content" class="col-md-9 col-sm-8">
     <%# now we just call out to our own overridden catalog/search_header
         Note we are also setting blacklight_config.index.collection_actions["view_type_group"] in CollectionsController,
         to use the catalog view_type_group partial instead of the overridden sufia one which doesn't have
         the same classes
     %>
-    <% if @member_docs.count != 1 %>
-      <%= render 'catalog/search_header' %>
-    <% end %>
+
+    <%= render 'catalog/search_header' %>
 
 
-  <%#  replacing `render_document_index @member_docs` %>
-    <%# not sure what some of this is about, but this is extracted from:
-        https://github.com/samvera/sufia/blob/v7.3.0/app/views/collections/_document_list.html.erb
+    <%#  replacing `render_document_index @member_docs` %>
+      <%# not sure what some of this is about, but this is extracted from:
+          https://github.com/samvera/sufia/blob/v7.3.0/app/views/collections/_document_list.html.erb
 
-        which ends up being called by `render_document_index` %>
+          which ends up being called by `render_document_index` %>
 
-    <% @all_checked = false %>
-    <% @user = current_user %>
+      <% @all_checked = false %>
+      <% @user = current_user %>
 
-    <% if @member_docs.empty? %>
-      <div class="alert alert-warning" role="alert"><%= t('sufia.collection.document_list.no_visible_works') %></div>
-    <% else %>
-      <% @document_list = @member_docs %>
-      <% if params[:action] == "edit" %>
-        <%= render partial:'my/_index_partials/default_group', locals:{documents: @member_docs, docs:@member_docs} %>
+      <% if @member_docs.empty? && params[:q].empty? && params[:f].empty? %>
+        <div class="alert alert-warning" role="alert"><%= t('sufia.collection.document_list.no_visible_works') %></div>
       <% else %>
-        <%# this part we override to render our own thing instead of sufia's thing for results on
-            collection page.
-            Used to be:  `render partial: 'show_document_list', locals:{documents: documents}`, which
-            would be: https://github.com/samvera/sufia/blob/v7.3.0/app/views/collections/_show_document_list.html.erb %>
-        <ul class="list-unstyled collection-items">
-          <%# Don't entirely understand how this works to get the proper partial, but it does,
-              and should work for hetereogenous lists too. Basically taken from sufia
-              https://github.com/samvera/sufia/blob/v7.3.0/app/views/catalog/_document_list.html.erb
-           %>
-          <%= render @member_docs, as: :document %>
-        </ul>
+        <% @document_list = @member_docs %>
+        <% if params[:action] == "edit" %>
+          <%= render partial:'my/_index_partials/default_group', locals:{documents: @member_docs, docs:@member_docs} %>
+        <% else %>
+          <%# this part we override to render our own thing instead of sufia's thing for results on
+              collection page.
+              Used to be:  `render partial: 'show_document_list', locals:{documents: documents}`, which
+              would be: https://github.com/samvera/sufia/blob/v7.3.0/app/views/collections/_show_document_list.html.erb %>
+          <ul class="list-unstyled collection-items">
+            <%# Don't entirely understand how this works to get the proper partial, but it does,
+                and should work for hetereogenous lists too. Basically taken from sufia
+                https://github.com/samvera/sufia/blob/v7.3.0/app/views/catalog/_document_list.html.erb
+             %>
+            <%= render @member_docs, as: :document %>
+          </ul>
+        <% end %>
       <% end %>
+
+    <%# end replacing `render_document_index @member_docs/ %>
+
+
+
+    <%# render_document_index @member_docs %>
+
+    <%# render 'paginate' %>
+
+    <%# copied from our customized catalog/results_pagination, sorry no DRY, it's beyond me at this point %>
+
+    <% if show_pagination? and @response.total_pages > 1 %>
+        <%# expanded will be shown by CSS at large screen sizes, else compact %>
+
+        <div class="pagination pagination-alt-expanded">
+          <%= paginate @response, :window => 3, :outer_window => 1, :theme => 'local' %>
+        </div>
+
+        <div class="pagination pagination-alt-compact">
+          <%= paginate @response, :page_entries_info => page_entries_info(@response), :theme => 'blacklight_compact' %>
+        </div>
+
     <% end %>
-
-  <%# end replacing `render_document_index @member_docs/ %>
-
-
-
-  <%# render_document_index @member_docs %>
-
-  <%# render 'paginate' %>
-
-  <%# copied from our customized catalog/results_pagination, sorry no DRY, it's beyond me at this point %>
-
-  <% if show_pagination? and @response.total_pages > 1 %>
-      <%# expanded will be shown by CSS at large screen sizes, else compact %>
-
-      <div class="pagination pagination-alt-expanded">
-        <%= paginate @response, :window => 3, :outer_window => 1, :theme => 'local' %>
-      </div>
-
-      <div class="pagination pagination-alt-compact">
-        <%= paginate @response, :page_entries_info => page_entries_info(@response), :theme => 'blacklight_compact' %>
-      </div>
-
-  <% end %>
-
+  </div>
 </div>

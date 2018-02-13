@@ -3,7 +3,6 @@
 
 .collection-show {
   padding: 0 15px;
-  max-width: $screen-md-min - 1;
   margin-left: auto;
   margin-right: auto;
 
@@ -26,6 +25,11 @@
         max-width: 100%;
       }
     }
+  }
+
+  // sad overrides to make things flush left properly when re-used on this page.
+  #sidebar, #appliedParams.constraints-container, .chf-constraints-wrapper {
+    padding-left: 0 !important;
   }
 
   .actions-controls-collections {

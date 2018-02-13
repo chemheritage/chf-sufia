@@ -4,6 +4,9 @@
 
 <% provide :page_title, construct_page_title(synthetic_category.title) %>
 
+<%# we're going to provide constraints ourselves below %>
+<% provide :suppress_layout_constraints, true %>
+
 <div itemscope itemtype="http://schema.org/CollectionPage" class="collection-show">
 
 
@@ -36,47 +39,51 @@
     <div class="chf-collection-search-form"><%= render 'search_form', presenter: @presenter %></div>
   </div>
 
-
-
-  <%# built in sufia collections/sort_and_per_page overrides to some years old Blacklight. We want
-      the normal one we're actually using. %>
-    <%# render 'sort_and_per_page', collection: @presenter %>
-
-    <%# now we just call out to our own overridden catalog/search_header
-        Note we are also setting blacklight_config.index.collection_actions["view_type_group"] in CollectionsController,
-        to use the catalog view_type_group partial instead of the overridden sufia one which doesn't have
-        the same classes
-    %>
-    <% if results.count != 1 %>
-      <%= render 'catalog/search_header' %>
-    <% end %>
+  <div class="chf-constraints-wrapper">
+    <%= render 'catalog/constraints' %>
+  </div>
 
 
 
-
-    <ul class="list-unstyled collection-items">
-      <%# Don't entirely understand how this works to get the proper partial, but it does,
-          and should work for hetereogenous lists too. Basically taken from sufia
-          https://github.com/samvera/sufia/blob/v7.3.0/app/views/catalog/_document_list.html.erb
-       %>
-      <%= render partial: "curation_concerns/generic_works/generic_work", collection: results %>
-    </ul>
-
-
-
-
-
-  <% if show_pagination? and @response.total_pages > 1 %>
-      <%# expanded will be shown by CSS at large screen sizes, else compact %>
-
-      <div class="pagination pagination-alt-expanded">
-        <%= paginate @response, :window => 3, :outer_window => 1, :theme => 'local' %>
-      </div>
-
-      <div class="pagination pagination-alt-compact">
-        <%= paginate @response, :page_entries_info => page_entries_info(@response), :theme => 'blacklight_compact' %>
-      </div>
-
+  <% if results.present? %>
+    <div id="sidebar" class="col-md-3 col-sm-4">
+      <%= render 'facets' %>
+    </div>
   <% end %>
 
+
+  <div id="content" class="col-md-9 col-sm-8">
+    <%# built in sufia collections/sort_and_per_page overrides to some years old Blacklight. We want
+        the normal one we're actually using. %>
+      <%# render 'sort_and_per_page', collection: @presenter %>
+
+      <%# now we just call out to our own overridden catalog/search_header
+          Note we are also setting blacklight_config.index.collection_actions["view_type_group"] in CollectionsController,
+          to use the catalog view_type_group partial instead of the overridden sufia one which doesn't have
+          the same classes
+      %>
+
+      <%= render 'catalog/search_header' %>
+
+      <ul class="list-unstyled collection-items">
+        <%# Don't entirely understand how this works to get the proper partial, but it does,
+            and should work for hetereogenous lists too. Basically taken from sufia
+            https://github.com/samvera/sufia/blob/v7.3.0/app/views/catalog/_document_list.html.erb
+         %>
+        <%= render partial: "curation_concerns/generic_works/generic_work", collection: results %>
+      </ul>
+
+    <% if show_pagination? and @response.total_pages > 1 %>
+        <%# expanded will be shown by CSS at large screen sizes, else compact %>
+
+        <div class="pagination pagination-alt-expanded">
+          <%= paginate @response, :window => 3, :outer_window => 1, :theme => 'local' %>
+        </div>
+
+        <div class="pagination pagination-alt-compact">
+          <%= paginate @response, :page_entries_info => page_entries_info(@response), :theme => 'blacklight_compact' %>
+        </div>
+
+    <% end %>
+  </div>
 </div>

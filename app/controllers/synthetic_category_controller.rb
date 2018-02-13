@@ -31,6 +31,15 @@ class SyntheticCategoryController < ApplicationController
       @local_prefixes ||= super.concat ['collections', 'catalog']
     end
 
+    # Have to override this helper method from Blacklight to tell it, no, keep the
+    # search HERE in this controller, don't go over to CatalogController. Ergh.
+    # https://github.com/projectblacklight/blacklight/blob/v6.7.2/app/controllers/concerns/blacklight/controller.rb#L71-L74
+    # used by facets and constraints and such.
+    def search_action_url options = {}
+      url_for(options.except(:controller, :action))
+    end
+    helper_method :search_action_url
+
     def synthetic_category
       CHF::SyntheticCategory.from_slug(params[:id])
     end
@@ -41,7 +50,7 @@ class SyntheticCategoryController < ApplicationController
     end
 
     def set_response
-      @response ||= repository.search( search_builder.with(params.merge(q: params[:cq])).query )
+      @response ||= repository.search( search_builder.with(params).query )
     end
 
     def results
