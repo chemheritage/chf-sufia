@@ -1,4 +1,15 @@
 GIT
+  remote: https://github.com/cbeer/solr_wrapper
+  revision: 55910f63ca58cf7cdc1ab0ec3bb75ace22bbe1ba
+  branch: master
+  specs:
+    solr_wrapper (1.2.0)
+      faraday
+      retriable
+      ruby-progressbar
+      rubyzip
+
+GIT
   remote: https://github.com/projecthydra/hydra-editor
   revision: c1e9d298c823567ea68cd6aa200848e47f1b25f0
   ref: c1e9d298
@@ -1168,11 +1179,6 @@ GEM
     slackistrano (3.8.2)
       capistrano (>= 3.8.1)
     slop (4.6.0)
-    solr_wrapper (1.1.0)
-      faraday
-      retriable
-      ruby-progressbar
-      rubyzip
     solrizer (3.4.1)
       activesupport
       daemons
@@ -1355,7 +1361,7 @@ DEPENDENCIES
   sinatra (~> 2.0)
   sitemap_generator (~> 6.0)
   slackistrano (~> 3.8)
-  solr_wrapper (>= 0.3)
+  solr_wrapper!
   spring
   spring-commands-rspec (~> 1.0.2)
   spring-watcher-listen (~> 2.0.0)

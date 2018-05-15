@@ -144,7 +144,10 @@ group :test do
 end
 
 group :development, :test do
-  gem 'solr_wrapper', '>= 0.3'
+  # Need to get unreleased mirror_url feature so it can download despite being blocked by apache.org on travis,
+  # and our tests can pass again. a release of solr_wrapper 1.3.0 should let us go back to a released gem.
+  gem 'solr_wrapper', git: 'https://github.com/cbeer/solr_wrapper', branch: 'master'
+  #gem 'solr_wrapper', '>= 0.3'
 end
 
 group :development, :test do

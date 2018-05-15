@@ -6,6 +6,7 @@ instance_dir: tmp/solr-test
      # so we're not downloading it over and over. Make sure it exists.
      FileUtils.mkdir_p("tmp/solr_dist") %>
 download_dir: "tmp/solr_dist"
+mirror_url: http://lib-solr-mirror.princeton.edu/dist/
 collection:
     persist: false
     dir: solr/config
