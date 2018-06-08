@@ -3,70 +3,74 @@
   <h1><span class="fa fa-check-square-o"></span> Fixity report</h1>
 <% end %>
 <div>
-    <% if @no_failed_checks %>
-        <h2><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> No problems to report.</h2>
-    <%else %>
-        <% if @failed_check_count  >  @max_failed_checks_to_show %>
-           <h2> <%= @failed_check_count %> fixity checks have failed. The first <%= @max_failed_checks_to_show %> are below:</h2>
-        <% else %>
-            <h2> The following fixity checks have failed:</h2>
-        <% end %>
-        <table class="table">
-        <thead>
-          <tr>
-            <th>Work</th>
-            <th>File</th>
-            <th>Date of checksum mismatch</th>
-          </tr>
-        </thead>
-        <tbody>
-            <% @failed_checks.each do |c|
-                show_file_set_and_work = true
-                fs_id = c.file_set_id
-                begin
-                    file_set = FileSet.find(fs_id)
-                    if file_set != nil
-                      work = file_set.in_works.first
-                    else
-                      work = nil
+    <% if @no_checks %>
+      <p>There are no fixity checks are on record in the database.</p>
+    <% else %>
+      <% if @no_failed_checks %>
+          <h2><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> No problems to report.</h2>
+      <%else %>
+          <% if @failed_check_count  >  @max_failed_checks_to_show %>
+             <h2> <%= @failed_check_count %> fixity checks have failed. The first <%= @max_failed_checks_to_show %> are below:</h2>
+          <% else %>
+              <h2> The following fixity checks have failed:</h2>
+          <% end %>
+          <table class="table">
+          <thead>
+            <tr>
+              <th>Work</th>
+              <th>File</th>
+              <th>Date of checksum mismatch</th>
+            </tr>
+          </thead>
+          <tbody>
+              <% @failed_checks.each do |c|
+                  show_file_set_and_work = true
+                  fs_id = c.file_set_id
+                  begin
+                      file_set = FileSet.find(fs_id)
+                      if file_set != nil
+                        work = file_set.in_works.first
+                      else
+                        work = nil
+                        show_file_set_and_work = false
+                      end
+                  rescue  Ldp::Gone
                       show_file_set_and_work = false
-                    end
-                rescue  Ldp::Gone
-                    show_file_set_and_work = false
-                end
-            %>
-                <tr>
-                    <td>
-                        <% if show_file_set_and_work %>
-                          <%= link_to work, work, itemprop: "url" %>
-                        <% else %>
-                          ( Unavailable )
-                        <% end %>
-                    </td>
-                    <td>
-                        <% if show_file_set_and_work %>
-                          <%= link_to file_set.label, file_set, itemprop: "url" %>
-                        <% else %>
-                          ( Unavailable )
-                        <% end %>
-                    </td>
-                    <td>
-                       <%= c.created_at %>
-                    </td>
-                </tr>
-            <% end %>
-        </tbody>
-        </table>
-        <h3>Other info:</h3>
-    <% end  %>
-      <ul>
-        <% if @no_failed_checks %>
-            <li>All computed checksums match the ones on file.</li>
-        <% end %>
-        <li>Recent checks: <%= @recent_checksum_count %> files have been checked in the past  <%= @how_many_days_back_to_look %> days.</li>
-        <li>The most recent fixity checks ran on <%= @most_recent_check_date.iso8601[0..9] %>.</li>
-        <li>The total number of files currently in the repository is <%= @total_file_sets  %>.</li>
-        <li>There are fixity checks on record for a total of <%= @unique_checked_files_count %> unique files. <em>(May include checks for files no longer in the repository).</em></li>
-        <li>The oldest fixity check on record dates from <%= @oldest_check_date.iso8601[0..9] %>.  <em>(May include checks for files no longer in the repository).</em></li>
-      </ul>
-</div>
+                  end
+              %>
+                  <tr>
+                      <td>
+                          <% if show_file_set_and_work %>
+                            <%= link_to work, work, itemprop: "url" %>
+                          <% else %>
+                            ( Unavailable )
+                          <% end %>
+                      </td>
+                      <td>
+                          <% if show_file_set_and_work %>
+                            <%= link_to file_set.label, file_set, itemprop: "url" %>
+                          <% else %>
+                            ( Unavailable )
+                          <% end %>
+                      </td>
+                      <td>
+                         <%= c.created_at %>
+                      </td>
+                  </tr>
+              <% end %><%# failed_checks.each %>
+          </tbody>
+          </table>
+          <h3>Other info:</h3>
+      <% end  %>
+        <ul>
+          <% if @no_failed_checks %>
+              <li>All computed checksums match the ones on file.</li>
+          <% end %>
+          <li>Recent checks: <%= @recent_checksum_count %> files have been checked in the past  <%= @how_many_days_back_to_look %> days.</li>
+          <li>The most recent fixity checks ran on <%= @most_recent_check_date.iso8601[0..9] %>.</li>
+          <li>The total number of files currently in the repository is <%= @total_file_sets  %>.</li>
+          <li>There are fixity checks on record for a total of <%= @unique_checked_files_count %> unique files. <em>(May include checks for files no longer in the repository).</em></li>
+          <li>The oldest fixity check on record dates from <%= @oldest_check_date.iso8601[0..9] %>.  <em>(May include checks for files no longer in the repository).</em></li>
+        </ul>
+  </div>
+<% end %><%# if no checks %>

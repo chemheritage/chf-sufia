@@ -9,6 +9,9 @@ module Admin
       add_breadcrumb t(:'sufia.toolbar.admin.menu'), sufia.admin_path
       add_breadcrumb 'Fixity checks', admin_fixity_index_path
 
+      @no_checks = (ChecksumAuditLog.count == 0)
+      return if @no_checks
+
       @how_many_days_back_to_look = 7
       @x_days_ago = (Date.today - @how_many_days_back_to_look).iso8601
       @recent_checksum_count = ChecksumAuditLog.where( "created_at > '#{@x_days_ago}'").count
