@@ -19,4 +19,24 @@ Sufia::HomepageController.class_eval do
     @public_works_count ||= search_results({}).first.total
   end
   helper_method :public_works_count
+
+  def recent_items
+    #First, put a bunch of eligible works into a bag:
+    conditions =  {'read_access_group_ssim'=>'public'}
+    how_many_works_in_bag = 15
+    sort_by = ["system_modified_dtsi desc"]
+    opts = {:rows=>how_many_works_in_bag, :sort=>sort_by}
+    works_to_pick_from = GenericWork.search_with_conditions( conditions, opts)
+    # Now, pick a few of these out of the bag at random to show.
+    change_selection_randomly_on_each_page_load = false
+    if !change_selection_randomly_on_each_page_load
+      # Shuffle every few minutes instead:
+      how_often_to_change = 60 * 10 # ten minutes in seconds
+      srand Time.now.to_i/how_often_to_change
+    end
+    how_many_works_to_show = 5
+    works_to_pick_from.sort_by{rand}[0..how_many_works_to_show-1]
+  end
+  helper_method :recent_items
+
 end

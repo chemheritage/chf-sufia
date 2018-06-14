@@ -24,8 +24,11 @@
       </div>
     </div>
   </div>
+  <%= render 'sufia/homepage/recent_items' %>
 
-  <%# TODO: recent additions will go here %>
+  <div class='row categories-title-div'>
+    <h2 class="brand-alt-h2">Featured Topics</h2>
+  </div>
 
   <div class="row categories-list">
     <%= render partial: "category_teaser", collection: CHF::SyntheticCategory.all, as: :category %>

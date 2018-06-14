@@ -1,0 +1,18 @@
+<div class="row recent-items-title_div">
+  <h2 class="brand-alt-h2">Recently Added</h2>
+</div>
+<div class="row recent-items-list">
+    <% recent_items.each do |work| %>
+    <div class="recent-item">
+        <div class="recent-item-image-matte">
+            <%= link_to main_app.curation_concerns_generic_work_path(work['id']) do %>
+              <%= image_tag  work['thumbnail_path_ss'], class: "recent-items-image", width: "100%"%>
+              <div class="recent-item-title-wrapper">
+              <p class="recent-item-title"><%= work['title_tesim'].first.truncate(35) %></p>
+              </div>
+            <% end # link %>
+        </div>
+    </div>
+    <% end # each %>
+</div>
+
