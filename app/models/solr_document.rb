@@ -64,6 +64,9 @@ class SolrDocument
   def interviewer
     self[Solrizer.solr_name('interviewer')]
   end
+  def manner_of
+    self[Solrizer.solr_name('manner_of')]
+  end
   def manufacturer
     self[Solrizer.solr_name('manufacturer')]
   end
