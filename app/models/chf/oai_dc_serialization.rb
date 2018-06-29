@@ -17,6 +17,7 @@ module CHF
       dcmitype: "http://purl.org/dc/dcmitype/",
       edm: "http://www.europeana.eu/schemas/edm/",
       gn: "http://www.geonames.org/ontology#",
+      getty: "http://vocab.getty.edu",
       oa: "http://www.w3.org/ns/oa#",
       ore: "http://www.openarchives.org/ore/terms/",
       rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
