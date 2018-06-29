@@ -81,7 +81,7 @@ module GenericMetadata
     property :interviewer, predicate: ::RDF::Vocab::MARCRelators.ivr do |index|
       index.as :stored_searchable
     end
-    property :manner_of, predicate: ::RDF::URI.new("http://chemheritage.org/ns/mannerOfContribution") do |index|
+    property :manner_of, predicate: ::RDF::URI.new("http://vocab.getty.edu/page/aat/300404288") do |index|
       index.as :stored_searchable
     end
     property :manufacturer, predicate: ::RDF::Vocab::MARCRelators.mfr do |index|

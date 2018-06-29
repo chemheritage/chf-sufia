@@ -36,6 +36,7 @@ class CatalogController < ApplicationController
       "#{solr_name("engraver", :stored_searchable)}^500",
       "#{solr_name("interviewee", :stored_searchable)}^500",
       "#{solr_name("interviewer", :stored_searchable)}^500",
+      "#{solr_name("manner_of", :stored_searchable)}^500",
       "#{solr_name("manufacturer", :stored_searchable)}^500",
       "#{solr_name("photographer", :stored_searchable)}^500",
       "#{solr_name("printer_of_plates", :stored_searchable)}^500",

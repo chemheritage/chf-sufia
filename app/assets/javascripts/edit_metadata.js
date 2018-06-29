@@ -32,6 +32,7 @@ chf.autocompletes = chf.autocompletes || {
   batch_edit_item_engraver:     '/authorities/search/assign_fast/all',
   batch_edit_item_interviewee:     '/authorities/search/assign_fast/all',
   batch_edit_item_interviewer:     '/authorities/search/assign_fast/all',
+  batch_edit_item_manner_of:     '/authorities/search/assign_fast/all',
   batch_edit_item_manufacturer:    '/authorities/search/assign_fast/all',
   batch_edit_item_photographer:    '/authorities/search/assign_fast/all',
   batch_edit_item_printer:         '/authorities/search/assign_fast/all',

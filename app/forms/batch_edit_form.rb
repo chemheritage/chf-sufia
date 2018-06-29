@@ -30,6 +30,7 @@ class BatchEditForm < Sufia::Forms::BatchEditForm
     :engraver,
     :interviewee,
     :interviewer,
+    :manner_of,
     :manufacturer,
     :photographer,
     :printer,

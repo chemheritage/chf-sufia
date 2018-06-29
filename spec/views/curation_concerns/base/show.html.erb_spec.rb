@@ -19,7 +19,7 @@ describe 'curation_concerns/base/show.html.erb' do
       w.engraver = ['Thwump']
       w.interviewee = ['Birdo']
       w.interviewer = ['Thwomp']
-      w.manner_of = ['Dolly Grip']
+      w.manner_of = ['Piero della Francesca']
       w.manufacturer = ['Piranha Plant']
       w.photographer = ['Sparky']
       w.printer_of_plates = ['Shy Guy']
