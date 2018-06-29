@@ -75,6 +75,7 @@ module Chufia
       :interviewee,
       :interviewer,
       :manufacturer,
+      :manner_of,
       :photographer,
       :printer,
       :printer_of_plates,

@@ -11,6 +11,7 @@ chf.autocompletes = chf.autocompletes || {
   generic_work_engraver:     '/authorities/search/assign_fast/all',
   generic_work_interviewee:     '/authorities/search/assign_fast/all',
   generic_work_interviewer:     '/authorities/search/assign_fast/all',
+  generic_work_manner_of:     '/authorities/search/assign_fast/all',
   generic_work_manufacturer:    '/authorities/search/assign_fast/all',
   generic_work_photographer:    '/authorities/search/assign_fast/all',
   generic_work_printer:         '/authorities/search/assign_fast/all',
