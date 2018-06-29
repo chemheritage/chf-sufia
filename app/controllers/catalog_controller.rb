@@ -136,7 +136,7 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("engraver", :stored_searchable), label: "Engraver", itemprop: 'contributor', link_to_search: solr_name("maker_facet", :facetable)
     config.add_index_field solr_name("interviewee", :stored_searchable), label: "Interviewee", itemprop: 'contributor', link_to_search: solr_name("maker_facet", :facetable)
     config.add_index_field solr_name("interviewer", :stored_searchable), label: "Interviewer", itemprop: 'contributor', link_to_search: solr_name("maker_facet", :facetable)
-    config.add_index_field solr_name("manner_of", :stored_searchable), label: "In the manner of", itemprop: 'contributor', link_to_search: solr_name("maker_facet", :facetable)
+    config.add_index_field solr_name("manner_of", :stored_searchable), label: "Manner of", itemprop: 'contributor', link_to_search: solr_name("maker_facet", :facetable)
     config.add_index_field solr_name("manufacturer", :stored_searchable), label: "Manufacturer", itemprop: 'manufacturer', link_to_search: solr_name("maker_facet", :facetable)
     config.add_index_field solr_name("photographer", :stored_searchable), label: "Photographer", itemprop: 'contributor', link_to_search: solr_name("maker_facet", :facetable)
     config.add_index_field solr_name("contributor", :stored_searchable), label: "Contributor", itemprop: 'contributor', link_to_search: solr_name("maker_facet", :facetable)
