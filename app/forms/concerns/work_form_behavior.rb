@@ -123,6 +123,7 @@ module WorkFormBehavior
       :engraver,
       :interviewee,
       :interviewer,
+      :manner_of,
       :manufacturer,
       :photographer,
       :printer,

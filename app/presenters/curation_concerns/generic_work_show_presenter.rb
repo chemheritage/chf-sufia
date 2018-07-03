@@ -12,7 +12,7 @@ module CurationConcerns
 
     delegate :genre_string, :medium, :physical_container, :creator_of_work,
       :artist, :author, :addressee, :interviewee, :interviewer,
-      :manufacturer,  :manner_of, :photographer, :place_of_interview,
+      :manufacturer, :manner_of, :photographer, :place_of_interview,
       :place_of_manufacture, :place_of_creation, :place_of_publication,
       :extent, :division, :exhibition, :source, :series_arrangement, :rights_holder,
       :credit_line, :additional_credit, :file_creator, :admin_note,
