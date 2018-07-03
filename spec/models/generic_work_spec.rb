@@ -32,7 +32,7 @@ RSpec.describe GenericWork do
     file_creator: 'http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#hasCreator',
     interviewee: 'http://id.loc.gov/vocabulary/relators/ive',
     interviewer: 'http://id.loc.gov/vocabulary/relators/ivr',
-    manner_of: 'http://vocab.getty.edu/aat/300404288',
+    manner_of: 'http://chemheritage.org/ns/mannerOf',
     manufacturer: 'http://id.loc.gov/vocabulary/relators/mfr',
     photographer: 'http://id.loc.gov/vocabulary/relators/pht',
     extent: 'http://chemheritage.org/ns/hasExtent',
