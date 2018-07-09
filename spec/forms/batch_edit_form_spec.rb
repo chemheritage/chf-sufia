@@ -33,6 +33,7 @@ RSpec.describe BatchEditForm do
         :engraver,
         :interviewee,
         :interviewer,
+        :manner_of,
         :manufacturer,
         :photographer,
         :printer,

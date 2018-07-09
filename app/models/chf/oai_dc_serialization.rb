@@ -183,6 +183,7 @@ module CHF
       arr += work_presenter.contributor || []
       arr += work_presenter.interviewee || []
       arr += work_presenter.interviewer || []
+      arr += work_presenter.manner_of || []
       arr += work_presenter.printer || []
       arr += work_presenter.printer_of_plates || []
 
