@@ -12,7 +12,7 @@ module RecentItemsHelper
       @how_many_works_to_show = 6
       @how_often_to_change = 60 * 10 # ten minutes
       #@how_often_to_change = 5 # useful for testing in the terminal
-      @how_many_works_in_bag = 15
+      @how_many_works_in_bag = 50
     end
 
     def recent_items()
