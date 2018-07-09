@@ -109,6 +109,10 @@ Rails.application.routes.draw do
   curation_concerns_embargo_management
   concern :exportable, Blacklight::Routes::Exportable.new
 
+  # Convert a FileSet into a child work:
+  #post '/concern/file_sets/:filesetid/to_child_work' => 'curation_concerns/file_sets#to_child_work', as: :to_child_work
+  post '/concern/file_sets/:filesetid/to_child_work' => 'curation_concerns/file_sets#to_child_work', as: :to_child_work
+
 
   #############
   #
