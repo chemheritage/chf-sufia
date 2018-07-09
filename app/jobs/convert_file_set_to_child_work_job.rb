@@ -1,9 +1,24 @@
-class ConvertFileSetToChildWork < ActiveJob::Base
+class ConvertFileSetToChildWorkJob < ActiveJob::Base
   include CurationConcerns::Lockable
 
   attr_reader :parent_work, :file_set, :user
 
+  # Note: you can try invoking this from the console as follows:
+
+  # parent_work_id = '8p58pc930'
+  # file_set_id = '5d86p020k'
+  # current_user = User.all[0]
+  # parent_work = GenericWork.find (parent_work_id)
+  # file_set = FileSet.find(file_set_id)
+
+  # ConvertFileSetToChildWorkJob.perform_later(parent_work, file_set, current_user)
+
+  # parent_work = GenericWork.find (parent_work_id)
+  # file_set = FileSet.find(file_set_id)
+
+
   def perform(parent_work, file_set, user)
+
 
     @parent_work, @file_set, @user, = parent_work, file_set, user
 
