@@ -24,6 +24,10 @@ class CollectionsShowController < CatalogController
   # displays values and pagination links for a single facet field
   def facet
     @facet = blacklight_config.facet_fields[params[:facet_id]]
+    if @facet == nil
+      redirect_to collection_path
+      return
+    end
     @response = get_facet_field_response(@facet.key, params)
     @display_facet = @response.aggregations[@facet.key]
     @pagination = facet_paginator(@facet, @display_facet)
