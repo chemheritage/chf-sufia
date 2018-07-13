@@ -22,6 +22,92 @@ module CurationConcerns
       render json: helpers.viewer_images_info(presenter)
     end
 
+    def update
+      items_to_convert = params['convert'] ||= {}
+      items_to_convert.each_pair do |member_id, action|
+        if action == "promote_to_child_work"
+          puts "Converting to child work: "
+          puts params['id']
+          to_child_work(member_id, params['id'])
+        end
+        if action == "demote_to_fileset"
+          puts "Converting to fileset: "
+          puts params['id']
+          to_fileset(member_id,  params['id'])
+        end
+      end
+      # super in this case is:
+      # /curation_concerns-1.7.8/app/controllers/concerns/curation_concerns/curation_concern_controller.rb
+      super
+    end
+
+
+  include CurationConcerns::Lockable
+
+  #Promote a FileSet to a child GenericWork.
+  def to_child_work (filesetid, parentworkid)
+    parent_work = GenericWork.find(parentworkid)
+    file_set = parent_work.members.to_a.find { |x| x.id == filesetid }
+    return if file_set == nil
+    new_child_work = GenericWork.new(title: file_set.title)
+    acquire_lock_for(parent_work.id) do
+        new_child_work.apply_depositor_metadata(current_user.user_key)
+        new_child_work.admin_set_id = "admin_set/default"
+        new_child_work.state = parent_work.state # active
+        new_child_work.part_of = parent_work.part_of
+        new_child_work.identifier = parent_work.identifier
+        new_child_work.visibility = parent_work.visibility
+        new_child_work.creator = [current_user.user_key]
+        new_child_work.save!
+
+        parent_work.ordered_members.delete(file_set)
+        parent_work.members.delete(file_set)
+
+        # ActiveFedora::RecordInvalid (Validation failed
+        # Representative must be included in members and ordered_members,
+        # Thumbnail must be included in members and ordered_members)
+        if parent_work.thumbnail_id == file_set.id
+          parent_work.thumbnail = nil
+        end
+
+        if parent_work.representative_id == file_set.id
+          parent_work.representative = nil
+        end
+        parent_work.save!
+        new_child_work.ordered_members << file_set
+        new_child_work.members.push(file_set)
+        new_child_work.representative_id = file_set.id
+        new_child_work.thumbnail_id = file_set.id
+        new_child_work.save!
+        parent_work.ordered_members << new_child_work
+        parent_work.members.push(new_child_work)
+        parent_work.save!
+    end
+  end
+
+  def to_fileset (childworkid, parentworkid)
+    parent_work = GenericWork.find(parentworkid )
+    child_work = parent_work.members.to_a.find { |x| x.id == childworkid }
+    file_set = child_work.members.first
+
+    acquire_lock_for(parent_work.id) do
+        parent_work.ordered_members.delete(child_work)
+        parent_work.members.delete(child_work)
+        parent_work.save!
+
+        parent_work.ordered_members << file_set
+        parent_work.representative_id = file_set.id
+        parent_work.thumbnail_id = file_set.id
+        parent_work.save!
+        child_work.delete
+    end
+
+    #flash[:notice] = "\"#{file_set.title.first}\" has been demoted to a file attached to \"#{parent_work.title.first}\". All metadata associated with the child work has been deleted."
+    #redirect_to "/concern/parent/#{parent_work.id}/file_sets/#{file_set.id}"
+
+  end
+
+
     protected
 
     # override from curation_concerns to add additional response formats to #show

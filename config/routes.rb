@@ -147,14 +147,10 @@ Rails.application.routes.draw do
   # redirect to signed s3
   get '/download_redirect/:id/:filename_key' => "downloads#s3_download_redirect", as: :s3_download_redirect
 
+
   #Just as an experiment:
   post '/concern/parent/:parentid/file_sets/:filesetid/to_child_work' => 'subwork_conversion#to_child_work', as: :to_child_work
-
-  #post '/works/:childworkid/to_fileset' => 'subwork_conversion#to_fileset', as: :to_fileset
-
-  #/works/parent/#{parent.id}/child/#{@presenter.id}/to_fileset
-  post '/works/parent/:parentworkid/child/:childworkid/to_fileset' => 'subwork_conversion#to_fileset', as: :to_fileset
-
+  post '/works/parent/:parentworkid/child/:childworkid/to_fileset'    => 'subwork_conversion#to_fileset', as: :to_fileset
 
   resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
     concerns :exportable

@@ -1,11 +1,11 @@
 class SubworkConversionController < ApplicationController
   include CurationConcerns::Lockable
 
+  #Promote a FileSet to a child GenericWork.
   def to_child_work
     parent_work = GenericWork.find(params['parentid'])
     file_set = FileSet.find(params['filesetid'])
     new_child_work = GenericWork.new(title: file_set.title)
-
 
     acquire_lock_for(parent_work.id) do
         new_child_work.apply_depositor_metadata(current_user.user_key)
@@ -19,8 +19,8 @@ class SubworkConversionController < ApplicationController
 
         parent_work.ordered_members.delete(file_set)
         parent_work.members.delete(file_set)
-        parent_work.representative_id = nil
-        parent_work.thumbnail_id = nil
+        # parent_work.representative_id = nil
+        # parent_work.thumbnail_id = nil
         parent_work.save!
 
         new_child_work.ordered_members << file_set
@@ -44,8 +44,6 @@ class SubworkConversionController < ApplicationController
     file_set = child_work.members.first
 
     acquire_lock_for(parent_work.id) do
-
-
         parent_work.ordered_members.delete(child_work)
         parent_work.members.delete(child_work)
         parent_work.save!
