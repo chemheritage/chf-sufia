@@ -36,11 +36,18 @@
           <% end %>
         </ul>
       <% end %>
-
       <% if @presenter.parent_work_presenters.present? || @presenter.source.present? %>
         <ul class="parent-works list-unstyled">
           <% (@presenter.parent_work_presenters || []).each do |parent| %>
-            <li>Part of <%= link_to Array(parent.title).first, [main_app, parent] %></li>
+            <li>Part of <%= link_to Array(parent.title).first, [main_app, parent] %>
+              <% if can_demote_to_file_set?(@presenter) %>
+                <%=  link_to "Demote to file ...",
+                "/works/parent/#{parent.id}/child/#{@presenter.id}/to_fileset" ,
+                class: 'btn btn-danger',
+                data: { confirm: "Demote \"#{@presenter.title.first}\" to a file? The metadata on this child work will be discarded if you do this." },
+                method: :post %>
+              <% end %>
+            </li>
           <% end %>
           <% (@presenter.source || []).each do |source| %>
             <li> Part of <i><%= source %></i></li>

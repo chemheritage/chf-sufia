@@ -15,5 +15,19 @@
                   curation_concerns.generate_download_single_use_link_path(@presenter),
                   class: 'btn btn-default generate-single-use-link' %>
   <% end %>
+
+  <% if can_promote_to_child_work?(@presenter) %>
+    <div class="alert alert-info fade in alert-dismissible">
+        If you want to add metadata to this item (e.g. for an illustration in a book), you can promote it to a child work.
+    </div>
+
+   <%=  link_to "Promote to child work ...",
+    "/concern/parent/#{@presenter.parent.id}/file_sets/#{@presenter.id}/to_child_work" ,
+    class: 'btn btn-info',
+    data: { confirm: "Promote \"#{@presenter.title.first}\" to a child work of \"#{@presenter.parent.title.first}\" ?" },
+    method: :post %>
+
+  <% end %>
+
 </div>
 

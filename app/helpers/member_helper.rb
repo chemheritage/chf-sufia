@@ -169,4 +169,32 @@ module MemberHelper
       [(target_width.to_d * original_height / original_width).round(2), (target_width.to_d / 4).round(2)].max
     end
   end
+
+  def can_promote_to_child_work?(pres)
+    return false unless pres.respond_to? 'parent'
+    [
+      (can?(:edit, pres.id)),
+      (pres.solr_document._source['has_model_ssim']  == ["FileSet"]),
+      (can?(:edit, pres.parent.id)),
+      (pres.parent.solr_document._source['has_model_ssim'] == ["GenericWork"]),
+      (pres.parent.solr_document._source['member_ids_ssim'].include? pres.id),
+    ].all?
+  end
+
+  def can_demote_to_file_set?(pres)
+    [
+      (can?(:delete, pres.id)),
+      (pres.solr_document._source['has_model_ssim'] == ["GenericWork"] ),
+      (pres.solr_document._source['member_ids_ssim'].uniq.count == 1),
+      (pres.parent_work_presenters.present?),
+      (pres.parent_work_presenters.count == 1 ),
+      (pres.parent_work_presenters.first != nil ),
+      (can?(:edit, pres.parent_work_presenters.first.solr_document._source['id'])),
+      (pres.parent_work_presenters.first.solr_document._source['has_model_ssim'] == ["GenericWork"] ),
+      (pres.parent_work_presenters.first.solr_document._source['member_ids_ssim'].include? pres.id ),
+    ].all?
+  end
+
+
+
 end

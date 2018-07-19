@@ -221,7 +221,20 @@ class CatalogController < ApplicationController
   end
 
   def index
+    @_params = swap_dates_if_needed(@_params)
     super
     @parent_presenter_lookup = parent_lookup_hash(@document_list)
+  end
+
+  #If the user enters an impossible date range, swap the dates.
+  def swap_dates_if_needed(params)
+    return params if params == nil
+    start_date = params.dig(:range, :year_facet_isim, :begin)
+    end_date   = params.dig(:range, :year_facet_isim, :end)
+    return params unless start_date.present? && end_date.present?
+    return params unless start_date.to_i > end_date.to_i
+    params['range']['year_facet_isim']['begin'] = end_date
+    params['range']['year_facet_isim']['end']   = start_date
+    return params
   end
 end
