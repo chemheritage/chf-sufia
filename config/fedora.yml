@@ -3,6 +3,7 @@ development:
   password: <%= ENV['HYDRA_FEDORA_PASSWORD_DEVELOPMENT'] || 'fedoraAdmin' %>
   url: <%= ENV['HYDRA_FEDORA_URL_DEVELOPMENT'] || 'http://127.0.0.1:8080/rest' %>
   base_path: <%= ENV['HYDRA_FEDORA_BASE_PATH_DEVELOPMENT'] || '/dev' %>
+  timeout: 10 # seconds!!! supported only by patch we added if we're using an activefedora <= 11.4
 profile:
   user: <%= ENV['HYDRA_FEDORA_USER_DEVELOPMENT'] || 'fedoraAdmin' %>
   password: <%= ENV['HYDRA_FEDORA_PASSWORD_DEVELOPMENT'] || 'fedoraAdmin' %>
