@@ -8,8 +8,7 @@ RSpec.feature "BatchEditForm", js: true do
   let!(:w4) { FactoryGirl.create(:generic_work, :with_complete_metadata) }
   let!(:w5) { FactoryGirl.create(:generic_work, :with_complete_metadata) }
 
-  scenario "batch edit division, file creator, rights holder and genre",
-    :skip => "ajax call is timing out; skipping this test pending further investigation" do
+  scenario "batch edit division, file creator, rights holder and genre" do
     login_as(user, :scope => :user)
     w1, w2, w3, w4, w5 = GenericWork.all
     new_test_work('abc', 'xyz')
@@ -64,9 +63,8 @@ RSpec.feature "BatchEditForm", js: true do
       fill_in "generic_work[#{field}]", with: value
     end
     click_button "Save changes"
-    using_wait_time 30 do
-      expect(page).to have_content 'Changes Saved'
-    end
+    expect(page).to have_content('Changes Saved', wait:30)
+
     # check that values were changed as expected
     get_properties(field).each do | id, new_value |
       if ids_to_change.include? id
@@ -87,7 +85,7 @@ RSpec.feature "BatchEditForm", js: true do
     click_link field_label
     select value_label, :from => field_label
     click_button "Save changes"
-    expect(page).to have_content 'Changes Saved'
+    expect(page).to have_content('Changes Saved', wait:30)
     get_properties(field).each do | id, new_value |
       if ids_to_change.include? id
         expect(new_value).to eq([value])
