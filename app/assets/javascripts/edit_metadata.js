@@ -1,5 +1,19 @@
 // why not set up a local namespace
 var chf = chf || {}
+
+// CHF edit: don't allow the form to be saved as public unless htere is a rights statement,
+// TODO: determine where this code should actually go.
+function set_up_extra_validation() {
+  jQuery('input#generic_work_visibility_open').click(function( event) {
+    if (jQuery('#generic_work_rights  option:selected').text() == '') {
+      alert ('Please pick a copyright status (under "Rights") before making this work public.');
+      event.preventDefault();
+    }
+  });
+}
+jQuery( document ).ready(set_up_extra_validation);
+
+
 chf.autocompletes = chf.autocompletes || {
   generic_work_subject: '/authorities/search/assign_fast/all',
   generic_work_after:          '/authorities/search/assign_fast/all',
@@ -46,7 +60,14 @@ chf.autocompletes = chf.autocompletes || {
 }
 
 
+
+
 Blacklight.onLoad(function() {
+
+
+
+
+
   Sufia.autocomplete = function() {}
   // CHF edit: basically this entire file has now been replaced.
 
@@ -214,4 +235,5 @@ Blacklight.onLoad(function() {
   var autocomplete = new ac.Autocomplete()
   $('.multi_value.form-group').manage_fields( { add: chf_add, remove: chf_remove } );
   autocomplete.setup();
+
 });
