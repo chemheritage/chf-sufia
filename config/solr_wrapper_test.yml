@@ -11,6 +11,11 @@ collection:
     dir: solr/config
     name: hydra-test
 version: 6.3.0
+
+# To simply ignore the checksum, you can set validate to false.
+# The default is true; we are currently downloading the checksum.
+# validate: false
+
 # Attempt to use mirror url to keep travis tests from being blocked by
 # apache for too many solr downloads.
 mirror_url: http://lib-solr-mirror.princeton.edu/dist/

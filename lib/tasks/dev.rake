@@ -7,6 +7,10 @@ unless ENV['RAILS_ENV'] == "production"
   require 'fcrepo_wrapper'
   require 'active_fedora/rake_support'
 
+  # This can be removed when solr_wrapper is upgraded.
+  # See the patch file for more details.
+  require "#{Rails.root}/lib/solr_wrapper_patch"
+
   namespace :dev do
     # Starts Fedora and Solr, per config in `./config/solr_wrapper_test.rb` and
     # and `./config/fcrepo_wrapper_test.rb`. You can still run individual files
