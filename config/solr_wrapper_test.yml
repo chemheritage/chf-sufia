@@ -13,9 +13,15 @@ collection:
 version: 6.3.0
 
 
-# Attempt to use mirror url to keep travis tests from being blocked by
-# apache for too many solr downloads.
-# (Commenting this out, as it was more trouble than it was worth. See 
-# https://github.com/sciencehistory/chf-sufia/pull/1153
-# for more details.)
-# mirror_url: http://lib-solr-mirror.princeton.edu/dist/
+# This signed URL makes use of two env variables defined in .travis.yml:
+# - AWS_ACCESS_KEY_ID_FOR_SOLR=[secure]
+# - AWS_SECRET_ACCESS_KEY_FOR_SOLR=[secure]
+# Since we're downloading directly from our own S3 bucket, no need to validate:
+validate: false
+
+<% require 'aws-sdk-s3'
+  s3 = Aws::S3::Client.new( region: 'us-east-1', access_key_id:  ENV['AWS_ACCESS_KEY_ID_FOR_SOLR'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY_FOR_SOLR'] )
+  signer = Aws::S3::Presigner.new(client: s3) %>
+url: '<%= signer.presigned_url( :get_object, bucket: 'science-history-build-cache', key: "solr-6.3.0.tgz" ) %>'
+
+solr_zip_path: 'tmp/solr-6.3.0.zip'

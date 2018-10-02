@@ -19,3 +19,8 @@ before_script:
 services:
   - redis-server
   - postgresql
+
+env:
+  global:
+  - secure: Nom1EhdruXCCqnP2TncEJnq/iVfF9vMTIdtwgi+9MqEJVNM+yFcZ+gmU4GbVLwIaW06L+AjSDKgf6NbZMhkf05aJLEGSFwCRK8KQy0ZGrzAM/KuhirNQP5HSnX15XL3hmZwIPmBq7DoF1o6LgyyQ5Xey+JbepTZt/WMk3wo0VD4=
+  - secure: P0g6AmpNHLG/l57KzgHBjCMRiqk45T1bC4HRTxcwuRnZn1EiniEjp7ratFyb9LqxLkM+RkbB31YHWdmiYT16HyNNoTLA9r7B7oXh9fIi++2pqg7wEK8aBB286Zj/4b5lQxQPxMVhbkUtEY1ocw56SpU1YJOHPVkb+/8FCdturwc=
