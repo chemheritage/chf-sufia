@@ -23,16 +23,6 @@
     default_page_title
   end
 end %>
-
-<%
-  #HACK
-  #TODO: RENAME AND REFACTOR.
-  #This is just a proof of concept.
-  new_tumblr_url = member_src_attributes(member: presenter, size_key: :large )[:src]
-  #END HACK
- %>
-
-
 <% share_url ||= presenter ?  polymorphic_url([main_app, presenter]) : request.original_url %>
 <% share_media ||= presenter ? social_media_share_image_medium(presenter) : nil %>
 <% share_presenter_description ||= presenter.short_plain_description if (presenter && presenter.respond_to?(:short_plain_description)) %>
@@ -86,7 +76,7 @@ end %>
 
   <!-- Sharingbutton Tumblr -->
   <%# see https://www.tumblr.com/docs/en/share_button %>
-  <%= link_to "https://www.tumblr.com/widgets/share/tool?#{{posttype: 'photo', content: new_tumblr_url, caption: title_plus_description, canonicalUrl: share_url, shareSource: 'tumblr_share_button'}.to_param}",
+  <%= link_to "https://www.tumblr.com/widgets/share/tool?#{{content: share_media, caption: title_plus_description, canonicalUrl: share_url, shareSource: 'tumblr_share_button'}.to_param}",
               class: 'social-media-link tumblr btn btn-brand-dark',
               target: '_blank',
               rel: 'noopener noreferrer',
