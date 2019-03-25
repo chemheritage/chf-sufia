@@ -151,6 +151,24 @@ module CHF
     # it to helper methods, definitely not thread-safe, don't share instances
     # between threads, you weren't going to anyway.
     def call
+
+      if CHF::AudioDerivativeMaker.is_audio?(file_set_content_type)
+        file_info = {
+          :file_id => file_id,
+          :file_set => file_set,
+          :file_set_content_type => file_set_content_type,
+          :file_checksum => file_checksum
+        }
+        upload_info = {
+          :bucket => self.class.s3_bucket!,
+          :cache_control => cache_control,
+          :acl => acl,
+          :lazy => lazy
+        }
+        deriv_maker = CHF::AudioDerivativeMaker.new(file_info, upload_info, WORKING_DIR_PARENT)
+        return deriv_maker.create_and_upload_derivatives()
+      end
+
       futures = []
 
       # mktmpdir will clean up tmp dir and all it's contents for us
