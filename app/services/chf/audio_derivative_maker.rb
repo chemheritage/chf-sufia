@@ -1,125 +1,129 @@
 module CHF
 
 # Creates all audio derivatives and uploads them to s3.
+
+# This bypasses and replaces much of the code in the run method of
+# CHF::CreateDerivativesOnS3Service, but does borrow a couple of class methods
+# and properties from it (search for "CHF::CreateDerivativesOnS3Service" below).
 class AudioDerivativeMaker
 
-  AUDIO_DERIVATIVE_TYPES = {
-    standard_webm: OpenStruct.new( suffix: '.webm', content_type: 'audio/webm'),
-    standard_mp3:  OpenStruct.new( suffix: '.mp3',  content_type: 'audio/mpeg', rate: 44100),
-    light_mp3:     OpenStruct.new( suffix: '.mp3',  content_type: 'audio/mpeg', rate: 11025),
+  # Class method: the URL of the s3 URL for an audio derivative for a given fileset.
+  # Bucket and checksum are optional, but pass them in if you have them.
+  def self.s3_public_url(file_set, deriv_type, checksum=nil, bucket=nil)
+    raise ArgumentError, "Nil fileset passed" unless file_set
+    if bucket.nil?
+      bucket = CHF::CreateDerivativesOnS3Service.s3_bucket!
+    end
+    self.s3_obj(bucket, deriv_type, file_set, checksum).public_url
+  end
+
+  # Formats we accept as ORIGINALS:
+  AUDIO_ORIGINAL_FORMATS = {
+    'audio/flac'   => 'flac', 'audio/x-flac' => 'flac',
+    'audio/mpeg'   => 'mp3',  'audio/webm'   => 'webm'
   }
 
-  AUDIO_FORMATS = {
-    'audio/flac'   => 'flac',
-    'audio/x-flac' => 'flac',
-    'audio/mpeg'   => 'mp3',
-    'audio/webm'   => 'webm'
+  # DERIVATIVE formats those originals get converted to:
+  AUDIO_DERIVATIVE_FORMATS = {
+    standard_webm: OpenStruct.new( suffix: '.webm', content_type: 'audio/webm',
+      extra_args: ["-ac", "1", "-codec:a", "libopus", "-b:a", "64k"]),
+    standard_mp3:  OpenStruct.new( suffix: '.mp3',  content_type: 'audio/mpeg',
+      extra_args: ["-ac", "1", "-b:a", "64k"])
   }
 
-  attr_reader :file_id, :file_set, :file_set_content_type, :file_checksum,
-  :bucket, :cache_control, :acl, :lazy,
-  :working_dir_parent,
-  :input_format, :derivs_we_need
+  attr_reader :file_id, :file_set, :mimetype, :file_checksum,
+  :bucket, :lazy, :working_dir_parent
 
   def initialize (file_info, upload_info, working_dir_parent)
+    unless AUDIO_ORIGINAL_FORMATS.include? @mimetype
+      raise(ArgumentError, "Can't convert from format #{@mimetype}")
+    end
+
     @file_id =       file_info[:file_id]
     @file_set =      file_info[:file_set]
-    @file_set_content_type = file_info[:file_set_content_type]
+    @mimetype =      file_info[:file_set_content_type]
     @file_checksum = file_info[:file_checksum]
 
     @bucket = upload_info[:bucket]
-    @cache_control = upload_info[:cache_control]
-    @acl =    upload_info[:acl]
     @lazy =   upload_info[:lazy]
 
     @working_dir_parent = working_dir_parent
 
-    @input_format = AUDIO_FORMATS[@file_set_content_type]
-    raise ArgumentError.new("Can't convert from format #{@file_set_content_type}") unless @input_format
+  end
+
+  # Do we accept this type of audio file as an original?
+  def self.is_audio?(mimetype)
+    AUDIO_ORIGINAL_FORMATS.keys.include? mimetype
   end
 
   # Create and upload all audio derivatives for audio file file_set
   def create_and_upload_derivatives()
-
-    check_existing_derivatives()
-    return if @derivs_we_need == {}
+    derivs_we_need = check_which_derivs_we_need()
+    return if derivs_we_need == {}
 
     @working_dir = Dir.mktmpdir("fileset_#{file_set.id}_", @working_dir_parent)
     @working_original_path = download_file_from_fedora()
     deriv_creation_futures = []
-    errors_to_reraise = []
     cmd = TTY::Command.new(printer: :null)
-    @derivs_we_need.each do  | deriv_type, properties |
+    derivs_we_need.each do  | deriv_type, properties |
       deriv_local_path = where_to_save_derivative(deriv_type, properties)
-      convert_audio_command = convert_command_args(deriv_type, properties, deriv_local_path)
-
+      convert_audio_command = convert_command_args(properties, deriv_local_path)
       # START CONCURRENCY
       deriv_creation_futures << Concurrent::Future.execute(executor: Concurrent.global_io_executor) do
-        begin
-          result = cmd.run(*convert_audio_command)
-        rescue TTY::Command::ExitError => ex
-          Rails.logger.error ex.message
-          errors_to_reraise << ex
-          next
-        end
+        result = cmd.run(*convert_audio_command)
         if upload_file_to_s3(deriv_local_path, properties)
           Rails.logger.info "Uploaded derivative to #{properties.s3_obj.public_url}"
         else
-          Rails.logger.error "Unable to upload derivative."
-          errors_to_reraise << IOError.new("Could not upload derivative  #{deriv_type} to S3 for file #{file_id}")
-        end # if upload successful
+          raise IOError.new("Could not upload derivative  #{deriv_type} to S3 for file #{file_id}")
+        end
       end
       # END CONCURRENCY
-
     end #each
 
-    # EXECUTE CONCURRENT CODE
+    # RUN CONCURRENT CODE
     deriv_creation_futures.compact.each { |f| f.value!() }
 
-    # The first error prevents the others from being raised;
-    # not sure what our goal is for error reporting.
-    # TODO make sure at Honeybadger gets notified of
-    # at least the first error.
-    errors_to_reraise.each { |x| raise x }
   end # method
-
-  # Is this a mimetype that could belong to an audio file?
-  def self.is_audio?(file_set_content_type)
-    AUDIO_DERIVATIVE_TYPES.values.any?{ |x| file_set_content_type == x.content_type }
-  end
 
   private
 
   # Figure out which derivs we already have; return a list of the ones we need
   # to create and upload.
-  # Side effect: adds a s3_obj to the properties for each needed
+  # Adds a s3_obj to the properties for each needed
   # derivative that can be used to upload the object.
-  def check_existing_derivatives()
-    @derivs_we_need = {}
+  def check_which_derivs_we_need()
+    result = {}
     deriv_check_futures = []
-    AUDIO_DERIVATIVE_TYPES.each do  | deriv_type, properties |
-
+    AUDIO_DERIVATIVE_FORMATS.each do  | deriv_type, properties |
       # START CONCURRENCY
       deriv_check_futures << Concurrent::Future.execute do
-        s3_obj = get_s3_obj_for_derivative(deriv_type, properties)
+        s3_obj = s3_obj_for_this_file(deriv_type)
         if we_need_this_derivative?(s3_obj)
           properties[:s3_obj] = s3_obj
-          @derivs_we_need[deriv_type] = properties
+          result[deriv_type] = properties
         end
       end
       # END CONCURRENCY
-
     end # audio derivs
-
     # RUN CONCURRENT CODE:
     deriv_check_futures.compact.each { |f| f.value!() }
+    return result
   end
 
-  # Generates an S3 object that can be used to upload a particular
-  # derivative for this audi file.
-  def get_s3_obj_for_derivative(deriv_type, properties)
-    the_path = "#{@file_set.id}_checksum#{@file_checksum}/#{Pathname.new(deriv_type.to_s).sub_ext(properties.suffix)}"
-    @bucket.object(the_path)
+  # Instance method -- s3 object for *this* file_set, given a deriv type.
+  def s3_obj_for_this_file(deriv_type)
+    self.class.s3_obj(@bucket, deriv_type, @file_set, @file_checksum)
+  end
+
+  # Class method: construct a s3 object for any bucket, file_set and deriv type.
+  # Pass in the checksum if you already have it; otherwise it'll get looked up.
+  def self.s3_obj(bucket, deriv_type, file_set, checksum=nil)
+    raise(ArgumentError, "Don't recognize format #{deriv_type.to_s}") unless AUDIO_DERIVATIVE_FORMATS.keys.include? deriv_type
+    checksum = file_set.files.first.checksum.value unless checksum
+    suffix = AUDIO_DERIVATIVE_FORMATS[deriv_type].suffix
+    part_1 = "#{file_set.id}_checksum#{checksum}"
+    part_2 = "#{Pathname.new(deriv_type.to_s).sub_ext(suffix)}"
+    bucket.object("#{part_1}/#{part_2}")
   end
 
   # Given the ID of a Sufia file, download it from Fedora.
@@ -136,7 +140,8 @@ class AudioDerivativeMaker
   end
 
   # Given a set of derivative properties, returns
-  # a path for where to save a derivative.
+  # a local path where we can save a temporary derivative file
+  # which will be uploaded to s3, then deleted.
   def where_to_save_derivative(deriv_type, properties)
     Pathname.new(@working_dir).
       join(deriv_type.to_s).
@@ -147,27 +152,24 @@ class AudioDerivativeMaker
   # a shell command to convert
   # an original audio file to a derivative.
   # Does not actually invoke the command.
-  def convert_command_args(deriv_type, properties, deriv_local_path)
-    rate_arr = properties.rate  ? ["-ar", properties.rate] : []
+  def convert_command_args(properties, deriv_local_path)
     args = [ "ffmpeg",
-      "-f", @input_format,
       "-i", @working_original_path ] +
-      rate_arr +
+      properties.extra_args +
       [ deriv_local_path ]
+    puts args.join(" ")
     return args
   end
 
   # Upload a derivative to s3.
+  # Returns true on success, false on failure.
   def upload_file_to_s3 (deriv_local_path, properties)
-    result = properties.
-      s3_obj.
-      upload_file(
-        deriv_local_path,
-        acl: @acl,
-        content_type: properties.content_type,
-        content_disposition: "attachment",
-        cache_control: @cache_control)
-    return result
+    properties.s3_obj.upload_file(
+      deriv_local_path,
+      acl: CHF::CreateDerivativesOnS3Service.acl,
+      content_type: properties.content_type,
+      content_disposition: "attachment",
+      cache_control: CHF::CreateDerivativesOnS3Service.cache_control)
   end
 
 end # class

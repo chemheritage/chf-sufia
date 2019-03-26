@@ -152,19 +152,21 @@ module CHF
     # between threads, you weren't going to anyway.
     def call
 
+      # NOTE: When audio files are ingested, we bypass this method and
+      # use methods in AudioDerivativeMaker instead. The code in this
+      # class is focused on creating image files and could not easily be
+      # adapted to the special needs of audio files. We decided not to
+      # refactor this file and AudioDerivativeMaker into one more general file
+      # for expediency, as we are reaching the end of the line for Sufia
+      # as of Spring 2019.
+
       if CHF::AudioDerivativeMaker.is_audio?(file_set_content_type)
         file_info = {
-          :file_id => file_id,
-          :file_set => file_set,
+          :file_id => file_id, :file_set => file_set,
           :file_set_content_type => file_set_content_type,
           :file_checksum => file_checksum
         }
-        upload_info = {
-          :bucket => self.class.s3_bucket!,
-          :cache_control => cache_control,
-          :acl => acl,
-          :lazy => lazy
-        }
+        upload_info = { :bucket => self.class.s3_bucket!, :lazy => lazy }
         deriv_maker = CHF::AudioDerivativeMaker.new(file_info, upload_info, WORKING_DIR_PARENT)
         return deriv_maker.create_and_upload_derivatives()
       end
