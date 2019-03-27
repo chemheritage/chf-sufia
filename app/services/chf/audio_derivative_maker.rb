@@ -35,7 +35,7 @@ class AudioDerivativeMaker
   attr_reader :file_id, :file_set, :mimetype, :file_checksum,
   :bucket, :lazy
 
-  def initialize (file_info, upload_info)
+  def initialize (file_info, lazy)
     @mimetype =      file_info[:file_set_content_type]
     unless AUDIO_ORIGINAL_FORMATS.include? @mimetype
       raise(ArgumentError, "Can't convert from format #{@mimetype}")
@@ -43,8 +43,8 @@ class AudioDerivativeMaker
     @file_id =       file_info[:file_id]
     @file_set =      file_info[:file_set]
     @file_checksum = file_info[:file_checksum]
-    @bucket = upload_info[:bucket]
-    @lazy =   upload_info[:lazy]
+    @lazy =   lazy
+    @bucket = CHF::CreateDerivativesOnS3Service.s3_bucket!
   end
 
   # Do we accept this type of audio file as an original?
@@ -157,7 +157,6 @@ class AudioDerivativeMaker
       "-i", @working_original_path ] +
       properties.extra_args +
       [ deriv_local_path ]
-    puts args.join(" ")
     return args
   end
 

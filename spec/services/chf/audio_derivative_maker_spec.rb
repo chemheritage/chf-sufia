@@ -7,8 +7,7 @@ RSpec.describe CHF::AudioDerivativeMaker do
       :file_set=>FactoryGirl.create(:file_set),
       :file_set_content_type=>"audio/mpeg",
     }
-    upload_info = { :bucket=> nil, :lazy=>false }
-    CHF::AudioDerivativeMaker.new(file_info, upload_info)
+    CHF::AudioDerivativeMaker.new(file_info, false)
   end
 
   before do

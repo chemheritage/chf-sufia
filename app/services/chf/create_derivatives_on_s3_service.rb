@@ -167,8 +167,7 @@ module CHF
           :file_set_content_type => file_set_content_type,
           :file_checksum => file_checksum
         }
-        upload_info = { :bucket => self.class.s3_bucket!, :lazy => lazy }
-        deriv_maker = CHF::AudioDerivativeMaker.new(file_info, upload_info)
+        deriv_maker = CHF::AudioDerivativeMaker.new(file_info, lazy)
         return deriv_maker.create_and_upload_derivatives()
       end
       # END BYPASS CODE
@@ -197,8 +196,6 @@ module CHF
         return if desired_types.empty? # avoid fetch on lazy with nothing to update
 
         @working_dir = temp_dir
-
-        byebug
         @working_original_path = CHF::GetFedoraBytestreamService.new(file_id, local_path: File.join(@working_dir, "original")).get
 
 
