@@ -160,6 +160,7 @@ module CHF
       # for expediency, as we are reaching the end of the line for Sufia
       # as of Spring 2019.
 
+      # START BYPASS CODE
       if CHF::AudioDerivativeMaker.is_audio?(file_set_content_type)
         file_info = {
           :file_id => file_id, :file_set => file_set,
@@ -167,9 +168,10 @@ module CHF
           :file_checksum => file_checksum
         }
         upload_info = { :bucket => self.class.s3_bucket!, :lazy => lazy }
-        deriv_maker = CHF::AudioDerivativeMaker.new(file_info, upload_info, WORKING_DIR_PARENT)
+        deriv_maker = CHF::AudioDerivativeMaker.new(file_info, upload_info)
         return deriv_maker.create_and_upload_derivatives()
       end
+      # END BYPASS CODE
 
       futures = []
 
@@ -195,6 +197,8 @@ module CHF
         return if desired_types.empty? # avoid fetch on lazy with nothing to update
 
         @working_dir = temp_dir
+
+        byebug
         @working_original_path = CHF::GetFedoraBytestreamService.new(file_id, local_path: File.join(@working_dir, "original")).get
 
 

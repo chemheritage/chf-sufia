@@ -19,11 +19,12 @@ class AudioDerivativeMaker
 
   # Formats we accept as ORIGINALS:
   AUDIO_ORIGINAL_FORMATS = {
-    'audio/flac'   => 'flac', 'audio/x-flac' => 'flac',
+    'audio/flac'   => 'flac',
+    'audio/x-flac' => 'flac',
     'audio/mpeg'   => 'mp3',  'audio/webm'   => 'webm'
   }
 
-  # DERIVATIVE formats those originals get converted to:
+  # DERIVATIVE formats the originals will get converted to:
   AUDIO_DERIVATIVE_FORMATS = {
     standard_webm: OpenStruct.new( suffix: '.webm', content_type: 'audio/webm',
       extra_args: ["-ac", "1", "-codec:a", "libopus", "-b:a", "64k"]),
@@ -32,23 +33,18 @@ class AudioDerivativeMaker
   }
 
   attr_reader :file_id, :file_set, :mimetype, :file_checksum,
-  :bucket, :lazy, :working_dir_parent
+  :bucket, :lazy
 
-  def initialize (file_info, upload_info, working_dir_parent)
+  def initialize (file_info, upload_info)
+    @mimetype =      file_info[:file_set_content_type]
     unless AUDIO_ORIGINAL_FORMATS.include? @mimetype
       raise(ArgumentError, "Can't convert from format #{@mimetype}")
     end
-
     @file_id =       file_info[:file_id]
     @file_set =      file_info[:file_set]
-    @mimetype =      file_info[:file_set_content_type]
     @file_checksum = file_info[:file_checksum]
-
     @bucket = upload_info[:bucket]
     @lazy =   upload_info[:lazy]
-
-    @working_dir_parent = working_dir_parent
-
   end
 
   # Do we accept this type of audio file as an original?
@@ -60,8 +56,8 @@ class AudioDerivativeMaker
   def create_and_upload_derivatives()
     derivs_we_need = check_which_derivs_we_need()
     return if derivs_we_need == {}
-
-    @working_dir = Dir.mktmpdir("fileset_#{file_set.id}_", @working_dir_parent)
+    parent_dir = CHF::CreateDerivativesOnS3Service::WORKING_DIR_PARENT
+    @working_dir = Dir.mktmpdir("fileset_#{file_set.id}_", parent_dir)
     @working_original_path = download_file_from_fedora()
     deriv_creation_futures = []
     cmd = TTY::Command.new(printer: :null)
@@ -72,7 +68,7 @@ class AudioDerivativeMaker
       deriv_creation_futures << Concurrent::Future.execute(executor: Concurrent.global_io_executor) do
         result = cmd.run(*convert_audio_command)
         if upload_file_to_s3(deriv_local_path, properties)
-          Rails.logger.info "Uploaded derivative to #{properties.s3_obj.public_url}"
+          report_success(properties)
         else
           raise IOError.new("Could not upload derivative  #{deriv_type} to S3 for file #{file_id}")
         end
@@ -86,6 +82,10 @@ class AudioDerivativeMaker
   end # method
 
   private
+
+  def report_success(properties)
+    Rails.logger.info "Uploaded derivative to #{properties.s3_obj.public_url}"
+  end
 
   # Figure out which derivs we already have; return a list of the ones we need
   # to create and upload.
