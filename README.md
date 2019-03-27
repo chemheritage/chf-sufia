@@ -17,6 +17,7 @@ dev box, without a VM.
 * Dependencies (also check at https://github.com/projecthydra/sufia#prerequisites)
 	* `brew install imagemagick`
 	* `brew install fits`
+	* `brew install ffmpeg`
 	* `brew install redis`
 		* `brew services start redis`
 	* postgres (on osx, i like https://postgresapp.com/)
