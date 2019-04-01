@@ -44,7 +44,11 @@ class AudioDerivativeMaker
     @file_set =      file_info[:file_set]
     @file_checksum = file_info[:file_checksum]
     @lazy =   lazy
-    @bucket = CHF::CreateDerivativesOnS3Service.s3_bucket!
+    @bucket = s3_bucket!
+  end
+
+  def s3_bucket!
+    CHF::CreateDerivativesOnS3Service.s3_bucket!
   end
 
   # Do we accept this type of audio file as an original?

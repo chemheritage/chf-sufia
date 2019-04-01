@@ -12,10 +12,11 @@ RSpec.describe CHF::AudioDerivativeMaker do
 
   before do
     allow(adm).to receive(:s3_obj_for_this_file).and_return(nil)
-    allow(adm).to receive(:we_need_this_derivative?).and_return(true)
-    allow(adm).to receive(:download_file_from_fedora).and_return(Rails.root.join('spec/fixtures/sample.mp3'))
-    allow(adm).to receive(:upload_file_to_s3).and_return(true)
+    allow(adm).to receive(:s3_bucket!).and_return(nil)
     allow(adm).to receive(:report_success).and_return(nil)
+    allow(adm).to receive(:we_need_this_derivative?).and_return(true)
+    allow(adm).to receive(:upload_file_to_s3).and_return(true)
+    allow(adm).to receive(:download_file_from_fedora).and_return(Rails.root.join('spec/fixtures/sample.mp3'))
   end
 
   after do
