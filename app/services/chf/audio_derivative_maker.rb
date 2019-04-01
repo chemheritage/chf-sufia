@@ -11,9 +11,7 @@ class AudioDerivativeMaker
   # Bucket and checksum are optional, but pass them in if you have them.
   def self.s3_public_url(file_set, deriv_type, checksum=nil, bucket=nil)
     raise ArgumentError, "Nil fileset passed" unless file_set
-    if bucket.nil?
-      bucket = CHF::CreateDerivativesOnS3Service.s3_bucket!
-    end
+    bucket = s3_bucket! if bucket.nil?
     self.s3_obj(bucket, deriv_type, file_set, checksum).public_url
   end
 
