@@ -46,8 +46,14 @@ class AudioDerivativeMaker
   end
 
   def s3_bucket!
+    self.class.s3_bucket!
+  end
+
+  def self.s3_bucket!
+    byebug
     CHF::CreateDerivativesOnS3Service.s3_bucket!
   end
+
 
   # Do we accept this type of audio file as an original?
   def self.is_audio?(mimetype)
