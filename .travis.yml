@@ -2,8 +2,6 @@ language: ruby
 script: bundle exec rake dev:spec_with_app_load
 rvm:
   - 2.5.1
-before_install:
-  - sudo apt-get install -y ffmpeg
 
 cache:
   bundler: true
