@@ -15,6 +15,8 @@ RSpec.describe GenericWorkExporter do
       w.attributed_to = ["presumptive author"]
       w.engraver = ["engraving professional"]
       w.project = ['Mass Spectrometry', 'Nanotechnology']
+      w.manner_of = ["Speaking"]
+      w.school_of = ["Hard Knocks"]
       w.save
     end # tap do
   end # let work
@@ -32,6 +34,8 @@ RSpec.describe GenericWorkExporter do
     "engraver" => ["engraving professional"],
     "photographer" => ["Bruce McMillan"],
     "publisher" => ["publishing house"],
+    "manner_of" => ["Speaking"],
+    "school_of" => ["Hard Knocks"],
     "credit_line" => ["Courtesy of Science History Institute"],
     "project" => ["Nanotechnology", "Mass Spectrometry"],
     "physical_container" => "b2000|f3|v4|p5|g234|sMS 13",

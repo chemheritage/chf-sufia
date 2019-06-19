@@ -117,6 +117,7 @@
         <%= @presenter.attribute_to_html(:printer, render_as: :faceted, search_field: 'maker_facet') %>
         <%= @presenter.attribute_to_html(:printer_of_plates, render_as: :faceted, search_field: 'maker_facet') %>
         <%= @presenter.attribute_to_html(:publisher, render_as: :faceted, search_field: 'maker_facet') %>
+        <%= @presenter.attribute_to_html(:school_of, render_as: :faceted, search_field: 'maker_facet') %>
 
 
         <% if @presenter.provenance&.length %>

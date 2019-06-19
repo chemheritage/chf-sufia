@@ -16,6 +16,7 @@
 <%= presenter.attribute_to_html(:printer_of_plates, render_as: :faceted, search_field: 'maker_facet') %>
 <%= presenter.attribute_to_html(:provenance) %>
 <%= presenter.attribute_to_html(:publisher, render_as: :faceted, search_field: 'maker_facet') %>
+<%= presenter.attribute_to_html(:school_of, render_as: :faceted, search_field: 'maker_facet') %>
 <%= presenter.attribute_to_html(:date_of_work) %>
 <%= presenter.attribute_to_html(:date_created, render_as: :linked, search_field: 'date_created_tesim' ) %>
 <%= presenter.attribute_to_html(:place_of_creation, render_as: :faceted, search_field: 'place_facet') %>

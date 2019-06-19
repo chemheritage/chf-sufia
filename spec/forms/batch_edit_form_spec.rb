@@ -75,6 +75,7 @@ RSpec.describe BatchEditForm do
         :exhibition,
         :project,
         :source,
+        :school_of,
         :genre_string,
         :medium,
         :extent,

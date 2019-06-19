@@ -22,6 +22,7 @@ describe 'curation_concerns/base/show.html.erb' do
       w.interviewee = ['Birdo']
       w.interviewer = ['Thwomp']
       w.manner_of = ['Piero della Francesca']
+      w.school_of = ['Hard Knocks']
       w.manufacturer = ['Piranha Plant']
       w.photographer = ['Sparky']
       w.printer_of_plates = ['Shy Guy']
@@ -153,6 +154,8 @@ describe 'curation_concerns/base/show.html.erb' do
       expect(rendered).to match /Joe Printer/
       expect(rendered).to match /Shy Guy/
       expect(rendered).to match /Shelfmark MS 13/
+      expect(rendered).to match /Piero della Francesca/
+      expect(rendered).to match /Hard Knocks/
     end
     it "does not display staff fields" do
       expect(rendered).not_to match /Mario Kart/

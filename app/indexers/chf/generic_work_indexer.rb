@@ -18,7 +18,7 @@ module CHF
           doc["physical_container_structured_ss"] = object.physical_container
         end
 
-        makers = %w(after artist attributed_to author addressee creator_of_work contributor editor engraver interviewee interviewer manner_of manufacturer photographer printer printer_of_plates publisher)
+        makers = %w(after artist attributed_to author addressee creator_of_work contributor editor engraver interviewee interviewer manner_of manufacturer photographer printer printer_of_plates publisher school_of)
         maker_facet = makers.map { |field| object.send(field).to_a }.flatten.uniq
         doc[ActiveFedora.index_field_mapper.solr_name('maker_facet', :facetable)] = maker_facet
 

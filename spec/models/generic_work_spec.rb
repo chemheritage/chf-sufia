@@ -36,6 +36,7 @@ RSpec.describe GenericWork do
     interviewee: 'http://id.loc.gov/vocabulary/relators/ive',
     interviewer: 'http://id.loc.gov/vocabulary/relators/ivr',
     manner_of: 'http://chemheritage.org/ns/mannerOf',
+    school_of: 'http://chemheritage.org/ns/schoolOf',
     manufacturer: 'http://id.loc.gov/vocabulary/relators/mfr',
     photographer: 'http://id.loc.gov/vocabulary/relators/pht',
     extent: 'http://chemheritage.org/ns/hasExtent',

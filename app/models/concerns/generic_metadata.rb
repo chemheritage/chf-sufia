@@ -90,6 +90,9 @@ module GenericMetadata
     property :manner_of, predicate: ::RDF::URI.new("http://chemheritage.org/ns/mannerOf") do |index|
       index.as :stored_searchable
     end
+    property :school_of, predicate: ::RDF::URI.new("http://chemheritage.org/ns/schoolOf") do |index| # see also http://vocab.getty.edu/aat/300404284
+      index.as :stored_searchable
+    end
     property :manufacturer, predicate: ::RDF::Vocab::MARCRelators.mfr do |index|
       index.as :stored_searchable
     end

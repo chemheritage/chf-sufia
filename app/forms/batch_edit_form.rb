@@ -46,6 +46,7 @@ class BatchEditForm < Sufia::Forms::BatchEditForm
     :exhibition,
     :project,
     :source,
+    :school_of,
     :genre_string,
     :medium,
     :extent,

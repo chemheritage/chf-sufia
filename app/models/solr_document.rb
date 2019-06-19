@@ -73,6 +73,9 @@ class SolrDocument
   def manner_of
     self[Solrizer.solr_name('manner_of')]
   end
+  def school_of
+    self[Solrizer.solr_name('school_of')]
+  end
   def manufacturer
     self[Solrizer.solr_name('manufacturer')]
   end
