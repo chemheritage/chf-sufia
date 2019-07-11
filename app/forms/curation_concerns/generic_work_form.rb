@@ -21,6 +21,7 @@ module CurationConcerns
         :language,
         :description,
         :inscription,
+        :digitization_funder,
         :subject,
         :division,
         :exhibition,

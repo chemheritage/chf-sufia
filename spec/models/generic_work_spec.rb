@@ -48,6 +48,7 @@ RSpec.describe GenericWork do
     place_of_creation: 'http://id.loc.gov/vocabulary/relators/prp',
     rights_holder: 'http://chemheritage.org/ns/hasRightsHolder',
     series_arrangement: 'http://bibframe.org/vocab/materialHierarchicalLevel',
+    digitization_funder: 'http://chemheritage.org/ns/DigitizationFundedBy'
   }
 
   let(:gf) do

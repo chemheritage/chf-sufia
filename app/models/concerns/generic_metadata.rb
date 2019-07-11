@@ -191,6 +191,10 @@ module GenericMetadata
       index.as :stored_searchable
     end
 
+    property :digitization_funder, predicate: ::RDF::URI.new("http://chemheritage.org/ns/DigitizationFundedBy") do |index|
+      index.as :stored_searchable
+    end
+
     has_and_belongs_to_many :date_of_work, predicate: ::RDF::Vocab::DC11.date, class_name: "DateOfWork"
     accepts_nested_attributes_for :date_of_work, reject_if: :all_blank, allow_destroy: true
 
@@ -199,6 +203,8 @@ module GenericMetadata
 
     has_and_belongs_to_many :additional_credit, predicate: ::RDF::URI.new("http://chemheritage.org/ns/hasCredit"), class_name: "Credit"
     accepts_nested_attributes_for :additional_credit, reject_if: :all_blank, allow_destroy: true
+
+
 
     # chf edit 2016-02-01 ah
     # Override this from sufia-models/app/models/concerns/sufia/generic_file/batches.rb

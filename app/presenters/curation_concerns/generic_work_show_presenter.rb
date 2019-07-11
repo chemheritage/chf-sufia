@@ -15,7 +15,7 @@ module CurationConcerns
       :manufacturer, :manner_of, :school_of, :photographer, :place_of_interview,
       :place_of_manufacture, :place_of_creation, :place_of_publication, :provenance,
       :extent, :division, :exhibition, :project, :source, :series_arrangement, :rights_holder,
-      :credit_line, :additional_credit, :file_creator, :admin_note,
+      :credit_line, :additional_credit, :digitization_funder, :file_creator, :admin_note,
       :inscription, :date_of_work, :editor, :engraver, :printer,
       :printer_of_plates, :after, :thumbnail_path,
       to: :solr_document

@@ -52,6 +52,7 @@ describe 'curation_concerns/base/show.html.erb' do
       w.rights = ['http =//rightsstatements.org/vocab/InC/1.0/']
       w.rights_holder = 'Luigi'
       w.credit_line = ['Courtesy of Science History Institute']
+      w.digitization_funder = ['Daniel Sanford']
       w.file_creator = 'Miyamoto'
       w.admin_note = ['Mario Kart']
       w.date_of_work_attributes = [{start: "1990-02-09"}]
@@ -156,6 +157,7 @@ describe 'curation_concerns/base/show.html.erb' do
       expect(rendered).to match /Shelfmark MS 13/
       expect(rendered).to match /Piero della Francesca/
       expect(rendered).to match /Hard Knocks/
+      expect(rendered).to match /Daniel Sanford/
     end
     it "does not display staff fields" do
       expect(rendered).not_to match /Mario Kart/

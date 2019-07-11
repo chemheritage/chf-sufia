@@ -51,7 +51,8 @@ class BatchEditForm < Sufia::Forms::BatchEditForm
     :medium,
     :extent,
     :series_arrangement,
-    :rights
+    :rights,
+    :digitization_funder
   ]
 
   self.required_fields = []

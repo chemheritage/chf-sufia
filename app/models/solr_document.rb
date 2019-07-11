@@ -106,6 +106,9 @@ class SolrDocument
   def extent
     self[Solrizer.solr_name('extent')]
   end
+  def digitization_funder
+    self[Solrizer.solr_name('digitization_funder')]
+  end
   def division
     self[Solrizer.solr_name('division')]
   end

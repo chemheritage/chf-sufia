@@ -80,7 +80,8 @@ RSpec.describe BatchEditForm do
         :medium,
         :extent,
         :series_arrangement,
-        :rights
+        :rights,
+        :digitization_funder
       ]
     end
   end

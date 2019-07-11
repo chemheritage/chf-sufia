@@ -65,7 +65,7 @@ FactoryGirl.define do
       credit_line   ["Courtesy of Science History Institute"]
       division      "Library"
       file_creator  "Lu, Cathleen"
-
+      digitization_funder ["Daniel Sanford"]
       identifier   ['object-2008.043.002']
       # still does not include inscriptions, or additional_credits,
       # haven't figured those out yet.

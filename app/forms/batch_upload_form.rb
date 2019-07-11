@@ -26,6 +26,7 @@ class BatchUploadForm < Sufia::Forms::BatchUploadForm
       :rights_holder,
       :credit_line,
       :additional_credit,
+      :digitization_funder,
       :file_creator,
       :admin_note,
     ]

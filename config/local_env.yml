@@ -1,0 +1,30 @@
+#Contains ENV values for the Sufia application, the server's role and level of service.
+
+#APP_ROLE can be app (Sufia web server) or jobs (for background jobs).
+
+# app_role: jobs
+
+
+#service_level can be prod, staging, or dev.
+service_level: stage
+image_server_on_viewer: dzi_s3
+#Change this for staging or production
+aws_access_key_id: AKIAJORCL6TXIVHSDRHQ
+aws_secret_access_key: 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
+dzi_s3_bucket: chf-dzi-staging
+# Killing
+
+
+# Turning off for dev
+#Derivative use and creation
+derivative_s3_bucket: chf-derivatives-staging
+image_server_for_thumbnails: dzi_s3
+image_server_downloads: dzi_s3
+create_derivatives_mode: dzi_s3
+extra_data_s3: scih-data-staging
+sitemap_s3_bucket: scih-data-staging
+derivatives_cache_bucket: scih-derivatives-cache-staging
+upload_bucket: scih-uploads
+
+# Turning off for dev
+# slack_key: https://hooks.slack.com/services/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
